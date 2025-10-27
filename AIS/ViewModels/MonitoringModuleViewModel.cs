@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace AIS.ViewModels
 {
@@ -15,10 +16,39 @@ namespace AIS.ViewModels
     {
         public IRelayCommand<Greenhouse> ShowSensorsTableCommand { get; }
         private MonitoringModuleModel _monitoringModuleModel;
-        public MonitoringModuleViewModel()
+        private DispatcherTimer _refreshTimer;
+        public MonitoringModuleViewModel(MonitoringModuleModel model)
         {
-            _monitoringModuleModel = new MonitoringModuleModel();
+            _monitoringModuleModel = model;
             ShowSensorsTableCommand = new RelayCommand<Greenhouse>(ShowSensorsTable);
+            InitializeDispatcherTimer();
+        }
+
+        private void InitializeDispatcherTimer()
+        {
+            _refreshTimer = new DispatcherTimer();
+            _refreshTimer.Interval = TimeSpan.FromSeconds(0.5);
+            _refreshTimer.Tick += async (sender, e) => await RefreshDataAsync();
+            _refreshTimer.Start();
+        }
+
+        private async Task RefreshDataAsync()
+        {
+            try
+            {
+                await _monitoringModuleModel.RefreshDataAsync();
+                OnPropertyChanged();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Refresh error: {ex.Message}");
+            }
+        }
+
+        public static async Task<MonitoringModuleViewModel> CreateAsync()
+        {
+            var model = await MonitoringModuleModel.CreateAsync();
+            return new MonitoringModuleViewModel(model);
         }
 
         public ObservableCollection<Greenhouse> GreenhouseItems

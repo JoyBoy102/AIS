@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AIS.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,13 @@ namespace AIS.Views
         public MonitoringModuleView()
         {
             InitializeComponent();
+            _ = InitializeViewModelAsync();
+        }
+
+        private async Task InitializeViewModelAsync()
+        {
+            var viewModel = await MonitoringModuleViewModel.CreateAsync();
+            DataContext = viewModel;
         }
     }
 }
