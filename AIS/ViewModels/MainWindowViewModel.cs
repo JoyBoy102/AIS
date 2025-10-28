@@ -18,6 +18,7 @@ namespace AIS.ViewModels
         {
             _mainWindowModel = new MainWindowModel();
         }
+
         public ObservableCollection<Module> ModuleItems
         {
             get => _mainWindowModel.Modules;
