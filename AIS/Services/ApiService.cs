@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AIS.Services
 {
@@ -24,7 +25,10 @@ namespace AIS.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/simulate-reading/");
+                var parameters = new { Vg = 0, VS = 0 };
+                var json = JsonSerializer.Serialize(parameters);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync($"/simulations/simulate-reading/", content );
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();
@@ -43,6 +47,51 @@ namespace AIS.Services
             }
         }
 
-        
+        public async Task<List<Greenhouse>> GetGreenhousesTableAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"/greenhouses/");
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    var GreenhousesInfo = JsonSerializer.Deserialize<List<Greenhouse>>(jsonString);
+                    return GreenhousesInfo;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return new List<Greenhouse>();
+            }
+        }
+
+        public async Task<bool> DeleteGreenhouseByIdFromDB(int greenhouseID)
+        {
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"/greenhouses/{greenhouseID}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Не удалось удалить запись из БД",
+                                  "Ошибка",
+                                  MessageBoxButton.OK,
+                                  MessageBoxImage.Error);
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении: {ex.Message}",
+                              "Ошибка",
+                              MessageBoxButton.OK,
+                              MessageBoxImage.Error);
+                return false;
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AIS.Models;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,9 +14,19 @@ namespace AIS.ViewModels
     public class CRUDViewModel: INotifyPropertyChanged
     {
         private CRUDModel _CRUDmodel;
-        public CRUDViewModel()
+        public IAsyncRelayCommand DeleteRowCommand { get; set; }
+        public IAsyncRelayCommand UpdateRowCommand { get; set; }
+        public CRUDViewModel(CRUDModel model)
         {
-            _CRUDmodel = new CRUDModel();
+            _CRUDmodel = model;
+            DeleteRowCommand = new AsyncRelayCommand<int>(DeleteRow);
+            UpdateRowCommand = new AsyncRelayCommand<Greenhouse>(UpdateRow);
+        }
+
+        public static async Task<CRUDViewModel> CreateAsync()
+        {
+            var model = await CRUDModel.CreateAsync();
+            return new CRUDViewModel(model);
         }
         public ObservableCollection<Greenhouse> Greenhouses
         {
@@ -36,6 +47,28 @@ namespace AIS.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public async Task UpdateGreenhouses()
+        {
+            await _CRUDmodel.UpdateGreenhouses();
+            Greenhouses = _CRUDmodel.Greenhouses;
+            OnPropertyChanged();
+        }
+
+        private async Task DeleteRow(int greenhouseId)
+        {
+            bool deleteResult = await _CRUDmodel.DeleteRow(greenhouseId);
+            if (deleteResult)
+            {
+                await UpdateGreenhouses();
+            }
+        }
+
+        private async Task UpdateRow(Greenhouse greenhouse)
+        {
+            
+        }
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")
