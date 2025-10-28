@@ -12,7 +12,7 @@ using System.Windows.Threading;
 
 namespace AIS.ViewModels
 {
-    public class MonitoringModuleViewModel : INotifyPropertyChanged
+    public class MonitoringModuleViewModel : BaseViewModel, INotifyPropertyChanged
     {
         public IRelayCommand<Greenhouse> ShowSensorsTableCommand { get; }
         private MonitoringModuleModel _monitoringModuleModel;
@@ -66,9 +66,5 @@ namespace AIS.ViewModels
             if (greenhouse.ToggleButtonState) greenhouse.SensorsTableVisibility = System.Windows.Visibility.Visible;
             else greenhouse.SensorsTableVisibility = System.Windows.Visibility.Collapsed;
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

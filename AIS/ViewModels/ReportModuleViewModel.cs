@@ -1,4 +1,6 @@
 ﻿using AIS.Models;
+using AIS.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -11,30 +13,27 @@ using System.Threading.Tasks;
 
 namespace AIS.ViewModels
 {
-    public class ReportModuleViewModel : INotifyPropertyChanged
+    public class ReportModuleViewModel : BaseViewModel
     {
+        private ExcelService _excelService;
         private ReportModuleModel _reportModuleModel;
 
         public ReportModuleViewModel()
         {
+            _excelService = new ExcelService();
             _reportModuleModel = new ReportModuleModel();
         }
 
         public ObservableCollection<Report> Reports
         {
-            get 
-            {
-                return _reportModuleModel.reports;
-            } 
-            set
-            {
-                _reportModuleModel.reports = value;
-                OnPropertyChanged();
-            }
+            get => _reportModuleModel.reports;
+            set => SetProperty(ref _reportModuleModel.reports, value);
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public AsyncRelayCommand GetExcelAsyncCommand => new AsyncRelayCommand(GetExcelAsync);
+        private async Task GetExcelAsync()
+        {
+            await _excelService.SaveReportsToExcelAsync(Reports);
+        }
     }
 }

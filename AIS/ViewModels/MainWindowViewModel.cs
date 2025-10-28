@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AIS.ViewModels
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : BaseViewModel, INotifyPropertyChanged
     {
         private MainWindowModel _mainWindowModel;
         private Module _selectedModule;
@@ -38,9 +38,5 @@ namespace AIS.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
