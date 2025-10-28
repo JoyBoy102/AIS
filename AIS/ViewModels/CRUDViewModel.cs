@@ -17,12 +17,22 @@ namespace AIS.ViewModels
         {
             _CRUDmodel = new CRUDModel();
         }
-        public ObservableCollection<TabItemModel> Tabs
+        public ObservableCollection<Greenhouse> Greenhouses
         {
-            get => _CRUDmodel.Tabs;
+            get => _CRUDmodel.Greenhouses;
             set
             {
-                _CRUDmodel.Tabs = value;
+                _CRUDmodel.Greenhouses = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Sensor> Sensors
+        {
+            get => _CRUDmodel.Sensors;
+            set
+            {
+                _CRUDmodel.Sensors = value;
                 OnPropertyChanged();
             }
         }

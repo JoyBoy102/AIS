@@ -11,12 +11,26 @@
         <vm:CRUDViewModel></vm:CRUDViewModel>
     </UserControl.DataContext>
     <Grid>
-        <TabControl ItemsSource="{Binding Tabs}">
-            <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding TabTitle}"/>
-                </DataTemplate>
-            </TabControl.ItemTemplate>
+        <TabControl>
+            <TabItem Header="Теплицы">
+                <DataGrid ItemsSource="{Binding Greenhouses}" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID теплицы" Binding="{Binding ID}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Название теплицы" Binding="{Binding Name}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Местоположение теплицы" Binding="{Binding Location}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Описание теплицы" Binding="{Binding Description}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Датчики">
+                <DataGrid ItemsSource="{Binding Sensors}" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID датчика" Binding="{Binding ID}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Тип датчика" Binding="{Binding Type}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="ID теплицы" Binding="{Binding GreenhouseID}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>
