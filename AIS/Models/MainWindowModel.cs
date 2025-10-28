@@ -17,6 +17,8 @@ namespace AIS.Models
             Modules = new ObservableCollection<Module> { new Module { ModuleName = "Модуль мониторинга", Control = new MonitoringModuleView() },
                                                          new Module { ModuleName = "Модуль формирования отчетов", Control = new ReportModuleView() },
             };
+                                                         new Module { ModuleName = "Модуль отчетности"},
+                                                         new Module { ModuleName = "CRUD", Control = new CRUDView()} };
         }
     }
 }
