@@ -1,4 +1,7 @@
 ﻿using AIS.Models;
+using AIS.Services;
+using CommunityToolkit.Mvvm.Input;
+using DocumentFormat.OpenXml.Bibliography;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,35 +13,49 @@ using System.Threading.Tasks;
 
 namespace AIS.ViewModels
 {
-    public class CRUDViewModel: INotifyPropertyChanged
+    public class CRUDViewModel: BaseViewModel
     {
         private CRUDModel _CRUDmodel;
+
         public CRUDViewModel()
         {
             _CRUDmodel = new CRUDModel();
         }
+
         public ObservableCollection<Greenhouse> Greenhouses
         {
             get => _CRUDmodel.Greenhouses;
-            set
-            {
-                _CRUDmodel.Greenhouses = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _CRUDmodel.Greenhouses, value);
         }
 
         public ObservableCollection<Sensor> Sensors
         {
             get => _CRUDmodel.Sensors;
-            set
-            {
-                _CRUDmodel.Sensors = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _CRUDmodel.Sensors, value);
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged; 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public AsyncRelayCommand CreateCommand => new AsyncRelayCommand(Create);
+        private async Task Create()
+        {
+            await _CRUDmodel.Create();
+        }
+
+        public AsyncRelayCommand ReadCommand => new AsyncRelayCommand(Read);
+        private async Task Read()
+        {
+            await _CRUDmodel.Read();
+        }
+
+        public AsyncRelayCommand UpdateCommand => new AsyncRelayCommand(Update);
+        private async Task Update()
+        {
+            await _CRUDmodel.Update();
+        }
+
+        public AsyncRelayCommand DeleteCommand => new AsyncRelayCommand(Delete);
+        private async Task Delete()
+        {
+            await _CRUDmodel.Delete();
+        }
     }
 }

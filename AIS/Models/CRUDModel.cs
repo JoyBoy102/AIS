@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AIS.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace AIS.Models
     {
         public ObservableCollection<Greenhouse> Greenhouses;
         public ObservableCollection<Sensor> Sensors;
+        private ApiService _apiService;
         public CRUDModel()
         {
             Greenhouses = new ObservableCollection<Greenhouse>()
@@ -23,6 +25,26 @@ namespace AIS.Models
                 new Sensor { ID = 0, Type = "zaebokSensorType", Value = 99999999},
                 new Sensor { ID = 1, Type = "zaebokSensorType2", Value = 99999999}
             };
+        }
+
+        internal async Task Create()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal async Task Delete()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal async Task Read()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal async Task Update()
+        {
+            throw new NotImplementedException();
         }
     }
 }
