@@ -91,8 +91,6 @@ namespace AIS.Services
                 return new List<Sensor>();
             }
         }
-
-        public async Task<bool> DeleteGreenhouseByIdFromDB(int greenhouseID)
         public async Task<bool> DeleteGreenhouseByIdFromDB(int greenhouseID) 
         {
             try
