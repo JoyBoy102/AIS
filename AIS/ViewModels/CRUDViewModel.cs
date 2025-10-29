@@ -2,6 +2,7 @@
 using AIS.Services;
 using CommunityToolkit.Mvvm.Input;
 using DocumentFormat.OpenXml.Bibliography;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,10 +17,19 @@ namespace AIS.ViewModels
     public class CRUDViewModel: BaseViewModel
     {
         private CRUDModel _CRUDmodel;
-
-        public CRUDViewModel()
+        public IAsyncRelayCommand DeleteRowCommand { get; set; }
+        public IAsyncRelayCommand UpdateRowCommand { get; set; }
+        public CRUDViewModel(CRUDModel model)
         {
-            _CRUDmodel = new CRUDModel();
+            _CRUDmodel = model;
+            DeleteRowCommand = new AsyncRelayCommand<int>(DeleteRow);
+            UpdateRowCommand = new AsyncRelayCommand<Greenhouse>(UpdateRow);
+        }
+
+        public static async Task<CRUDViewModel> CreateAsync()
+        {
+            var model = await CRUDModel.CreateAsync();
+            return new CRUDViewModel(model);
         }
 
         public ObservableCollection<Greenhouse> Greenhouses
@@ -52,10 +62,30 @@ namespace AIS.ViewModels
             await _CRUDmodel.Update();
         }
 
-        public AsyncRelayCommand DeleteCommand => new AsyncRelayCommand(Delete);
-        private async Task Delete()
+        public async Task UpdateGreenhouses()
         {
-            await _CRUDmodel.Delete();
+            await _CRUDmodel.UpdateGreenhouses();
+            Greenhouses = _CRUDmodel.Greenhouses;
+            OnPropertyChanged();
         }
+
+        private async Task DeleteRow(int greenhouseId)
+        {
+            bool deleteResult = await _CRUDmodel.DeleteRow(greenhouseId);
+            if (deleteResult)
+            {
+                await UpdateGreenhouses();
+            }
+        }
+
+        private async Task UpdateRow(Greenhouse greenhouse)
+        {
+            
+        }
+
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

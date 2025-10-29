@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,16 +16,31 @@ namespace AIS.Models
         private ApiService _apiService;
         public CRUDModel()
         {
-            Greenhouses = new ObservableCollection<Greenhouse>()
-            {
-                new Greenhouse { ID = 0, Description = "тест", Location = "уфа", Name = "Ахуенная теплица"},
-                new Greenhouse { ID = 1, Description = "тест1", Location = "уфа1", Name = "Ахуенная теплица1"}
-            };
-            Sensors = new ObservableCollection<Sensor>()
-            {
-                new Sensor { ID = 0, Type = "zaebokSensorType", Value = 99999999},
-                new Sensor { ID = 1, Type = "zaebokSensorType2", Value = 99999999}
-            };
+            _apiService = new ApiService(new HttpClient());
+        }
+
+        public static async Task<CRUDModel> CreateAsync()
+        {
+            var instance = new CRUDModel();
+            await instance.InitializeAsync();
+            return instance;
+        }
+
+        public async Task<bool> DeleteRow(int greenhouseID)
+        {
+           bool deleteResult = await _apiService.DeleteGreenhouseByIdFromDB(greenhouseID);
+           return deleteResult;
+        }
+
+        public async Task UpdateGreenhouses()
+        {
+            List<Greenhouse> greenhousesList = await _apiService.GetGreenhousesTableAsync();
+            Greenhouses = new ObservableCollection<Greenhouse>(greenhousesList);
+        }
+
+        private async Task InitializeAsync()
+        {
+            await UpdateGreenhouses();
         }
 
         internal async Task Create()

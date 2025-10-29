@@ -7,23 +7,46 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              xmlns:vm="clr-namespace:AIS.ViewModels">
-    <UserControl.DataContext>
-        <vm:CRUDViewModel></vm:CRUDViewModel>
-    </UserControl.DataContext>
     <Grid>
         <TabControl>
             <TabItem Header="Теплицы">
-                <DataGrid ItemsSource="{Binding Greenhouses}" IsReadOnly="True">
+                <DataGrid ItemsSource="{Binding Greenhouses}" IsReadOnly="True" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID теплицы" Binding="{Binding ID}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Название теплицы" Binding="{Binding Name}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Местоположение теплицы" Binding="{Binding Location}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Описание теплицы" Binding="{Binding Description}"></DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Удалить">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="❌" 
+                                            Command="{Binding DataContext.DeleteRowCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding ID}"
+                                            Width="30" Height="30"
+                                            FontSize="14"
+                                            Background="Transparent" BorderThickness="0"
+                                            Cursor="Hand"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Редактировать">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="✏️"
+                                            
+                                            CommandParameter="{Binding ID}"
+                                            Width="30" Height="30"
+                                            FontSize="14"
+                                            Background="Transparent" BorderThickness="0"
+                                            Cursor="Hand"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
             <TabItem Header="Датчики">
-                <DataGrid ItemsSource="{Binding Sensors}" IsReadOnly="True">
+                <DataGrid ItemsSource="{Binding Sensors}" IsReadOnly="True" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID датчика" Binding="{Binding ID}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Тип датчика" Binding="{Binding Type}"></DataGridTextColumn>

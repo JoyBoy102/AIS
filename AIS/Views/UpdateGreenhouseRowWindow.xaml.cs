@@ -1,5 +1,4 @@
-﻿using AIS.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,26 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace AIS.Views
 {
     /// <summary>
-    /// Логика взаимодействия для CRUDView.xaml
+    /// Логика взаимодействия для UpdateGreenhouseRowWindow.xaml
     /// </summary>
-    public partial class CRUDView : UserControl
+    public partial class UpdateGreenhouseRowWindow : Window
     {
-        public CRUDView()
+        public UpdateGreenhouseRowWindow()
         {
             InitializeComponent();
-            _ = InitializeViewModelAsync();
-        }
-
-        private async Task InitializeViewModelAsync()
-        {
-            var viewModel = await CRUDViewModel.CreateAsync();
-            DataContext = viewModel;
         }
     }
 }
