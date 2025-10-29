@@ -20,7 +20,7 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="❌" 
-                                            Command="{Binding DataContext.DeleteRowCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            Command="{Binding DataContext.DeleteRowGreenhouseCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                             CommandParameter="{Binding ID}"
                                             Width="30" Height="30"
                                             FontSize="14"
@@ -33,8 +33,8 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="✏️"
-                                            
-                                            CommandParameter="{Binding ID}"
+                                            Command="{Binding DataContext.UpdateRowGreenhouseCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"
                                             Width="30" Height="30"
                                             FontSize="14"
                                             Background="Transparent" BorderThickness="0"
@@ -51,6 +51,32 @@
                         <DataGridTextColumn Header="ID датчика" Binding="{Binding ID}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Тип датчика" Binding="{Binding Type}"></DataGridTextColumn>
                         <DataGridTextColumn Header="ID теплицы" Binding="{Binding GreenhouseID}"></DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Удалить">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="❌" 
+                                            Command="{Binding DataContext.DeleteRowSensorCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding ID}"
+                                            Width="30" Height="30"
+                                            FontSize="14"
+                                            Background="Transparent" BorderThickness="0"
+                                            Cursor="Hand"/>     
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Редактировать">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="✏️"
+                                            Command="{Binding DataContext.UpdateRowSensorCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"
+                                            Width="30" Height="30"
+                                            FontSize="14"
+                                            Background="Transparent" BorderThickness="0"
+                                            Cursor="Hand"/> 
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>

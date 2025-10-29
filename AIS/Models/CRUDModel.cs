@@ -26,10 +26,16 @@ namespace AIS.Models
             return instance;
         }
 
-        public async Task<bool> DeleteRow(int greenhouseID)
+        public async Task<bool> DeleteRowGreenhouse(int greenhouseID)
         {
            bool deleteResult = await _apiService.DeleteGreenhouseByIdFromDB(greenhouseID);
            return deleteResult;
+        }
+
+        public async Task<bool> DeleteRowSensor(int sensorId)
+        {
+            bool deleteResult = await _apiService.DeleteSensorByIdFromDB(sensorId);
+            return deleteResult;
         }
 
         public async Task UpdateGreenhouses()
@@ -38,9 +44,18 @@ namespace AIS.Models
             Greenhouses = new ObservableCollection<Greenhouse>(greenhousesList);
         }
 
+        public async Task UpdateSensors()
+        {
+            List<Sensor> SensorsList = await _apiService.GetSensorsTableAsync();
+            Sensors = new ObservableCollection<Sensor>(SensorsList);
+        }
+
+
+
         private async Task InitializeAsync()
         {
             await UpdateGreenhouses();
+            await UpdateSensors();
         }
     }
 }

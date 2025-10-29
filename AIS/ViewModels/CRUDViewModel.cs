@@ -1,4 +1,6 @@
 ﻿using AIS.Models;
+using AIS.Services;
+using AIS.Views;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -8,19 +10,28 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AIS.ViewModels
 {
     public class CRUDViewModel: INotifyPropertyChanged
     {
         private CRUDModel _CRUDmodel;
-        public IAsyncRelayCommand DeleteRowCommand { get; set; }
-        public IAsyncRelayCommand UpdateRowCommand { get; set; }
+        public IAsyncRelayCommand DeleteRowGreenhouseCommand { get; set; }
+        public IRelayCommand UpdateRowGreenhouseCommand { get; set; }
+        public IAsyncRelayCommand DeleteRowSensorCommand { get; set; }
+
+        public IRelayCommand UpdateRowSensorCommand { get; set; }
+
         public CRUDViewModel(CRUDModel model)
         {
             _CRUDmodel = model;
-            DeleteRowCommand = new AsyncRelayCommand<int>(DeleteRow);
-            UpdateRowCommand = new AsyncRelayCommand<Greenhouse>(UpdateRow);
+            DeleteRowGreenhouseCommand = new AsyncRelayCommand<int>(DeleteRowGreenhouse);
+            UpdateRowGreenhouseCommand = new RelayCommand<Greenhouse>(UpdateRowGreenhouse);
+            DeleteRowSensorCommand = new AsyncRelayCommand<int>(DeleteRowSensor);
+            UpdateRowSensorCommand = new RelayCommand<Sensor>(UpdateRowSensor);
+            EventAggregator.GreenhouseRowUpdated+=(async () => await UpdateGreenhouses());
+            EventAggregator.SensorRowUpdated+=(async () => await UpdateSensors());
         }
 
         public static async Task<CRUDViewModel> CreateAsync()
@@ -55,18 +66,45 @@ namespace AIS.ViewModels
             OnPropertyChanged();
         }
 
-        private async Task DeleteRow(int greenhouseId)
+        public async Task UpdateSensors()
         {
-            bool deleteResult = await _CRUDmodel.DeleteRow(greenhouseId);
+            await _CRUDmodel.UpdateSensors();
+            Sensors = _CRUDmodel.Sensors;
+            OnPropertyChanged();
+        }
+
+        private async Task DeleteRowGreenhouse(int greenhouseId)
+        {
+            bool deleteResult = await _CRUDmodel.DeleteRowGreenhouse(greenhouseId);
             if (deleteResult)
             {
                 await UpdateGreenhouses();
             }
         }
 
-        private async Task UpdateRow(Greenhouse greenhouse)
+        private async Task DeleteRowSensor(int sensorId)
         {
-            
+            bool deleteResult = await _CRUDmodel.DeleteRowSensor(sensorId);
+            if (deleteResult)
+            {
+                await UpdateSensors();
+            }
+        }
+
+        private void UpdateRowGreenhouse(Greenhouse greenhouse)
+        {
+            var updateWindow = new UpdateGreenhouseRowWindow();
+            var updateWindowViewModel = new UpdateGreenhouseRowWindowViewmodel(greenhouse, updateWindow);
+            updateWindow.DataContext = updateWindowViewModel;
+            updateWindow.ShowDialog();
+        }
+
+        private void UpdateRowSensor(Sensor sensor)
+        {
+            var updateWindow = new UpdateSensorRowWindow();
+            var updateWindowViewModel = new UpdateSensorRowWindowViewmodel(sensor, updateWindow);
+            updateWindow.DataContext = updateWindowViewModel;
+            updateWindow.ShowDialog();
         }
 
 
