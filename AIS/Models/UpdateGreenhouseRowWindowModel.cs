@@ -22,7 +22,7 @@ namespace AIS.Models
 
         public async Task<bool> UpdateGreenhouseRow()
         {
-            var updateResult = await _apiService.UpdateGreenhouseRow(GreenhouseId, Name, Description, Location);
+            var updateResult = await _apiService.UpdateGreenhouseRow(GreenhouseId, Name, Location, Description);
             return updateResult;
         }
     }
