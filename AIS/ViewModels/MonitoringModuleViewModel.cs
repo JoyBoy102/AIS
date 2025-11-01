@@ -1,4 +1,5 @@
 ﻿using AIS.Models;
+using AIS.Services;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace AIS.ViewModels
             _monitoringModuleModel = model;
             ShowSensorsTableCommand = new RelayCommand<Greenhouse>(ShowSensorsTable);
             InitializeDispatcherTimer();
+            EventAggregator.GreenhouseRowUpdated += (async () => await UpdateGreenhouses());
         }
 
         private void InitializeDispatcherTimer()
@@ -43,6 +45,12 @@ namespace AIS.ViewModels
             {
                 Console.WriteLine($"Refresh error: {ex.Message}");
             }
+        }
+        public async Task UpdateGreenhouses()
+        {
+            await _monitoringModuleModel.UpdateGreenhouses();
+            GreenhouseItems = _monitoringModuleModel.greenhouses;
+            OnPropertyChanged();
         }
 
         public static async Task<MonitoringModuleViewModel> CreateAsync()

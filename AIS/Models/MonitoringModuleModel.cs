@@ -93,5 +93,10 @@ namespace AIS.Models
                 }
             }
         }
+
+        public async Task UpdateGreenhouses()
+        {
+            await InitializeAsync();
+        }
     }
 }

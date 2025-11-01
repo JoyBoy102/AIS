@@ -18,10 +18,6 @@ namespace AIS.Models
         [JsonPropertyName("greenhouse_id")]
         public int GreenhouseID { get; set; }
 
-        // Остальные свойства сделать nullable или убрать
-        [JsonPropertyName("reading_id")]
-        public int? ReadingID { get; set; }
-
         [JsonPropertyName("value")]
         public double? Value { get; set; }
 

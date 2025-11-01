@@ -26,10 +26,7 @@ namespace AIS.Services
         {
             try
             {
-                var parameters = new { Vg = 0, VS = 0 };
-                var json = JsonSerializer.Serialize(parameters);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PostAsync($"/simulations/simulate-reading/", content );
+                var response = await _httpClient.GetAsync($"http://127.0.0.1:8000/simulations/simulate-reading/?vg=0&vs=0");
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();

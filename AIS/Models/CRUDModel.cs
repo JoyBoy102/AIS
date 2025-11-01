@@ -50,8 +50,6 @@ namespace AIS.Models
             Sensors = new ObservableCollection<Sensor>(SensorsList);
         }
 
-
-
         private async Task InitializeAsync()
         {
             await UpdateGreenhouses();
