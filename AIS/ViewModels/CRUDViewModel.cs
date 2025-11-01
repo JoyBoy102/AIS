@@ -14,7 +14,7 @@ using System.Windows;
 
 namespace AIS.ViewModels
 {
-    public class CRUDViewModel: INotifyPropertyChanged
+    public class CRUDViewModel: BaseViewModel
     {
         private CRUDModel _CRUDmodel;
         public IAsyncRelayCommand DeleteRowGreenhouseCommand { get; set; }
@@ -106,10 +106,5 @@ namespace AIS.ViewModels
             updateWindow.DataContext = updateWindowViewModel;
             updateWindow.ShowDialog();
         }
-
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AIS.ViewModels
 {
-    public class MainWindowViewModel : BaseViewModel, INotifyPropertyChanged
+    public class MainWindowViewModel : BaseViewModel
     {
         private MainWindowModel _mainWindowModel;
         private Module _selectedModule;

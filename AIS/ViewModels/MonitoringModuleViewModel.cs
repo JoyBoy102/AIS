@@ -13,7 +13,7 @@ using System.Windows.Threading;
 
 namespace AIS.ViewModels
 {
-    public class MonitoringModuleViewModel : BaseViewModel, INotifyPropertyChanged
+    public class MonitoringModuleViewModel : BaseViewModel
     {
         public IRelayCommand<Greenhouse> ShowSensorsTableCommand { get; }
         private MonitoringModuleModel _monitoringModuleModel;
