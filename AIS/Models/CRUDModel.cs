@@ -22,7 +22,8 @@ namespace AIS.Models
         public static async Task<CRUDModel> CreateAsync()
         {
             var instance = new CRUDModel();
-            await instance.InitializeAsync();
+            await instance.InitializeAsyncGreenhouses();
+            await instance.InitializeAsyncSensors();
             return instance;
         }
 
@@ -40,20 +41,24 @@ namespace AIS.Models
 
         public async Task UpdateGreenhouses()
         {
-            List<Greenhouse> greenhousesList = await _apiService.GetGreenhousesTableAsync();
-            Greenhouses = new ObservableCollection<Greenhouse>(greenhousesList);
+            await InitializeAsyncGreenhouses();
         }
 
         public async Task UpdateSensors()
+        {
+            await InitializeAsyncSensors();
+        }
+
+        private async Task InitializeAsyncSensors()
         {
             List<Sensor> SensorsList = await _apiService.GetSensorsTableAsync();
             Sensors = new ObservableCollection<Sensor>(SensorsList);
         }
 
-        private async Task InitializeAsync()
+        private async Task InitializeAsyncGreenhouses()
         {
-            await UpdateGreenhouses();
-            await UpdateSensors();
+            List<Greenhouse> greenhousesList = await _apiService.GetGreenhousesTableAsync();
+            Greenhouses = new ObservableCollection<Greenhouse>(greenhousesList);
         }
     }
 }

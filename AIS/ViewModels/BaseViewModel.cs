@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AIS.ViewModels
 {
-    public abstract class BaseViewModel
+    public abstract class BaseViewModel: INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
