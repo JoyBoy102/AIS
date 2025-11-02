@@ -28,6 +28,16 @@ namespace AIS.ViewModels
             Location = greenhouse.Location;
             _window = window;
         }
+        
+        public string WindowName
+        {
+            get => _updateGreenhouseRowWindowModel.WindowName;
+            set
+            {
+                SetProperty(ref _updateGreenhouseRowWindowModel.WindowName, value);
+            }
+        }
+
         public int GreenhouseId
         {
             get => _updateGreenhouseRowWindowModel.GreenhouseId;
