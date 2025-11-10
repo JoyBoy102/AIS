@@ -6,11 +6,11 @@
              xmlns:local="clr-namespace:AIS.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             xmlns:vm="clr-namespace:AIS.ViewModels">
+             xmlns:vm="clr-namespace:AIS.ViewModels" >
     <Grid>
         <TabControl>
             <TabItem Header="Теплицы">
-                <DataGrid ItemsSource="{Binding Greenhouses}" IsReadOnly="True" AutoGenerateColumns="False">
+                <DataGrid ItemsSource="{Binding Greenhouses, FallbackValue={x:Null}}" IsReadOnly="True" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID теплицы" Binding="{Binding ID}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Название теплицы" Binding="{Binding Name}"></DataGridTextColumn>
@@ -46,7 +46,7 @@
                 </DataGrid>
             </TabItem>
             <TabItem Header="Датчики">
-                <DataGrid ItemsSource="{Binding Sensors}" IsReadOnly="True" AutoGenerateColumns="False">
+                <DataGrid ItemsSource="{Binding Sensors, FallbackValue={x:Null}}" IsReadOnly="True" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID датчика" Binding="{Binding ID}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Тип датчика" Binding="{Binding Type}"></DataGridTextColumn>
@@ -74,6 +74,42 @@
                                             FontSize="14"
                                             Background="Transparent" BorderThickness="0"
                                             Cursor="Hand"/> 
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Исполнительные устройства">
+                <DataGrid ItemsSource="{Binding ExecutionDevices, FallbackValue={x:Null}}" IsReadOnly="True" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID исполнительного устройства" Binding="{Binding ID}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="ID теплицы" Binding="{Binding GreenhouseID}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="ID соответствующего сенсора" Binding="{Binding SensorID}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Тип исполнительного устройства" Binding="{Binding Type}"></DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Удалить">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="❌" 
+                                            Command="{Binding DataContext.DeleteRowExecutionDeviceCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding ID}"
+                                            Width="30" Height="30"
+                                            FontSize="14"
+                                            Background="Transparent" BorderThickness="0"
+                                            Cursor="Hand"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Редактировать">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="✏️"
+                                            Command="{Binding DataContext.UpdateRowExecutionDeviceCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"
+                                            Width="30" Height="30"
+                                            FontSize="14"
+                                            Background="Transparent" BorderThickness="0"
+                                            Cursor="Hand"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

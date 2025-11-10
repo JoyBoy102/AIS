@@ -11,9 +11,14 @@ namespace AIS.Models
 {
     public class CRUDModel
     {
-        public ObservableCollection<Greenhouse> Greenhouses;
-        public ObservableCollection<Sensor> Sensors;
+        public ObservableCollection<Greenhouse> Greenhouses = new ObservableCollection<Greenhouse>();
+        public ObservableCollection<Sensor> Sensors = new ObservableCollection<Sensor>();
+        public ObservableCollection<ExecutionDevice> ExecutionDevices = new ObservableCollection<ExecutionDevice>();
+
         private ApiService _apiService;
+
+        
+
         public CRUDModel()
         {
             _apiService = new ApiService(new HttpClient());
@@ -24,24 +29,34 @@ namespace AIS.Models
             var instance = new CRUDModel();
             await instance.InitializeAsyncGreenhouses();
             await instance.InitializeAsyncSensors();
+            await instance.InitializeAsyncExecutionDevices();
             return instance;
         }
 
+        //---------Greenhouses---------
         public async Task<bool> DeleteRowGreenhouse(int greenhouseID)
         {
            bool deleteResult = await _apiService.DeleteGreenhouseByIdFromDB(greenhouseID);
            return deleteResult;
         }
 
-        public async Task<bool> DeleteRowSensor(int sensorId)
+        private async Task InitializeAsyncGreenhouses()
         {
-            bool deleteResult = await _apiService.DeleteSensorByIdFromDB(sensorId);
-            return deleteResult;
+            List<Greenhouse> greenhousesList = await _apiService.GetGreenhousesTableAsync();
+            Greenhouses = new ObservableCollection<Greenhouse>(greenhousesList);
         }
 
         public async Task UpdateGreenhouses()
         {
             await InitializeAsyncGreenhouses();
+        }
+        //---------Greenhouses---------
+
+        //---------Sensors---------
+        public async Task<bool> DeleteRowSensor(int sensorId)
+        {
+            bool deleteResult = await _apiService.DeleteSensorByIdFromDB(sensorId);
+            return deleteResult;
         }
 
         public async Task UpdateSensors()
@@ -54,11 +69,25 @@ namespace AIS.Models
             List<Sensor> SensorsList = await _apiService.GetSensorsTableAsync();
             Sensors = new ObservableCollection<Sensor>(SensorsList);
         }
+        //---------Sensors---------
 
-        private async Task InitializeAsyncGreenhouses()
+        //---------ExecutionDevices---------
+        public async Task<bool> DeleteRowExecutionDevices(int sensorId)
         {
-            List<Greenhouse> greenhousesList = await _apiService.GetGreenhousesTableAsync();
-            Greenhouses = new ObservableCollection<Greenhouse>(greenhousesList);
+            bool deleteResult = await _apiService.DeleteExecutionDeviceByIdFromDB(sensorId);
+            return deleteResult;
         }
+
+        public async Task UpdateExecutionDevices()
+        {
+            await InitializeAsyncExecutionDevices();
+        }
+
+        private async Task InitializeAsyncExecutionDevices()
+        {
+            List<ExecutionDevice> executionDevices = await _apiService.GetExecutionDevicesTableAsync();
+            ExecutionDevices = new ObservableCollection<ExecutionDevice>(executionDevices);
+        }
+        //---------ExecutionDevices---------
     }
 }
