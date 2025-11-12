@@ -75,7 +75,9 @@ namespace AIS.ViewModels
 
         private void AddSensor()
         {
-            throw new NotImplementedException();
+            var updateWindow = new AddSensorRowWindow();
+            var updateWindowViewModel = updateWindow.DataContext;
+            updateWindow.ShowDialog();
         }
 
         private async Task AddGreenhouse()

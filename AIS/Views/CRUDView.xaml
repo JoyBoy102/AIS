@@ -21,6 +21,7 @@
                         <DataGridTextColumn Header="Название теплицы" Binding="{Binding Name}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Местоположение теплицы" Binding="{Binding Location}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Описание теплицы" Binding="{Binding Description}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Тип культуры" Binding="{Binding AgronomicRule}"></DataGridTextColumn>
                         <DataGridTemplateColumn Header="Удалить">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

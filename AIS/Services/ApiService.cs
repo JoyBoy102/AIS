@@ -98,7 +98,22 @@ namespace AIS.Services
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();
                     var greenhousesInfo = JsonSerializer.Deserialize<List<Greenhouse>>(jsonString);
-                    return greenhousesInfo;
+                    var agroRules = await GetAgronomicRules();
+                    var joinedData = greenhousesInfo
+                        .Join(agroRules,
+                            greenhouse => greenhouse.AgronomicRuleId,
+                            rule => rule.Id,
+                            (greenhouse, rule) => new Greenhouse
+                            {
+                                ID = greenhouse.ID,
+                                Name = greenhouse.Name,
+                                Location = greenhouse.Location,
+                                Description = greenhouse.Description,
+                                AgronomicRuleId = greenhouse.AgronomicRuleId,
+                                AgronomicRule = rule
+                            })
+                        .ToList();
+                    return joinedData;
                 }
                 else
                 {
@@ -239,7 +254,6 @@ namespace AIS.Services
                 return new List<Sensor>();
             }
         }
-       
 
         public async Task<bool> DeleteSensorByIdFromDB(int sensorId)
         {
@@ -266,23 +280,52 @@ namespace AIS.Services
             }
         }
 
-       
-
         public async Task<bool> UpdateSensorRow(int sensorID, string sensorType, int greenhouseID)
         {
             try
             {
-                var greenhouseData = new
+                var sensorData = new
                 {
                     type = sensorType,
                     greenhouse_id = greenhouseID
                 };
-                var json = JsonSerializer.Serialize(greenhouseData);
+                var json = JsonSerializer.Serialize(sensorData);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PutAsync($"/sensors/{sensorID}", content);
                 if (!response.IsSuccessStatusCode)
                 {
                     MessageBox.Show("Не удалось редактировать запись",
+                                      "Ошибка",
+                                      MessageBoxButton.OK,
+                                      MessageBoxImage.Error);
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при изменении записи: {ex.Message}",
+                              "Ошибка",
+                              MessageBoxButton.OK,
+                              MessageBoxImage.Error);
+                return false;
+            }
+        }
+        public async Task<bool> AddSensorRow(string sensorType, int greenhouseID)
+        {
+            try
+            {
+                var sensorData = new
+                {
+                    type = sensorType,
+                    greenhouse_id = greenhouseID
+                };
+                var json = JsonSerializer.Serialize(sensorData);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync($"/sensors/", content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Не удалось создать запись",
                                       "Ошибка",
                                       MessageBoxButton.OK,
                                       MessageBoxImage.Error);
