@@ -1,5 +1,6 @@
-﻿using AIS.Models;
+﻿using AIS.Models.PopupModels;
 using AIS.Services;
+using AIS.Structs;
 using CommunityToolkit.Mvvm.Input;
 using DocumentFormat.OpenXml.EMMA;
 using System;
@@ -9,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace AIS.ViewModels
+namespace AIS.ViewModels.PopupViewModels
 {
     public class AddSensorRowWindowViewmodel: BaseViewModel
     {

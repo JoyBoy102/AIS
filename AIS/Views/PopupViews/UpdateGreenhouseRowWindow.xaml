@@ -4,11 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AIS.Views"
+        xmlns:vm="clr-namespace:AIS.ViewModels"
+        xmlns:conv="clr-namespace:AIS.Converters" xmlns:popupviewmodels="clr-namespace:AIS.ViewModels.PopupViewModels"
         mc:Ignorable="d"
-        Title="Редактирование теплицы" MinHeight = "450" MaxHeight="450" MaxWidth="400" MinWidth="400"
+        Title="Редактирование теплицы" MinHeight="450" MaxHeight="450" MaxWidth="400" MinWidth="400"
+        d:DataContext="{d:DesignInstance Type=popupviewmodels:UpdateGreenhouseRowWindowViewmodel}"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <conv:MinusOneConverter x:Key="MinusOneConverter"/>
+    </Window.Resources>
     <Grid Margin="20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -74,8 +81,19 @@
                  VerticalScrollBarVisibility="Auto"
                  MaxLength="500"/>
 
+        <!-- Агрономическое правило -->
+        <TextBlock Grid.Row="5" Grid.Column="0" 
+                   Text="Тип культуры:" 
+                   VerticalAlignment="Top" Margin="0,10,10,10"/>
+        <ComboBox Grid.Row="5" Grid.Column="1" 
+                  x:Name="ComboBox"
+                  ItemsSource="{Binding AgronomicRules}"
+                  Margin="0,0,0,10"
+                  SelectedIndex="{Binding SelectedAgronomicRule.Id, Converter={StaticResource MinusOneConverter}}"
+                  SelectedItem="{Binding SelectedAgronomicRule}"/>
+
         <!-- Кнопки -->
-        <StackPanel Grid.Row="6" Grid.ColumnSpan="2" 
+        <StackPanel Grid.Row="7" Grid.ColumnSpan="2" 
                     Orientation="Horizontal" 
                     HorizontalAlignment="Right" 
                     Margin="0,20,0,0">

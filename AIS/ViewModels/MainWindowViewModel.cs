@@ -1,4 +1,5 @@
 ﻿using AIS.Models;
+using AIS.Structs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

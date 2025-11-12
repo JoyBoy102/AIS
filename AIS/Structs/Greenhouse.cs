@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace AIS.Models
+namespace AIS.Structs
 {
     public class Greenhouse
     {
@@ -28,7 +28,7 @@ namespace AIS.Models
 
         public AgronomicRuleModel AgronomicRule { get; set; }
 
-        public ObservableCollection<Sensor> Sensors { get; set; }
+        public ObservableCollection<SensorReading> SensorsReadings { get; set; }
 
         public bool ToggleButtonState { get; set; }
 

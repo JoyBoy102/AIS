@@ -1,4 +1,4 @@
-﻿namespace AIS.Models
+﻿namespace AIS.Structs
 {
     public class Command
     {

@@ -4,9 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AIS.Views"
+        xmlns:conv="clr-namespace:AIS.Converters" xmlns:popupviewmodels="clr-namespace:AIS.ViewModels.PopupViewModels"
         mc:Ignorable="d"
         Title="Редактирование датчика" MinHeight="450" MaxHeight="450" MaxWidth="400" MinWidth="400"
+        d:DataContext="{d:DesignInstance Type=popupviewmodels:UpdateSensorRowWindowViewmodel}"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <conv:MinusOneConverter x:Key="MinusOneConverter"/>
+    </Window.Resources>
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -53,14 +58,17 @@
                  Margin="0,0,0,10" Height="25"
                  MaxLength="100"/>
 
-        <!-- ID теплицы -->
+        <!-- теплица -->
+
         <TextBlock Grid.Row="3" Grid.Column="0" 
-                   Text="ID теплицы:" 
-                   VerticalAlignment="Center" Margin="0,0,10,10"/>
-        <TextBox Grid.Row="3" Grid.Column="1" 
-                 Text="{Binding GreenhouseID}"
-                 Margin="0,0,0,10" Height="25"
-                 MaxLength="200"/>
+                   Text="Теплица:" 
+                   VerticalAlignment="Top" Margin="0,10,10,10"/>
+        <ComboBox Grid.Row="3" Grid.Column="1" 
+                  x:Name="ComboBox"
+                  ItemsSource="{Binding Greenhouses}"
+                  Margin="0,0,0,10"
+                  SelectedIndex="{Binding SelectedGreenhouse.ID, Converter={StaticResource MinusOneConverter}}"
+                  SelectedItem="{Binding SelectedGreenhouse}"/>
 
         <!-- Кнопки -->
         <StackPanel Grid.Row="5" Grid.ColumnSpan="2" 

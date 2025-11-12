@@ -1,5 +1,7 @@
 ﻿using AIS.Models;
 using AIS.Services;
+using AIS.Structs;
+using AIS.ViewModels.PopupViewModels;
 using AIS.Views;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -118,9 +120,8 @@ namespace AIS.ViewModels
         private void UpdateRowGreenhouse(Greenhouse? greenhouse)
         {
             if (greenhouse == null) return;
-            var updateWindow = new UpdateGreenhouseRowWindow();
-            var updateWindowViewModel = new UpdateGreenhouseRowWindowViewmodel(greenhouse, updateWindow);
-            updateWindow.DataContext = updateWindowViewModel;
+            var updateWindow = new UpdateGreenhouseRowWindow(greenhouse);
+            var updateWindowViewModel = updateWindow.DataContext;
             updateWindow.ShowDialog();
         }
         #endregion
@@ -154,9 +155,8 @@ namespace AIS.ViewModels
         private void UpdateRowSensor(Sensor? sensor)
         {
             if (sensor == null) return;
-            var updateWindow = new UpdateSensorRowWindow();
-            var updateWindowViewModel = new UpdateSensorRowWindowViewmodel(sensor, updateWindow);
-            updateWindow.DataContext = updateWindowViewModel;
+            var updateWindow = new UpdateSensorRowWindow(sensor);
+            var updateWindowViewModel = updateWindow.DataContext;
             updateWindow.ShowDialog();
         }
 

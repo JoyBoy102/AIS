@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using AIS.Services;
+using AIS.Structs;
 
 namespace AIS.Models
 {
@@ -32,13 +33,13 @@ namespace AIS.Models
             greenhouses = GetGreenhouseObservableCollection(sensorReadingsList);
         }
 
-        private async Task<List<Sensor>> GetSensorsReadingsList()
+        private async Task<List<SensorReading>> GetSensorsReadingsList()
         {
             var sensorReadings = await _apiService.GetGreenhousesMonitoringInfoAsync();
             return sensorReadings;
         }
 
-        private ObservableCollection<Greenhouse> GetGreenhouseObservableCollection(List<Sensor> sensorReadings)
+        private ObservableCollection<Greenhouse> GetGreenhouseObservableCollection(List<SensorReading> sensorReadings)
         {
             var result = new ObservableCollection<Greenhouse>();
             var groupedByGreenhouse = sensorReadings.GroupBy(reading => new { reading.GreenhouseID, reading.GreenhouseName, reading.GreenhouseLocation, reading.GreenhouseDescription });
@@ -49,10 +50,10 @@ namespace AIS.Models
                 greenhouse.Name = group.Key.GreenhouseName;
                 greenhouse.Location = group.Key.GreenhouseLocation;
                 greenhouse.Description = group.Key.GreenhouseDescription;
-                greenhouse.Sensors = new ObservableCollection<Sensor>();
+                greenhouse.SensorsReadings = new ObservableCollection<SensorReading>();
                 foreach (var sensor in group)
                 {
-                    greenhouse.Sensors.Add(sensor);
+                    greenhouse.SensorsReadings.Add(sensor);
                 }
                 result.Add(greenhouse);
             }
@@ -65,7 +66,7 @@ namespace AIS.Models
             UpdateGreenhouseSensors(sensorReadingsList);
         }
 
-        private void UpdateGreenhouseSensors(List<Sensor> sensorReadingsList)
+        private void UpdateGreenhouseSensors(List<SensorReading> sensorReadingsList)
         {
             var sensorsByGreenhouse = sensorReadingsList
                 .GroupBy(s => s.GreenhouseID)
@@ -76,18 +77,18 @@ namespace AIS.Models
                 if (sensorsByGreenhouse.TryGetValue(greenhouse.ID, out var newSensors))
                 {
                     // Вместо замены коллекции обновляем существующую
-                    if (greenhouse.Sensors == null)
+                    if (greenhouse.SensorsReadings == null)
                     {
-                        greenhouse.Sensors = new ObservableCollection<Sensor>(newSensors);
+                        greenhouse.SensorsReadings = new ObservableCollection<SensorReading>(newSensors);
                     }
                     else
                     {
                         // Очищаем и добавляем в существующую коллекцию
                         // ObservableCollection автоматически уведомляет об изменениях
-                        greenhouse.Sensors.Clear();
+                        greenhouse.SensorsReadings.Clear();
                         foreach (var sensor in newSensors)
                         {
-                            greenhouse.Sensors.Add(sensor);
+                            greenhouse.SensorsReadings.Add(sensor);
                         }
                     }
                 }

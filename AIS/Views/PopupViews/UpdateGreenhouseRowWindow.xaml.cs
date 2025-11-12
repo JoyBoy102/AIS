@@ -1,4 +1,5 @@
-﻿using AIS.ViewModels;
+﻿using AIS.Structs;
+using AIS.ViewModels.PopupViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,17 +19,17 @@ namespace AIS.Views
     /// <summary>
     /// Логика взаимодействия для UpdateGreenhouseRowWindow.xaml
     /// </summary>
-    public partial class AddSensorRowWindow : Window
+    public partial class UpdateGreenhouseRowWindow : Window
     {
-        public AddSensorRowWindow()
+        public UpdateGreenhouseRowWindow(Greenhouse greenhouse)
         {
             InitializeComponent();
-            InitializeViewModelAsync();
+            InitializeViewModelAsync(greenhouse);
         }
 
-        private async Task InitializeViewModelAsync()
+        private async Task InitializeViewModelAsync(Greenhouse greenhouse)
         {
-            var viewModel = await AddSensorRowWindowViewmodel.CreateAsync(this);
+            var viewModel = await UpdateGreenhouseRowWindowViewmodel.CreateAsync(this, greenhouse);
             DataContext = viewModel;
         }
     }

@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using System.Windows;
 
-namespace AIS.Models
+namespace AIS.Structs
 {
     public class AgronomicRuleModel
     {

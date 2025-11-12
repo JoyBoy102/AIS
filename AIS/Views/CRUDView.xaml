@@ -17,10 +17,10 @@
             <TabItem Header="Теплицы">
                 <DataGrid ItemsSource="{Binding Greenhouses, FallbackValue={x:Null}}" IsReadOnly="True" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID теплицы" Binding="{Binding ID}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Название теплицы" Binding="{Binding Name}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Местоположение теплицы" Binding="{Binding Location}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Описание теплицы" Binding="{Binding Description}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Название" Binding="{Binding Name}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Местоположение" Binding="{Binding Location}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Описание" Binding="{Binding Description}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Тип культуры" Binding="{Binding AgronomicRule}"></DataGridTextColumn>
                         <DataGridTemplateColumn Header="Удалить">
                             <DataGridTemplateColumn.CellTemplate>
@@ -54,9 +54,9 @@
             <TabItem Header="Датчики">
                 <DataGrid ItemsSource="{Binding Sensors, FallbackValue={x:Null}}" IsReadOnly="True" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID датчика" Binding="{Binding ID}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Тип датчика" Binding="{Binding Type}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="ID теплицы" Binding="{Binding GreenhouseID}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Тип" Binding="{Binding Type}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Теплица" Binding="{Binding Greenhouse.Name}"></DataGridTextColumn>
                         <DataGridTemplateColumn Header="Удалить">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

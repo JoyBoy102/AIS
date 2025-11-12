@@ -5,9 +5,9 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace AIS.Models
+namespace AIS.Structs
 {
-    public class Sensor
+    public class SensorReading
     {
         [JsonPropertyName("sensor_id")]
         public int ID { get; set; }
@@ -32,7 +32,5 @@ namespace AIS.Models
 
         [JsonPropertyName("greenhouse_location")]
         public string? GreenhouseLocation { get; set; }
-
     }
-
 }

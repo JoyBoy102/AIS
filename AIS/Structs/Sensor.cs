@@ -5,17 +5,21 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace AIS.Models
+namespace AIS.Structs
 {
-    public class ExecutionDevice
+    public class Sensor
     {
-        [JsonPropertyName("id")]
-        public int ID { get; set; }
-        [JsonPropertyName("greenhouse_id")]
-        public int GreenhouseID { get; set; }
         [JsonPropertyName("sensor_id")]
-        public int SensorID { get; set; }
+        public int ID { get; set; }
+
         [JsonPropertyName("type")]
         public string Type { get; set; }
+
+        [JsonPropertyName("greenhouse_id")]
+        public int GreenhouseID { get; set; }
+
+        public Greenhouse Greenhouse { get; set; }
+
     }
+
 }

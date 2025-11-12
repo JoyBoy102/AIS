@@ -1,4 +1,4 @@
-﻿using AIS.Models;
+﻿using AIS.Structs;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -30,7 +31,7 @@ namespace AIS.Services
         private const string _getExecutionDevicesEndpoint = "/execution_devices/read";
         private const string _getAgronomicRulesEndpoint = "/agronomic_rules/get_agronomic_rules";
 
-        public async Task<List<Sensor>> GetGreenhousesMonitoringInfoAsync()
+        public async Task<List<SensorReading>> GetGreenhousesMonitoringInfoAsync()
         {
             try
             {
@@ -38,7 +39,7 @@ namespace AIS.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();
-                    var sensorsInfo = JsonSerializer.Deserialize<List<Sensor>>(jsonString);
+                    var sensorsInfo = JsonSerializer.Deserialize<List<SensorReading>>(jsonString);
                     return sensorsInfo;
                 }
                 else
@@ -54,7 +55,7 @@ namespace AIS.Services
             }
             catch (Exception ex)
             {
-                return new List<Sensor>();
+                return new List<SensorReading>();
             }
         }
 
@@ -157,7 +158,7 @@ namespace AIS.Services
             }
         }
 
-        public async Task<bool> UpdateGreenhouseRow(int greenhouseID, string _name, string _location, string _description)
+        public async Task<bool> UpdateGreenhouseRow(int greenhouseID, string _name, string _location, string _description, AgronomicRuleModel selectedAgronomicRule)
         {
             try
             {
@@ -165,7 +166,8 @@ namespace AIS.Services
                 {
                     name = _name,
                     location = _location,
-                    description = _description
+                    description = _description,
+                    agrorule_id = selectedAgronomicRule.Id
                 };
                 var json = JsonSerializer.Serialize(greenhouseData);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -234,9 +236,31 @@ namespace AIS.Services
                 var response = await _httpClient.GetAsync(_getSensorsEndpoint);
                 if (response.IsSuccessStatusCode)
                 {
+                    var greenhouses = await GetGreenhousesTableAsync();
                     var jsonString = await response.Content.ReadAsStringAsync();
                     var sensorsInfo = JsonSerializer.Deserialize<List<Sensor>>(jsonString);
-                    return sensorsInfo;
+
+                    var joinedData = sensorsInfo
+                        .Join(greenhouses,
+                            sensor => sensor.GreenhouseID,
+                            greenhouse => greenhouse.ID,
+                            (sensor, greenhouse) => new Sensor
+                            {
+                                ID = sensor.ID,
+                                Type = sensor.Type,
+                                GreenhouseID = greenhouse.ID,
+                                Greenhouse = new Greenhouse
+                                    {
+                                        ID = greenhouse.ID,
+                                        Name = greenhouse.Name,
+                                        Location = greenhouse.Location,
+                                        Description = greenhouse.Description,
+                                        AgronomicRuleId = greenhouse.AgronomicRuleId,
+                                        AgronomicRule = greenhouse.AgronomicRule
+                                    }
+                                })
+                        .ToList();
+                    return joinedData;
                 }
                 else
                 {

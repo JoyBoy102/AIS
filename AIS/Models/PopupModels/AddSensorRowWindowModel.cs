@@ -1,17 +1,16 @@
 ﻿using AIS.Services;
+using AIS.Structs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS.Models
+namespace AIS.Models.PopupModels
 {
     public class AddSensorRowWindowModel
     {
-        public int SensorID;
         public string SensorType;
-        public int GreenhouseID;
         private ApiService _apiService;
         public List<Greenhouse> Greenhouses;
         public Greenhouse SelectedGreenhouse;
@@ -31,7 +30,7 @@ namespace AIS.Models
 
         public async Task<bool> AddSensorRow()
         {
-            var updateResult = await _apiService.AddSensorRow(SensorType, GreenhouseID);
+            var updateResult = await _apiService.AddSensorRow(SensorType, SelectedGreenhouse.ID);
             return updateResult;
         }
     }

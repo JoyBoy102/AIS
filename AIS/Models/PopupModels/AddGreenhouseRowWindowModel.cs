@@ -1,11 +1,12 @@
 ﻿using AIS.Services;
+using AIS.Structs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS.Models
+namespace AIS.Models.PopupModels
 {
     public class AddGreenhouseRowWindowModel
     {

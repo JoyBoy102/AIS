@@ -1,5 +1,6 @@
-﻿using AIS.Models;
+﻿using AIS.Models.PopupModels;
 using AIS.Services;
+using AIS.Structs;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace AIS.ViewModels
+namespace AIS.ViewModels.PopupViewModels
 {
     public class UpdateSensorRowWindowViewmodel:BaseViewModel
     {
@@ -16,15 +17,21 @@ namespace AIS.ViewModels
         public IAsyncRelayCommand CloseWindowCommand { get; set; }
         private UpdateSensorRowWindowModel _updateSensorRowWindowModel;
         private Window _window;
-        public UpdateSensorRowWindowViewmodel(Sensor sensor, Window window)
+        public UpdateSensorRowWindowViewmodel(Window window, UpdateSensorRowWindowModel model, Sensor sensor)
         {
-            _updateSensorRowWindowModel = new UpdateSensorRowWindowModel();
+            _updateSensorRowWindowModel = model;
             _window = window;
             UpdateSensorRowCommand = new AsyncRelayCommand(UpdateSensorRow);
             CloseWindowCommand = new AsyncRelayCommand(CloseWindow);
             SensorID = sensor.ID;
             SensorType = sensor.Type;
-            GreenhouseID = sensor.GreenhouseID;
+            SelectedGreenhouse = sensor.Greenhouse;
+        }
+
+        public static async Task<UpdateSensorRowWindowViewmodel> CreateAsync(Window window, Sensor sensor)
+        {
+            var model = await UpdateSensorRowWindowModel.CreateAsync();
+            return new UpdateSensorRowWindowViewmodel(window, model, sensor);
         }
 
         public int SensorID
@@ -45,12 +52,20 @@ namespace AIS.ViewModels
             }
         }
 
-        public int GreenhouseID
+        public List<Greenhouse> Greenhouses
         {
-            get => _updateSensorRowWindowModel.GreenhouseID;
+            get => _updateSensorRowWindowModel.Greenhouses;
+        }
+
+        public Greenhouse SelectedGreenhouse
+        {
+            get
+            {
+                return _updateSensorRowWindowModel.SelectedGreenhouse;
+            }
             set
             {
-                SetProperty(ref _updateSensorRowWindowModel.GreenhouseID, value);
+                SetProperty(ref _updateSensorRowWindowModel.SelectedGreenhouse, value);
             }
         }
 

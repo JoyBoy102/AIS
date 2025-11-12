@@ -1,5 +1,6 @@
 ﻿using AIS.Models;
 using AIS.Services;
+using AIS.Structs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
