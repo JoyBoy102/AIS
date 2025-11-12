@@ -1,5 +1,7 @@
 ﻿using AIS.Models;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,13 +24,17 @@ namespace AIS.Services
             _httpClient.BaseAddress = new Uri("http://127.0.0.1:8000");
         }
 
+        private const string _simulateReadingEndpoint = "simulations/simulate-reading/?vg=0&vs=0";
+        private const string _getGreenhousesEndpoint = "/greenhouses/";
+        private const string _getSensorsEndpoint = "/sensors/";
+        private const string _getExecutionDevicesEndpoint = "/execution_devices/read";
+        private const string _getAgronomicRulesEndpoint = "/agronomic_rules/get_agronomic_rules";
 
-        //---------Greenhouses---------
         public async Task<List<Sensor>> GetGreenhousesMonitoringInfoAsync()
         {
             try
             {
-                var response = await _httpClient.GetAsync($"http://127.0.0.1:8000/simulations/simulate-reading/?vg=0&vs=0");
+                var response = await _httpClient.GetAsync($"http://127.0.0.1:8000/{_simulateReadingEndpoint}");
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();
@@ -37,7 +43,12 @@ namespace AIS.Services
                 }
                 else
                 {
-                    Console.WriteLine($"Error: {response.StatusCode}");
+                    MessageBox.Show(
+                        $"Эндпоинт {_simulateReadingEndpoint} вернул код {(int)response.StatusCode}",
+                        "Ошибка генерации данных",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                        );
                     return null;
                 }
             }
@@ -47,11 +58,42 @@ namespace AIS.Services
             }
         }
 
+        #region Agronomic Rules
+        public async Task<List<AgronomicRuleModel>> GetAgronomicRules()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync(_getAgronomicRulesEndpoint);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    var agronomicRulesModelInfo = JsonSerializer.Deserialize<List<AgronomicRuleModel>>(jsonString);
+                    return agronomicRulesModelInfo;
+                }
+                else
+                {
+                    MessageBox.Show(
+                        $"Эндпоинт {_getAgronomicRulesEndpoint} вернул код {(int)response.StatusCode}",
+                        "Ошибка получения агрономических правил",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                        );
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return new List<AgronomicRuleModel>();
+            }
+        }
+        #endregion
+
+        #region Greenhouse
         public async Task<List<Greenhouse>> GetGreenhousesTableAsync()
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/greenhouses/");
+                var response = await _httpClient.GetAsync(_getGreenhousesEndpoint);
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();
@@ -60,6 +102,12 @@ namespace AIS.Services
                 }
                 else
                 {
+                    MessageBox.Show(
+                        $"Эндпоинт {_getGreenhousesEndpoint} вернул код {(int)response.StatusCode}",
+                        "Ошибка получения теплиц",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                        );
                     return null;
                 }
             }
@@ -128,15 +176,47 @@ namespace AIS.Services
 
         }
 
-        //---------Greenhouses---------
+        public async Task<bool> AddGreenhouseRow(string name, string location, string description, AgronomicRuleModel selectedAgronomicRule)
+        {
+            try
+            {
+                var greenhouseData = new
+                {
+                    name = name,
+                    location = location,
+                    description = description,
+                    agrorule_id = selectedAgronomicRule.Id,
+                };
+                var json = JsonSerializer.Serialize(greenhouseData);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync($"/greenhouses/", content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Не удалось создать запись",
+                                      "Ошибка",
+                                      MessageBoxButton.OK,
+                                      MessageBoxImage.Error);
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при создании записи: {ex.Message}",
+                              "Ошибка",
+                              MessageBoxButton.OK,
+                              MessageBoxImage.Error);
+                return false;
+            }
+        }
+        #endregion
 
-
-        //---------Sensors---------
+        #region Sensors
         public async Task<List<Sensor>> GetSensorsTableAsync()
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/sensors/");
+                var response = await _httpClient.GetAsync(_getSensorsEndpoint);
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();
@@ -145,6 +225,12 @@ namespace AIS.Services
                 }
                 else
                 {
+                    MessageBox.Show(
+                        $"Эндпоинт {_getSensorsEndpoint} вернул код {(int)response.StatusCode}",
+                        "Ошибка получения сенсоров",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                        );
                     return null;
                 }
             }
@@ -213,14 +299,14 @@ namespace AIS.Services
                 return false;
             }
         }
-        //---------Sensors---------
+        #endregion
 
-        //---------ExecutionDevices---------
+        #region Execution Devices
         public async Task<List<ExecutionDevice>> GetExecutionDevicesTableAsync()
         {
             try
             {
-                var response = await _httpClient.GetAsync($"/execution_devices/read");
+                var response = await _httpClient.GetAsync(_getExecutionDevicesEndpoint);
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();
@@ -229,6 +315,12 @@ namespace AIS.Services
                 }
                 else
                 {
+                    MessageBox.Show(
+                        $"Эндпоинт {_getExecutionDevicesEndpoint} вернул код {(int)response.StatusCode}",
+                        "Ошибка получения исполнительных устройств",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                        );
                     return null;
                 }
             }
@@ -295,5 +387,6 @@ namespace AIS.Services
                 return false;
             }
         }
+        #endregion
     }
 }

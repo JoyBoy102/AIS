@@ -24,7 +24,7 @@ namespace AIS.Views
         public MonitoringModuleView()
         {
             InitializeComponent();
-            _ = InitializeViewModelAsync();
+            InitializeViewModelAsync();
         }
 
         private async Task InitializeViewModelAsync()
