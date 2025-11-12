@@ -6,9 +6,14 @@
              xmlns:local="clr-namespace:AIS.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             xmlns:vm="clr-namespace:AIS.ViewModels">
+             xmlns:vm="clr-namespace:AIS.ViewModels"
+             d:DataContext="{d:DesignInstance Type=vm:CRUDViewModel}">
     <Grid>
-        <TabControl>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0">
             <TabItem Header="Теплицы">
                 <DataGrid ItemsSource="{Binding Greenhouses}" IsReadOnly="True" AutoGenerateColumns="False">
                     <DataGrid.Columns>
@@ -81,5 +86,7 @@
                 </DataGrid>
             </TabItem>
         </TabControl>
+        <Button Grid.Row="1" Content="Add"/>
+
     </Grid>
 </UserControl>
