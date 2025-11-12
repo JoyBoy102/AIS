@@ -3,6 +3,7 @@ using AIS.Services;
 using AIS.Structs;
 using AIS.ViewModels.PopupViewModels;
 using AIS.Views;
+using AIS.Views.PopupViews;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,6 @@ namespace AIS.ViewModels
             DeleteRowSensorCommand = new AsyncRelayCommand<int>(DeleteRowSensor);
             UpdateRowSensorCommand = new RelayCommand<Sensor>(UpdateRowSensor);
             DeleteRowExecutionDeviceCommand = new AsyncRelayCommand<int>(DeleteRowExecutionDevices);
-            UpdateRowExecutionDeviceCommand = new RelayCommand<ExecutionDevice>(UpdateRowExecutionDevice);
             EventAggregator.GreenhouseRowUpdated+=(async () => await UpdateGreenhouses());
             EventAggregator.SensorRowUpdated+=(async () => await UpdateSensors());
             EventAggregator.ExecutionDeviceRowUpdated+=(async () => await UpdateExecutionDevices());
@@ -72,7 +72,8 @@ namespace AIS.ViewModels
 
         private void AddExecutionDevice()
         {
-            throw new NotImplementedException();
+            var AddWindow = new AddExecutionDeviceRowWindow();
+            AddWindow.ShowDialog();
         }
 
         private void AddSensor()
@@ -197,11 +198,6 @@ namespace AIS.ViewModels
             {
                 await UpdateExecutionDevices();
             }
-        }
-
-        private void UpdateRowExecutionDevice(ExecutionDevice? sensor)
-        {
-            //
         }
         #endregion
     }

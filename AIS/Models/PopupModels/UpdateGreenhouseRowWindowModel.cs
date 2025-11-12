@@ -11,7 +11,6 @@ namespace AIS.Models.PopupModels
     public class UpdateGreenhouseRowWindowModel
     {
         private ApiService _apiService;
-        public string WindowName;
         public int GreenhouseId;
         public string Name;
         public string Description;

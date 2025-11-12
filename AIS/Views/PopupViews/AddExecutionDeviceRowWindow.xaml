@@ -1,0 +1,95 @@
+﻿<Window x:Class="AIS.Views.PopupViews.AddExecutionDeviceRowWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AIS.Views.PopupViews"
+        mc:Ignorable="d"
+        Title="Добавление исполнительного устройства" Height="450" Width="800">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" 
+               Text="Добавление исполнительного устройства" 
+               FontSize="20" FontWeight="Bold" 
+               HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+        <!-- ID теплицы -->
+        <TextBlock Grid.Row="1" Grid.Column="0" 
+               Text="ID теплицы:" 
+               VerticalAlignment="Center" Margin="0,0,10,10"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" 
+          x:Name="ComboBox"
+          ItemsSource="{Binding Greenhouses}"
+          SelectedItem="{Binding SelectedGreenhouse}"
+          Margin="0,0,0,10">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <!-- Отображаем название теплицы -->
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Location}" FontStyle="Italic" Foreground="Gray"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+
+        <!-- ID соответствующего датчика -->
+        <TextBlock Grid.Row="2" Grid.Column="0" 
+               Text="ID соответствующего датчика:" 
+               VerticalAlignment="Center" Margin="0,0,10,10"/>
+        <ComboBox Grid.Row="2" Grid.Column="1"
+          ItemsSource="{Binding SelectedGreenhouse.FreeSensors}"
+          SelectedItem="{Binding SelectedSensor}"
+          Margin="0,0,0,10">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <!-- Отображаем ID и тип сенсора -->
+                    <StackPanel>
+                        <TextBlock Text="{Binding ID}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Type}" Foreground="DarkBlue"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+
+        <!-- Кнопки -->
+        <StackPanel Grid.Row="6" Grid.ColumnSpan="2" 
+                Orientation="Horizontal" 
+                HorizontalAlignment="Right" 
+                Margin="0,20,0,0">
+            <Button x:Name="SaveButton" 
+                Content="Сохранить" 
+                Width="100" Height="30" 
+                Margin="0,0,10,0"
+                Background="#4CAF50" 
+                Foreground="White"
+                FontWeight="Bold"
+                Cursor="Hand"/>
+
+            <Button x:Name="CancelButton" 
+                Content="Отмена" 
+                Width="100" Height="30"
+                Background="#F44336" 
+                Foreground="White"
+                FontWeight="Bold"
+                Cursor="Hand"/>
+        </StackPanel>
+    </Grid>
+</Window>

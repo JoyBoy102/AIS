@@ -37,15 +37,6 @@ namespace AIS.ViewModels.PopupViewModels
             return new UpdateGreenhouseRowWindowViewmodel(window, model, greenhouse);
         }
 
-        public string WindowName
-        {
-            get => _updateGreenhouseRowWindowModel.WindowName;
-            set
-            {
-                SetProperty(ref _updateGreenhouseRowWindowModel.WindowName, value);
-            }
-        }
-
         public int GreenhouseId
         {
             get => _updateGreenhouseRowWindowModel.GreenhouseId;

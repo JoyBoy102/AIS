@@ -22,12 +22,17 @@
         </Grid.RowDefinitions>
         <DataGrid ItemsSource="{Binding Reports}"  AutoGenerateColumns="False" Grid.Row="0">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding ID}"></DataGridTextColumn>
                 <DataGridTextColumn Header="IdGreenHouse" Binding="{Binding IdGreenHouse}"/>
-                <DataGridTextColumn Header="Time" Binding="{Binding Time}"/>
-                <DataGridTextColumn Header="Temperature" Binding="{Binding Temperature}"/>
-                <DataGridTextColumn Header="CO2" Binding="{Binding CO2}"/>
-                <DataGridTextColumn Header="Humidity" Binding="{Binding Humidity}"/>
-                <DataGridTextColumn Header="Commands" Binding="{Binding Commands, Converter={StaticResource CollectionToStringConverter}}"/>
+                <DataGridTextColumn Header="co2_value" Binding="{Binding CO2Val}"/>
+                <DataGridTextColumn Header="humidity_value" Binding="{Binding HumidityVal}"/>
+                <DataGridTextColumn Header="temperature_value" Binding="{Binding TemperatureVal}"/>
+                <DataGridTextColumn Header="co2_pred" Binding="{Binding CO2Predict}"/>
+                <DataGridTextColumn Header="humidity_pred" Binding="{Binding HumidityPredict}"/>
+                <DataGridTextColumn Header="temperature_pred" Binding="{Binding TemperaturePredict}"/>
+                <DataGridTextColumn Header="command_co2" Binding="{Binding CO2Command}"/>
+                <DataGridTextColumn Header="command_humidity" Binding="{Binding HumidityCommand}"/>
+                <DataGridTextColumn Header="command_temperature" Binding="{Binding TemperatureCommand}"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button Grid.Row="1" Command="{Binding GetExcelAsyncCommand}">

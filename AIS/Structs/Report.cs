@@ -10,6 +10,7 @@ namespace AIS.Structs
 {
     public class Report
     {
+        public int ID { get; set; }
         public int IdGreenHouse { get; internal set; }
         public string Time { get; set; }
         public string Temperature { get; set; }
