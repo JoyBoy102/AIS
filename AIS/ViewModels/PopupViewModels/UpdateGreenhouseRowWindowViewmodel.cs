@@ -1,5 +1,6 @@
-﻿using AIS.Models;
+﻿using AIS.Models.PopupModels;
 using AIS.Services;
+using AIS.Structs;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace AIS.ViewModels
+namespace AIS.ViewModels.PopupViewModels
 {
     public class UpdateGreenhouseRowWindowViewmodel: BaseViewModel
     {
@@ -17,17 +18,34 @@ namespace AIS.ViewModels
         private UpdateGreenhouseRowWindowModel _updateGreenhouseRowWindowModel;
         private Window _window;
 
-        public UpdateGreenhouseRowWindowViewmodel(Greenhouse greenhouse, Window window)
+        public UpdateGreenhouseRowWindowViewmodel(Window window, UpdateGreenhouseRowWindowModel model, Greenhouse greenhouse)
         {
-            _updateGreenhouseRowWindowModel = new UpdateGreenhouseRowWindowModel();
+            _updateGreenhouseRowWindowModel = model;
             UpdateGreenhouseRowCommand = new AsyncRelayCommand(UpdateGreenhouseRow);
             CloseWindowCommand = new AsyncRelayCommand(CloseWindow);
             GreenhouseId = greenhouse.ID;
             Name = greenhouse.Name;
             Description = greenhouse.Description;
             Location = greenhouse.Location;
+            SelectedAgronomicRule = greenhouse.AgronomicRule;
             _window = window;
         }
+
+        public static async Task<UpdateGreenhouseRowWindowViewmodel> CreateAsync(Window window, Greenhouse greenhouse)
+        {
+            var model = await UpdateGreenhouseRowWindowModel.CreateAsync();
+            return new UpdateGreenhouseRowWindowViewmodel(window, model, greenhouse);
+        }
+
+        public string WindowName
+        {
+            get => _updateGreenhouseRowWindowModel.WindowName;
+            set
+            {
+                SetProperty(ref _updateGreenhouseRowWindowModel.WindowName, value);
+            }
+        }
+
         public int GreenhouseId
         {
             get => _updateGreenhouseRowWindowModel.GreenhouseId;
@@ -62,6 +80,23 @@ namespace AIS.ViewModels
             {
                 SetProperty(ref _updateGreenhouseRowWindowModel.Location, value);
             }
+        }
+
+        public AgronomicRuleModel SelectedAgronomicRule
+        {
+            get
+            {
+                return _updateGreenhouseRowWindowModel.SelectedAgronomicRule;
+            }
+            set
+            {
+                SetProperty(ref _updateGreenhouseRowWindowModel.SelectedAgronomicRule, value);
+            }
+        }
+
+        public List<AgronomicRuleModel> AgronomicRules
+        {
+            get => _updateGreenhouseRowWindowModel.AgronomicRules;
         }
 
         private async Task UpdateGreenhouseRow()

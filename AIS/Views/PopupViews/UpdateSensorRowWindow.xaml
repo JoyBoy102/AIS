@@ -1,21 +1,31 @@
-﻿<Window x:Class="AIS.Views.UpdateGreenhouseRowWindow"
+﻿<Window x:Class="AIS.Views.UpdateSensorRowWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AIS.Views"
+        xmlns:conv="clr-namespace:AIS.Converters" xmlns:popupviewmodels="clr-namespace:AIS.ViewModels.PopupViewModels"
         mc:Ignorable="d"
-        Title="Редактирование теплицы" MinHeight = "450" MaxHeight="450" MaxWidth="400" MinWidth="400"
+        Title="Редактирование датчика" MinHeight="450" MaxHeight="450" MaxWidth="400" MinWidth="400"
+        d:DataContext="{d:DesignInstance Type=popupviewmodels:UpdateSensorRowWindowViewmodel}"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <conv:MinusOneConverter x:Key="MinusOneConverter"/>
+    </Window.Resources>
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <!-- 0: Заголовок -->
             <RowDefinition Height="Auto"/>
+            <!-- 1: ID датчика -->
             <RowDefinition Height="Auto"/>
+            <!-- 2: Тип датчика -->
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <!-- 3: ID теплицы -->
             <RowDefinition Height="*"/>
+            <!-- 4: Пустое пространство -->
             <RowDefinition Height="Auto"/>
+            <!-- 5: Кнопки -->
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -25,72 +35,56 @@
 
         <!-- Заголовок -->
         <TextBlock Grid.Row="0" Grid.ColumnSpan="2" 
-                   Text="Редактирование данных теплицы" 
+                   Text="Редактирование данных датчика" 
                    FontSize="20" FontWeight="Bold" 
                    HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
-        <!-- ID теплицы -->
+        <!-- ID датчика -->
         <TextBlock Grid.Row="1" Grid.Column="0" 
-                   Text="ID теплицы:" 
+                   Text="ID датчика:" 
                    VerticalAlignment="Center" Margin="0,0,10,10"/>
         <TextBox Grid.Row="1" Grid.Column="1" 
-                 x:Name="IdTextBox"
-                 Text="{Binding GreenhouseId, Mode=OneWay}"
+                 Text="{Binding SensorID, Mode=OneWay}"
                  IsReadOnly="True"
                  Background="#F0F0F0"
                  Margin="0,0,0,10" Height="25"/>
 
-        <!-- Название теплицы -->
+        <!-- Тип датчика -->
         <TextBlock Grid.Row="2" Grid.Column="0" 
-                   Text="Название теплицы:" 
+                   Text="Тип датчика:" 
                    VerticalAlignment="Center" Margin="0,0,10,10"/>
         <TextBox Grid.Row="2" Grid.Column="1" 
-                 x:Name="NameTextBox"
-                 Text="{Binding Name}"
+                 Text="{Binding SensorType}"
                  Margin="0,0,0,10" Height="25"
                  MaxLength="100"/>
 
-        <!-- Местоположение теплицы -->
-        <TextBlock Grid.Row="3" Grid.Column="0" 
-                   Text="Местоположение:" 
-                   VerticalAlignment="Center" Margin="0,0,10,10"/>
-        <TextBox Grid.Row="3" Grid.Column="1" 
-                 x:Name="LocationTextBox"
-                 Text="{Binding Location}"
-                 Margin="0,0,0,10" Height="25"
-                 MaxLength="200"/>
+        <!-- теплица -->
 
-        <!-- Описание теплицы -->
-        <TextBlock Grid.Row="4" Grid.Column="0" 
-                   Text="Описание:" 
+        <TextBlock Grid.Row="3" Grid.Column="0" 
+                   Text="Теплица:" 
                    VerticalAlignment="Top" Margin="0,10,10,10"/>
-        <TextBox Grid.Row="4" Grid.Column="1" 
-                 x:Name="DescriptionTextBox"
-                 Text="{Binding Description}"
-                 Margin="0,0,0,10" 
-                 Height="80"
-                 TextWrapping="Wrap" 
-                 AcceptsReturn="True"
-                 VerticalScrollBarVisibility="Auto"
-                 MaxLength="500"/>
+        <ComboBox Grid.Row="3" Grid.Column="1" 
+                  x:Name="ComboBox"
+                  ItemsSource="{Binding Greenhouses}"
+                  Margin="0,0,0,10"
+                  SelectedIndex="{Binding SelectedGreenhouse.ID, Converter={StaticResource MinusOneConverter}}"
+                  SelectedItem="{Binding SelectedGreenhouse}"/>
 
         <!-- Кнопки -->
-        <StackPanel Grid.Row="6" Grid.ColumnSpan="2" 
+        <StackPanel Grid.Row="5" Grid.ColumnSpan="2" 
                     Orientation="Horizontal" 
                     HorizontalAlignment="Right" 
                     Margin="0,20,0,0">
-            <Button x:Name="SaveButton" 
-                    Content="Сохранить" 
+            <Button Content="Сохранить" 
                     Width="100" Height="30" 
                     Margin="0,0,10,0"
                     Background="#4CAF50" 
                     Foreground="White"
                     FontWeight="Bold"
                     Cursor="Hand"
-                    Command="{Binding DataContext.UpdateGreenhouseRowCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
+                    Command="{Binding DataContext.UpdateSensorRowCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
 
-            <Button x:Name="CancelButton" 
-                    Content="Отмена" 
+            <Button Content="Отмена" 
                     Width="100" Height="30"
                     Background="#F44336" 
                     Foreground="White"

@@ -1,5 +1,6 @@
 ﻿using AIS.Models;
 using AIS.Services;
+using AIS.Structs;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace AIS.ViewModels
     {
         public IRelayCommand<Greenhouse> ShowSensorsTableCommand { get; }
         private MonitoringModuleModel _monitoringModuleModel;
-        private DispatcherTimer _refreshTimer;
+        private DispatcherTimer _refreshTimer = new DispatcherTimer();
         public MonitoringModuleViewModel(MonitoringModuleModel model)
         {
             _monitoringModuleModel = model;
@@ -28,7 +29,6 @@ namespace AIS.ViewModels
 
         private void InitializeDispatcherTimer()
         {
-            _refreshTimer = new DispatcherTimer();
             _refreshTimer.Interval = TimeSpan.FromSeconds(0.5);
             _refreshTimer.Tick += async (sender, e) => await RefreshDataAsync();
             _refreshTimer.Start();
@@ -69,8 +69,9 @@ namespace AIS.ViewModels
             }
         }
 
-        private void ShowSensorsTable(Greenhouse greenhouse)
+        private void ShowSensorsTable(Greenhouse? greenhouse)
         {
+            if (greenhouse == null) return;
             if (greenhouse.ToggleButtonState) greenhouse.SensorsTableVisibility = System.Windows.Visibility.Visible;
             else greenhouse.SensorsTableVisibility = System.Windows.Visibility.Collapsed;
         }

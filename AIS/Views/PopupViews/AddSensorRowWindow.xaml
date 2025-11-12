@@ -1,18 +1,16 @@
-﻿<Window x:Class="AIS.Views.UpdateSensorRowWindow"
+﻿<Window x:Class="AIS.Views.AddSensorRowWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AIS.Views"
         mc:Ignorable="d"
-        Title="Редактирование датчика" MinHeight="450" MaxHeight="450" MaxWidth="400" MinWidth="400"
+        Title="Добавление датчика" MinHeight="450" MaxHeight="450" MaxWidth="400" MinWidth="400"
         WindowStartupLocation="CenterScreen">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <!-- 0: Заголовок -->
-            <RowDefinition Height="Auto"/>
-            <!-- 1: ID датчика -->
             <RowDefinition Height="Auto"/>
             <!-- 2: Тип датчика -->
             <RowDefinition Height="Auto"/>
@@ -30,37 +28,28 @@
 
         <!-- Заголовок -->
         <TextBlock Grid.Row="0" Grid.ColumnSpan="2" 
-                   Text="Редактирование данных датчика" 
+                   Text="Добавление данных датчика" 
                    FontSize="20" FontWeight="Bold" 
                    HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
-        <!-- ID датчика -->
-        <TextBlock Grid.Row="1" Grid.Column="0" 
-                   Text="ID датчика:" 
-                   VerticalAlignment="Center" Margin="0,0,10,10"/>
-        <TextBox Grid.Row="1" Grid.Column="1" 
-                 Text="{Binding SensorID, Mode=OneWay}"
-                 IsReadOnly="True"
-                 Background="#F0F0F0"
-                 Margin="0,0,0,10" Height="25"/>
-
         <!-- Тип датчика -->
-        <TextBlock Grid.Row="2" Grid.Column="0" 
+        <TextBlock Grid.Row="1" Grid.Column="0" 
                    Text="Тип датчика:" 
                    VerticalAlignment="Center" Margin="0,0,10,10"/>
-        <TextBox Grid.Row="2" Grid.Column="1" 
+        <TextBox Grid.Row="1" Grid.Column="1" 
                  Text="{Binding SensorType}"
                  Margin="0,0,0,10" Height="25"
                  MaxLength="100"/>
 
-        <!-- ID теплицы -->
-        <TextBlock Grid.Row="3" Grid.Column="0" 
-                   Text="ID теплицы:" 
-                   VerticalAlignment="Center" Margin="0,0,10,10"/>
-        <TextBox Grid.Row="3" Grid.Column="1" 
-                 Text="{Binding GreenhouseID}"
-                 Margin="0,0,0,10" Height="25"
-                 MaxLength="200"/>
+        <!-- Теплица -->
+        <TextBlock Grid.Row="2" Grid.Column="0" 
+                   Text="Теплица:" 
+                   VerticalAlignment="Top" Margin="0,10,10,10"/>
+        <ComboBox Grid.Row="2" Grid.Column="1" 
+                  x:Name="ComboBox"
+                  ItemsSource="{Binding Greenhouses}"
+                  Margin="0,0,0,10"
+                  SelectedItem="{Binding SelectedGreenhouse}"/>
 
         <!-- Кнопки -->
         <StackPanel Grid.Row="5" Grid.ColumnSpan="2" 
@@ -74,7 +63,7 @@
                     Foreground="White"
                     FontWeight="Bold"
                     Cursor="Hand"
-                    Command="{Binding DataContext.UpdateSensorRowCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
+                    Command="{Binding DataContext.AddSensorRowCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
 
             <Button Content="Отмена" 
                     Width="100" Height="30"

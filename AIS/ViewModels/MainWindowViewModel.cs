@@ -1,4 +1,5 @@
 ﻿using AIS.Models;
+using AIS.Structs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +14,7 @@ namespace AIS.ViewModels
     public class MainWindowViewModel : BaseViewModel
     {
         private MainWindowModel _mainWindowModel;
-        private Module _selectedModule;
+        private Module? _selectedModule;
         public MainWindowViewModel()
         {
             _mainWindowModel = new MainWindowModel();
@@ -29,7 +30,7 @@ namespace AIS.ViewModels
             }
         }
 
-        public Module SelectedModule
+        public Module? SelectedModule
         {
             get => _selectedModule;
             set

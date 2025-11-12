@@ -1,5 +1,7 @@
 ﻿using AIS.Models;
 using AIS.Services;
+using AIS.Structs;
+using AIS.ViewModels.PopupViewModels;
 using AIS.Views;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -11,25 +13,26 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace AIS.ViewModels
 {
     public class CRUDViewModel: BaseViewModel
     {
         private CRUDModel _CRUDmodel;
+        public IAsyncRelayCommand AddCommand { get; set; }
         public IAsyncRelayCommand DeleteRowGreenhouseCommand { get; set; }
         public IRelayCommand UpdateRowGreenhouseCommand { get; set; }
         public IAsyncRelayCommand DeleteRowSensorCommand { get; set; }
-
         public IRelayCommand UpdateRowSensorCommand { get; set; }
-
         public IAsyncRelayCommand DeleteRowExecutionDeviceCommand { get; set; }
-
         public IRelayCommand UpdateRowExecutionDeviceCommand { get; set; }
+
 
         public CRUDViewModel(CRUDModel model)
         {
             _CRUDmodel = model;
+            AddCommand = new AsyncRelayCommand(Add);
             DeleteRowGreenhouseCommand = new AsyncRelayCommand<int>(DeleteRowGreenhouse);
             UpdateRowGreenhouseCommand = new RelayCommand<Greenhouse>(UpdateRowGreenhouse);
             DeleteRowSensorCommand = new AsyncRelayCommand<int>(DeleteRowSensor);
@@ -47,7 +50,47 @@ namespace AIS.ViewModels
             return new CRUDViewModel(model);
         }
 
-        //----------Greenhouses----------
+        #region Add mapper
+        private int selectedTableIndex;
+        public int SelectedTableIndex { get => selectedTableIndex; set => SetProperty(ref selectedTableIndex, value); }
+
+        private async Task Add()
+        {
+            switch (SelectedTableIndex)
+            {
+                case 0: // Теплицы
+                    AddGreenhouse();
+                    break;
+                case 1: // Датчики
+                    AddSensor();
+                    break;
+                case 2: // Исполнительные устройства
+                    AddExecutionDevice();
+                    break;
+            }
+        }
+
+        private void AddExecutionDevice()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AddSensor()
+        {
+            var updateWindow = new AddSensorRowWindow();
+            var updateWindowViewModel = updateWindow.DataContext;
+            updateWindow.ShowDialog();
+        }
+
+        private async Task AddGreenhouse()
+        {
+            var updateWindow = new AddGreenhouseRowWindow();
+            var updateWindowViewModel = updateWindow.DataContext;
+            updateWindow.ShowDialog();
+        }
+        #endregion
+
+        #region Greenhouses
         public ObservableCollection<Greenhouse> Greenhouses
         {
             get => _CRUDmodel.Greenhouses;
@@ -74,17 +117,16 @@ namespace AIS.ViewModels
             }
         }
 
-        private void UpdateRowGreenhouse(Greenhouse greenhouse)
+        private void UpdateRowGreenhouse(Greenhouse? greenhouse)
         {
-            var updateWindow = new UpdateGreenhouseRowWindow();
-            var updateWindowViewModel = new UpdateGreenhouseRowWindowViewmodel(greenhouse, updateWindow);
-            updateWindow.DataContext = updateWindowViewModel;
+            if (greenhouse == null) return;
+            var updateWindow = new UpdateGreenhouseRowWindow(greenhouse);
+            var updateWindowViewModel = updateWindow.DataContext;
             updateWindow.ShowDialog();
         }
-        //----------Greenhouses----------
+        #endregion
 
-
-        //----------Sensors----------
+        #region Sensors
         public ObservableCollection<Sensor> Sensors
         {
             get => _CRUDmodel.Sensors;
@@ -94,7 +136,29 @@ namespace AIS.ViewModels
                 OnPropertyChanged();
             }
         }
+        public async Task ReadSensors()
+        {
+            await _CRUDmodel.UpdateSensors();
+            Sensors = _CRUDmodel.Sensors;
+            OnPropertyChanged();
+        }
 
+        private async Task DeleteRowSensor(int sensorId)
+        {
+            bool deleteResult = await _CRUDmodel.DeleteRowSensor(sensorId);
+            if (deleteResult)
+            {
+                await ReadSensors();
+            }
+        }
+
+        private void UpdateRowSensor(Sensor? sensor)
+        {
+            if (sensor == null) return;
+            var updateWindow = new UpdateSensorRowWindow(sensor);
+            var updateWindowViewModel = updateWindow.DataContext;
+            updateWindow.ShowDialog();
+        }
 
         public async Task UpdateSensors()
         {
@@ -102,29 +166,10 @@ namespace AIS.ViewModels
             Sensors = _CRUDmodel.Sensors;
             OnPropertyChanged();
         }
-
-       
-
-        private async Task DeleteRowSensor(int sensorId)
-        {
-            bool deleteResult = await _CRUDmodel.DeleteRowSensor(sensorId);
-            if (deleteResult)
-            {
-                await UpdateSensors();
-            }
-        }
-
-        private void UpdateRowSensor(Sensor sensor)
-        {
-            var updateWindow = new UpdateSensorRowWindow();
-            var updateWindowViewModel = new UpdateSensorRowWindowViewmodel(sensor, updateWindow);
-            updateWindow.DataContext = updateWindowViewModel;
-            updateWindow.ShowDialog();
-        }
-        //----------Sensors----------
+        #endregion
 
 
-        //----------ExecutionDevices----------
+        #region ExecutionDevices
         public ObservableCollection<ExecutionDevice> ExecutionDevices
         {
             get => _CRUDmodel.ExecutionDevices;
@@ -154,10 +199,10 @@ namespace AIS.ViewModels
             }
         }
 
-        private void UpdateRowExecutionDevice(ExecutionDevice sensor)
+        private void UpdateRowExecutionDevice(ExecutionDevice? sensor)
         {
             //
         }
-        //----------ExecutionDevices----------
+        #endregion
     }
 }

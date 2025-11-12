@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AIS.Structs;
+using AIS.ViewModels.PopupViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,16 @@ namespace AIS.Views
     /// </summary>
     public partial class UpdateSensorRowWindow : Window
     {
-        public UpdateSensorRowWindow()
+        public UpdateSensorRowWindow(Sensor sensor)
         {
             InitializeComponent();
+            InitializeViewModelAsync(sensor);
+        }
+
+        private async Task InitializeViewModelAsync(Sensor sensor)
+        {
+            var viewModel = await UpdateSensorRowWindowViewmodel.CreateAsync(this, sensor);
+            DataContext = viewModel;
         }
     }
 }
