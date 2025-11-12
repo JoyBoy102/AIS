@@ -10,6 +10,7 @@ namespace AIS.Services
     {
         public static event Action? GreenhouseRowUpdated;
         public static event Action? SensorRowUpdated;
+        public static event Action? ExecutionDeviceRowUpdated;
 
         public static void RaiseGreenhouseRowUpdated()
         {
