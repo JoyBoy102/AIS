@@ -57,7 +57,21 @@ namespace AIS.Models
         private async Task InitializeAsyncExecutionDevices()
         {
             List<ExecutionDevice> executionDevices = await _apiService.GetExecutionDevicesTableAsync();
-            ExecutionDevices = new ObservableCollection<ExecutionDevice>(executionDevices);
+            List<Greenhouse> greenhouses = await _apiService.GetGreenhousesTableAsync();
+            List<ExecutionDevice> joinedData = executionDevices.Join(
+                                    greenhouses,
+                                    device => device.GreenhouseID,
+                                    greenhouse => greenhouse.ID,
+                                    (device, greenhouse) => new ExecutionDevice
+                                    {
+                                        ID = device.ID,
+                                        GreenhouseID = greenhouse.ID,
+                                        SensorID = device.SensorID,
+                                        Type = device.Type,
+                                        GreenhouseName = greenhouse.Name
+                                    }
+                                ).ToList();
+            ExecutionDevices = new ObservableCollection<ExecutionDevice>(joinedData);
         }
         #endregion
 

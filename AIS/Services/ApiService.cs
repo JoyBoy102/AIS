@@ -1,4 +1,5 @@
 ﻿using AIS.Structs;
+using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -12,6 +13,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
 
 namespace AIS.Services
 {
@@ -30,6 +32,8 @@ namespace AIS.Services
         private const string _getSensorsEndpoint = "/sensors/";
         private const string _getExecutionDevicesEndpoint = "/execution_devices/read";
         private const string _getAgronomicRulesEndpoint = "/agronomic_rules/get_agronomic_rules";
+        private const string _createExecutionDeviceRowEndpoint = "/execution_devices/create";
+        private const string _getReportsEndpoint = "/reports/";
 
         public async Task<List<SensorReading>> GetGreenhousesMonitoringInfoAsync()
         {
@@ -397,39 +401,6 @@ namespace AIS.Services
             }
         }
 
-        public async Task<bool> UpdateExecutionDevicesRow(int deviceID, int greenhouseID, int sensorID, string type)
-        {
-            try
-            {
-                var executionDeviceData = new
-                {
-                    greenhouse_id = greenhouseID,
-                    sensorID = sensorID,
-                    type = type
-                };
-                var json = JsonSerializer.Serialize(executionDeviceData);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PutAsync($"/execution_devices/update/{deviceID}", content);
-                if (!response.IsSuccessStatusCode)
-                {
-                    MessageBox.Show("Не удалось редактировать запись",
-                                      "Ошибка",
-                                      MessageBoxButton.OK,
-                                      MessageBoxImage.Error);
-                    return false;
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при изменении записи: {ex.Message}",
-                              "Ошибка",
-                              MessageBoxButton.OK,
-                              MessageBoxImage.Error);
-                return false;
-            }
-        }
-
         public async Task<bool> DeleteExecutionDeviceByIdFromDB(int deviceID)
         {
             try
@@ -454,6 +425,71 @@ namespace AIS.Services
                 return false;
             }
         }
+
+        public async Task<bool> AddExecutionDeviceRow(int greenhouseID, int sensorID, string type)
+        {
+            try
+            {
+                var ExecutionDeviceData = new
+                {
+                    greenhouse_id = greenhouseID,
+                    sensor_id = sensorID,
+                    type = type
+                };
+                var json = JsonSerializer.Serialize(ExecutionDeviceData);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync(_createExecutionDeviceRowEndpoint, content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Не удалось создать запись",
+                                      "Ошибка",
+                                      MessageBoxButton.OK,
+                                      MessageBoxImage.Error);
+                    return false;
+                }
+                return true;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"Ошибка при создании записи: {ex.Message}",
+                              "Ошибка",
+                              MessageBoxButton.OK,
+                              MessageBoxImage.Error);
+                return false;
+            }
+        }
         #endregion
+
+        #region Reports
+        public async Task<List<Report>> GetReportTableAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync(_getReportsEndpoint);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    var reportsInfo = JsonSerializer.Deserialize<List<Report>>(jsonString);
+                    return reportsInfo;
+                }
+                else
+                {
+                    MessageBox.Show(
+                        $"Эндпоинт {_getReportsEndpoint} вернул код {(int)response.StatusCode}",
+                        "Ошибка получения отчетов",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                        );
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return new List<Report>();
+            }
+        }
+        #endregion
+
     }
 }

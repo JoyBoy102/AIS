@@ -17,5 +17,7 @@ namespace AIS.Structs
         public int SensorID { get; set; }
         [JsonPropertyName("type")]
         public string Type { get; set; }
+
+        public string GreenhouseName { get; set; }
     }
 }

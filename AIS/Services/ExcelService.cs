@@ -27,10 +27,9 @@ namespace AIS.Services
                     worksheet.Cell(1, 3).Value = "Температура";
                     worksheet.Cell(1, 4).Value = "CO2";
                     worksheet.Cell(1, 5).Value = "Влажность";
-                    worksheet.Cell(1, 6).Value = "Команды";
 
                     // Стиль для заголовков
-                    var headerRange = worksheet.Range(1, 1, 1, 6);
+                    var headerRange = worksheet.Range(1, 1, 1, 5);
                     headerRange.Style.Fill.BackgroundColor = XLColor.LightGray;
                     headerRange.Style.Font.Bold = true;
 
@@ -39,15 +38,10 @@ namespace AIS.Services
                     foreach (var report in reports)
                     {
                         worksheet.Cell(row, 1).Value = report.IdGreenHouse;
-                        worksheet.Cell(row, 2).Value = report.Time;
-                        worksheet.Cell(row, 3).Value = report.Temperature;
-                        worksheet.Cell(row, 4).Value = report.CO2;
-                        worksheet.Cell(row, 5).Value = report.Humidity;
-
-                        // Команды как строка
-                        var commandsText = string.Join("; ",
-                            report.Commands?.Select(c => $"{c.Value}") ?? Array.Empty<string>());
-                        worksheet.Cell(row, 6).Value = commandsText;
+                        worksheet.Cell(row, 2).Value = report.ReportTime;
+                        worksheet.Cell(row, 3).Value = report.TemperatureValue;
+                        worksheet.Cell(row, 4).Value = report.CO2Value;
+                        worksheet.Cell(row, 5).Value = report.HumidityValue;
 
                         row++;
                     }

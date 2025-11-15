@@ -1,5 +1,4 @@
-﻿using AIS.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,20 +16,13 @@ using System.Windows.Shapes;
 namespace AIS.Views
 {
     /// <summary>
-    /// Логика взаимодействия для MonitoringModuleView.xaml
+    /// Логика взаимодействия для WeedDetectionModule.xaml
     /// </summary>
-    public partial class ReportModuleView : UserControl
+    public partial class WeedDetectionModule : UserControl
     {
-        public ReportModuleView()
+        public WeedDetectionModule()
         {
             InitializeComponent();
-            InitializeViewModelAsync();
-        }
-
-        private async Task InitializeViewModelAsync()
-        {
-            var viewModel = await ReportModuleViewModel.CreateAsync();
-            DataContext = viewModel;
         }
     }
 }

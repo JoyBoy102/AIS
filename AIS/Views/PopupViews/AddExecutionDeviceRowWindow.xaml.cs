@@ -28,7 +28,7 @@ namespace AIS.Views.PopupViews
 
         private async Task InitializeViewModelAsync()
         {
-            var viewModel = await AddExecutionDeviceRowWindowViewmodel.CreateAsync();
+            var viewModel = await AddExecutionDeviceRowWindowViewmodel.CreateAsync(this);
             DataContext = viewModel;
         }
     }

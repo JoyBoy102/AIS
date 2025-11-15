@@ -1,6 +1,8 @@
 ﻿using AIS.Services;
 using AIS.Structs;
 using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +19,12 @@ namespace AIS.Models.PopupModels
         public ObservableCollection<Greenhouse> Greenhouses;
         public Greenhouse SelectedGreenhouse;
         public Sensor SelectedSensor;
+        private Dictionary<string, string> DeviceTypeDict = new Dictionary<string, string>
+        {
+            { "co2", "co2_injector" },
+            { "temperature", "ventilation" },
+            { "humidity", "humidifier" }
+        };
 
         public AddExecutionDeviceRowModel()
         {
@@ -52,5 +60,19 @@ namespace AIS.Models.PopupModels
             }
         }
 
+        public async Task<bool> AddExecutionDeviceRow()
+        {
+            var AddResult = await _apiService.AddExecutionDeviceRow(SelectedGreenhouse.ID, SelectedSensor.ID, DeviceTypeDict[SelectedSensor.Type]);
+            return AddResult;
+        }
+
+        public string GetCurrentDeviceType()
+        {
+            if (SelectedSensor != null)
+            {
+                return SelectedSensor.Type;
+            }
+            else return "";
+        }
     }
 }

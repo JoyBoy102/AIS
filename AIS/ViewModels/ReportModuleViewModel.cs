@@ -22,13 +22,24 @@ namespace AIS.ViewModels
         public ReportModuleViewModel()
         {
             _excelService = new ExcelService();
-            _reportModuleModel = new ReportModuleModel();
+        }
+
+        public static async Task<ReportModuleViewModel> CreateAsync()
+        {
+            var instance = new ReportModuleViewModel();
+            await instance.InitializeAsync();
+            return instance;
+        }
+
+        private async Task InitializeAsync()
+        {
+            _reportModuleModel = await ReportModuleModel.CreateAsync();
         }
 
         public ObservableCollection<Report> Reports
         {
-            get => _reportModuleModel.reports;
-            set => SetProperty(ref _reportModuleModel.reports, value);
+            get => _reportModuleModel.Reports;
+            set => SetProperty(ref _reportModuleModel.Reports, value);
         }
 
         public AsyncRelayCommand GetExcelAsyncCommand => new AsyncRelayCommand(GetExcelAsync);

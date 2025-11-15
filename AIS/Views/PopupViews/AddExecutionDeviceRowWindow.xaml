@@ -81,7 +81,8 @@
                 Background="#4CAF50" 
                 Foreground="White"
                 FontWeight="Bold"
-                Cursor="Hand"/>
+                Cursor="Hand"
+                Command="{Binding DataContext.AddExecutionDeviceRowCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
 
             <Button x:Name="CancelButton" 
                 Content="Отмена" 
@@ -89,7 +90,8 @@
                 Background="#F44336" 
                 Foreground="White"
                 FontWeight="Bold"
-                Cursor="Hand"/>
+                Cursor="Hand"
+                Command="{Binding DataContext.CloseWindowCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
         </StackPanel>
     </Grid>
 </Window>

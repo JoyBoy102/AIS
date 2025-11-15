@@ -8,10 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800"
              xmlns:vm="clr-namespace:AIS.ViewModels" 
              xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
-             xmlns:conv="clr-namespace:AIS.Converters">
-    <UserControl.DataContext>
-        <vm:ReportModuleViewModel />
-    </UserControl.DataContext>
+             xmlns:conv="clr-namespace:AIS.Converters" d:DataContext="{d:DesignInstance Type=vm:ReportModuleViewModel}">
     <UserControl.Resources>
         <conv:CollectionToStringConverter x:Key="CollectionToStringConverter"/>
     </UserControl.Resources>
@@ -24,15 +21,15 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding ID}"></DataGridTextColumn>
                 <DataGridTextColumn Header="IdGreenHouse" Binding="{Binding IdGreenHouse}"/>
-                <DataGridTextColumn Header="co2_value" Binding="{Binding CO2Val}"/>
-                <DataGridTextColumn Header="humidity_value" Binding="{Binding HumidityVal}"/>
-                <DataGridTextColumn Header="temperature_value" Binding="{Binding TemperatureVal}"/>
-                <DataGridTextColumn Header="co2_pred" Binding="{Binding CO2Predict}"/>
-                <DataGridTextColumn Header="humidity_pred" Binding="{Binding HumidityPredict}"/>
-                <DataGridTextColumn Header="temperature_pred" Binding="{Binding TemperaturePredict}"/>
-                <DataGridTextColumn Header="command_co2" Binding="{Binding CO2Command}"/>
-                <DataGridTextColumn Header="command_humidity" Binding="{Binding HumidityCommand}"/>
-                <DataGridTextColumn Header="command_temperature" Binding="{Binding TemperatureCommand}"/>
+                <DataGridTextColumn Header="co2_value" Binding="{Binding CO2Value}"/>
+                <DataGridTextColumn Header="humidity_value" Binding="{Binding HumidityValue}"/>
+                <DataGridTextColumn Header="temperature_value" Binding="{Binding TemperatureValue}"/>
+                <DataGridTextColumn Header="co2_pred" Binding="{Binding CO2Pred}"/>
+                <DataGridTextColumn Header="humidity_pred" Binding="{Binding HumidityPred}"/>
+                <DataGridTextColumn Header="temperature_pred" Binding="{Binding TemperaturePred}"/>
+                <DataGridTextColumn Header="command_co2" Binding="{Binding commandCO2}"/>
+                <DataGridTextColumn Header="command_humidity" Binding="{Binding commandHumidity}"/>
+                <DataGridTextColumn Header="command_temperature" Binding="{Binding commandTemperature}"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button Grid.Row="1" Command="{Binding GetExcelAsyncCommand}">

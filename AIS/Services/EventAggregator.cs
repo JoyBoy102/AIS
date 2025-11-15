@@ -21,6 +21,11 @@ namespace AIS.Services
             SensorRowUpdated?.Invoke();
         }
 
+        public static void RaiseExecutionDeviceRowUpdated()
+        {
+            ExecutionDeviceRowUpdated?.Invoke();
+        }
+
     }
 
 }

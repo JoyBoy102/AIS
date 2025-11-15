@@ -1,9 +1,11 @@
-﻿using AIS.Structs;
+﻿using AIS.Services;
+using AIS.Structs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,44 +14,28 @@ namespace AIS.Models
 {
     public class ReportModuleModel
     {
-        public ObservableCollection<Report> reports;
+        public ObservableCollection<Report> Reports;
+
+        private ApiService _apiService;
+
+        public ObservableCollection<Greenhouse> greenhouses { get; internal set; }
 
         public ReportModuleModel()
         {
-            this.reports = new ObservableCollection<Report> { 
-                new Report {
-                    IdGreenHouse = 20,
-                    Temperature = "29",
-                    CO2 = "400",
-                    Humidity = "40%",
-                    Time = "2025-10-27 18:38",
-                    Commands = new ObservableCollection<Command>{ new Command { Value = "213123" },
-                                                    new Command { Value = "213123" },
-                                                    new Command { Value = "213123" } }
-                },
-                new Report {
-                    IdGreenHouse = 20,
-                    Temperature = "29",
-                    CO2 = "400",
-                    Humidity = "40%",
-                    Time = "2025-10-27 18:38",
-                    Commands = new ObservableCollection<Command>{ new Command { Value = "213123" },
-                                                    new Command { Value = "213123" },
-                                                    new Command { Value = "213123" } }
-                },
-                new Report {
-                    IdGreenHouse = 20,
-                    Temperature = "29",
-                    CO2 = "400",
-                    Humidity = "40%",
-                    Time = "2025-10-27 18:38",
-                    Commands = new ObservableCollection<Command>{ new Command { Value = "213123" },
-                                                    new Command { Value = "213123" },
-                                                    new Command { Value = "213123" } }
-                },
-            };
+            _apiService = new ApiService(new HttpClient());
         }
 
-        public ObservableCollection<Greenhouse> greenhouses { get; internal set; }
+        public static async Task<ReportModuleModel> CreateAsync()
+        {
+            var instance = new ReportModuleModel();
+            await instance.InitializeAsync();
+            return instance;
+        }
+
+        private async Task InitializeAsync()
+        {
+            var ReportList = await _apiService.GetReportTableAsync();
+            Reports = new ObservableCollection<Report>(ReportList);
+        }
     }
 }
