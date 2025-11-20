@@ -91,6 +91,7 @@ namespace AIS.ViewModels.PopupViewModels
            var updateResult = await _addGreenhouseRowWindowModel.AddGreenhouseRow();
            if (updateResult)
                EventAggregator.RaiseGreenhouseRowUpdated();
+            _window.Close();
         }
 
         private async Task CloseWindow()

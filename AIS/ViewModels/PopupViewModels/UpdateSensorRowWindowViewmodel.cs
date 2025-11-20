@@ -74,6 +74,7 @@ namespace AIS.ViewModels.PopupViewModels
             var updateResult = await _updateSensorRowWindowModel.UpdateSensorRow();
             if (updateResult)
                 EventAggregator.RaiseSensorRowUpdated();
+            _window.Close();
         }
 
         private async Task CloseWindow()
