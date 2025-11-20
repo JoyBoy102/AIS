@@ -73,6 +73,7 @@ namespace AIS.ViewModels.PopupViewModels
             {
                 EventAggregator.RaiseExecutionDeviceRowUpdated();
             }
+            _window.Close();
         }
 
         private async Task CloseWindow()
