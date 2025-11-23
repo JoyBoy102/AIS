@@ -16,32 +16,33 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Border Padding="15" BorderThickness="1" CornerRadius="16" BorderBrush="Black" Margin="5">
+        <Border Padding="15" BorderThickness="1" CornerRadius="16" BorderBrush="Black">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.333*"></ColumnDefinition>
                     <ColumnDefinition Width="0.333*"></ColumnDefinition>
                     <ColumnDefinition Width="0.333*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Border BorderThickness="1" CornerRadius="8" Padding="15,8" Margin="5,0" Grid.Column="0">
+                <Border BorderThickness="1" CornerRadius="8" Grid.Column="0">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="Всего сорняков:" FontWeight="SemiBold" Foreground="#2E7D32"/>
-                        <TextBlock FontSize="16" FontWeight="Bold" 
-                                       Foreground="#1B5E20" Margin="8,0,0,0"/>
+                        <TextBlock Text="Всего сорняков:" FontWeight="SemiBold" Foreground="#2E7D32" FontSize="14"/>
+                        <TextBlock FontSize="14" FontWeight="Bold" 
+                                   Foreground="#2E7D32" Margin="8,0,0,0"
+                                   Text="{Binding TotalWeedsCount}"/>
                     </StackPanel>
                 </Border>
-                <Border BorderThickness="1" CornerRadius="8" Padding="15,8" Margin="5,0" Grid.Column="1">
+                <Border BorderThickness="1" CornerRadius="8" Grid.Column="1">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="Критические зоны:" FontWeight="SemiBold" Foreground="#C62828"/>
-                        <TextBlock FontSize="16" FontWeight="Bold" 
-                       Foreground="#1B5E20" Margin="8,0,0,0"/>
+                        <TextBlock Text="Критические зоны:" FontWeight="SemiBold" Foreground="#C62828" FontSize="14"/>
+                        <TextBlock FontSize="14" FontWeight="Bold" 
+                       Foreground="#C62828" Margin="8,0,0,0" Text="{Binding CriticalZonesCount}"/>
                     </StackPanel>
                 </Border>
-                <Border BorderThickness="1" CornerRadius="8" Padding="15,8" Margin="5,0" Grid.Column="2">
+                <Border BorderThickness="1" CornerRadius="8" Grid.Column="2">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="Уровень засоренности:" FontWeight="SemiBold" Foreground="#1565C0"/>
-                        <TextBlock FontSize="16" FontWeight="Bold" 
-                       Foreground="#1B5E20" Margin="8,0,0,0"/>
+                        <TextBlock Text="Уровень засоренности:" FontWeight="SemiBold" Foreground="#1565C0" FontSize="14"/>
+                        <TextBlock FontSize="14" FontWeight="Bold" 
+                       Foreground="#1565C0" Margin="8,0,0,0" Text="{Binding WeedLevel}"/>
                     </StackPanel>
                 </Border>
             </Grid>
