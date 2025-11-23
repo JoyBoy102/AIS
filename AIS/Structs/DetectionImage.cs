@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIS.Models
+namespace AIS.Structs
 {
     public class DetectionImage
     {

@@ -1,4 +1,4 @@
-﻿using AIS.Models;
+﻿using AIS.Structs;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
