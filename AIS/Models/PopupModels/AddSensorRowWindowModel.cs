@@ -33,5 +33,7 @@ namespace AIS.Models.PopupModels
             var updateResult = await _apiService.AddSensorRow(SensorType, SelectedGreenhouse.ID);
             return updateResult;
         }
+
+
     }
 }

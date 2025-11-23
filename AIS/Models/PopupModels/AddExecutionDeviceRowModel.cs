@@ -31,16 +31,16 @@ namespace AIS.Models.PopupModels
 
         }
 
-        public static async Task<AddExecutionDeviceRowModel> CreateAsync(ApiService apiService)
+        public static async Task<AddExecutionDeviceRowModel> CreateAsync()
         {
             var instance = new AddExecutionDeviceRowModel();
-            await instance.InitializeAsync(apiService);
+            await instance.InitializeAsync();
             return instance;
         }
 
-        private async Task InitializeAsync(ApiService apiService)
+        private async Task InitializeAsync()
         {
-            _apiService = apiService;
+            _apiService = new ApiService(new System.Net.Http.HttpClient());
             Greenhouses = new ObservableCollection<Greenhouse>();
             var devicesList = await _apiService.GetExecutionDevicesTableAsync();
             var sensorsList = await _apiService.GetSensorsTableAsync();

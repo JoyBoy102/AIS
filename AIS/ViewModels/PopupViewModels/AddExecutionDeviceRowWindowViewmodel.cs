@@ -33,7 +33,7 @@ namespace AIS.ViewModels.PopupViewModels
 
         private async Task InitializeAsync(Window window)
         {
-            _model = await AddExecutionDeviceRowModel.CreateAsync(new ApiService(new System.Net.Http.HttpClient()));
+            _model = await AddExecutionDeviceRowModel.CreateAsync();
             _window = window;
             AddExecutionDeviceRowCommand = new AsyncRelayCommand(AddExecutionDeviceRow);
             CloseWindowCommand = new AsyncRelayCommand(CloseWindow);

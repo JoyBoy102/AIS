@@ -22,7 +22,8 @@ namespace AIS.Models
                     ImagePath = "/Images/weed1.jpg",
                     GreenhouseName = "Теплица №1",
                     DetectionTime = "12.11.2024 14:30",
-                    Confidence = "92% уверенности"
+                    Confidence = "92% уверенности",
+                    IsWeed = true
                 },
                 new DetectionImage
                 {
@@ -30,7 +31,8 @@ namespace AIS.Models
                     ImagePath = "/Images/weed2.jpg",
                     GreenhouseName = "Теплица №2",
                     DetectionTime = "12.11.2024 14:25",
-                    Confidence = "85% уверенности"
+                    Confidence = "85% уверенности",
+                    IsWeed = true
                 }
             };
         }
