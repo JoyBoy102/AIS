@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="AIS.Models.CRUDModel">
-    <Position X="4.5" Y="10" Width="3.25" />
+    <Position X="5" Y="14.75" Width="3.25" />
     <TypeIdentifier>
       <HashCode>EAAAAAIAAAAEAAAAAAAAAYAAAACAAEADAQhAAoAAAIA=</HashCode>
       <FileName>Models\CRUDModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.ViewModels.CRUDViewModel">
-    <Position X="4.5" Y="3" Width="3.25" />
+    <Position X="5" Y="7.75" Width="3.25" />
     <TypeIdentifier>
       <HashCode>ACIAgAJAAAAEQIAiAAAAAYgAAIiACgABAQgAAoAGEAA=</HashCode>
       <FileName>ViewModels\CRUDViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.ViewModels.BaseViewModel">
-    <Position X="8.5" Y="0.5" Width="1.5" />
+    <Position X="9" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAgAEAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ViewModels\BaseViewModel.cs</FileName>
@@ -23,7 +23,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="AIS.Views.CRUDView">
-    <Position X="4.5" Y="15" Width="3.25" />
+    <Position X="5" Y="19.75" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\CRUDView.xaml.cs</FileName>
@@ -31,21 +31,21 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="AIS.Models.MainWindowModel">
-    <Position X="1" Y="5.75" Width="2.25" />
+    <Position X="1.5" Y="10.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\MainWindowModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.ViewModels.MainWindowViewModel">
-    <Position X="1" Y="3" Width="2.25" />
+    <Position X="1.5" Y="7.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAgACAAAAAgAAAA=</HashCode>
       <FileName>ViewModels\MainWindowViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.MainWindow">
-    <Position X="1" Y="7.75" Width="2.25" />
+    <Position X="1.5" Y="12.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\MainWindowView.xaml.cs</FileName>
@@ -53,105 +53,105 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="AIS.Models.MonitoringModuleModel">
-    <Position X="8.5" Y="10" Width="3" />
+    <Position X="9" Y="14.75" Width="3" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAABABAAAAAAAAAAAAEIAAAAAQBAAIAAAAQ=</HashCode>
       <FileName>Models\MonitoringModuleModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.Models.ReportModuleModel">
-    <Position X="12" Y="10" Width="2.75" />
+    <Position X="12.5" Y="14.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>MAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAABAAIAAAAA=</HashCode>
       <FileName>Models\ReportModuleModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.Models.PopupModels.AddExecutionDeviceRowModel">
-    <Position X="15.25" Y="10" Width="2.75" />
+    <Position X="15.75" Y="14.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>GAAAAAAAAAAAAAAAAAAAAAAAAAQAABABEABAAIEAAAA=</HashCode>
       <FileName>Models\PopupModels\AddExecutionDeviceRowModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.Models.PopupModels.AddGreenhouseRowWindowModel">
-    <Position X="18.5" Y="10" Width="2.75" />
+    <Position X="19" Y="14.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAhAAAAwAIAAAQAAAAAAAAgAABAAIAAAAA=</HashCode>
       <FileName>Models\PopupModels\AddGreenhouseRowWindowModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.Models.PopupModels.AddSensorRowWindowModel">
-    <Position X="21.75" Y="10" Width="2.25" />
+    <Position X="22.25" Y="14.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAEAAAAAAQAAAAAAAAAAAABEABAAIAAAAA=</HashCode>
       <FileName>Models\PopupModels\AddSensorRowWindowModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.Models.PopupModels.UpdateGreenhouseRowWindowModel">
-    <Position X="24.5" Y="10" Width="2.75" />
+    <Position X="25" Y="14.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAAAAhAAAAQAIAAAQAAAAAAAAAAABBAIAAAAA=</HashCode>
       <FileName>Models\PopupModels\UpdateGreenhouseRowWindowModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.Models.PopupModels.UpdateSensorRowWindowModel">
-    <Position X="27.75" Y="10" Width="3.5" />
+    <Position X="28.25" Y="14.75" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAMAAAAQAIAAAAAAAAAAAABEABAAIAAAAA=</HashCode>
       <FileName>Models\PopupModels\UpdateSensorRowWindowModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.ViewModels.MonitoringModuleViewModel">
-    <Position X="8.5" Y="3" Width="3" />
+    <Position X="9" Y="7.75" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAEAAIAAAABAAAAAEAAAAAEAAQAACIAAAAQ=</HashCode>
       <FileName>ViewModels\MonitoringModuleViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.ViewModels.ReportModuleViewModel">
-    <Position X="12" Y="3" Width="2.5" />
+    <Position X="12.5" Y="7.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>MAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAQAAAIIAgAAA=</HashCode>
       <FileName>ViewModels\ReportModuleViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.ViewModels.PopupViewModels.AddExecutionDeviceRowWindowViewmodel">
-    <Position X="15" Y="3" Width="3.25" />
+    <Position X="15.5" Y="7.75" Width="3.25" />
     <TypeIdentifier>
       <HashCode>GAAAAAAAAgAAAAAAAgAAAAAAIAQAAAABEAAAAIBAAAA=</HashCode>
       <FileName>ViewModels\PopupViewModels\AddExecutionDeviceRowWindowViewmodel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.ViewModels.PopupViewModels.AddGreenhouseRowWindowViewmodel">
-    <Position X="18.75" Y="3" Width="3" />
+    <Position X="19.25" Y="7.75" Width="3" />
     <TypeIdentifier>
       <HashCode>EBAAAAAAAgAhAAAAgAIAAQQAIAAAAAAgAAAAAIAAAAA=</HashCode>
       <FileName>ViewModels\PopupViewModels\AddGreenhouseRowWindowViewmodel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.ViewModels.PopupViewModels.AddSensorRowWindowViewmodel">
-    <Position X="22" Y="3" Width="2.75" />
+    <Position X="22.5" Y="7.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>EAAAAAACAgAEAAAAAAIAAABAIAAAAAABEAAAAIAAAAA=</HashCode>
       <FileName>ViewModels\PopupViewModels\AddSensorRowWindowViewmodel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.ViewModels.PopupViewModels.UpdateGreenhouseRowWindowViewmodel">
-    <Position X="25" Y="3" Width="3" />
+    <Position X="25.5" Y="7.75" Width="3" />
     <TypeIdentifier>
       <HashCode>EBAAAAAAAiAhAAAAQAIAAAQAIAAAAAAAAAAFAIAAAAA=</HashCode>
       <FileName>ViewModels\PopupViewModels\UpdateGreenhouseRowWindowViewmodel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.ViewModels.PopupViewModels.UpdateSensorRowWindowViewmodel">
-    <Position X="28.5" Y="3" Width="3.25" />
+    <Position X="29" Y="7.75" Width="3.25" />
     <TypeIdentifier>
       <HashCode>EAAACAAAAgAMAAAAIAIAAAAAIAAAAAABEAAAAIAAAAA=</HashCode>
       <FileName>ViewModels\PopupViewModels\UpdateSensorRowWindowViewmodel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AIS.Views.MonitoringModuleView">
-    <Position X="8.5" Y="15" Width="3" />
+    <Position X="9" Y="19.75" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\MonitoringModuleView.xaml.cs</FileName>
@@ -159,7 +159,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="AIS.Views.ReportModuleView">
-    <Position X="12" Y="15" Width="2.75" />
+    <Position X="12.5" Y="19.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\ReportModuleView.xaml.cs</FileName>
@@ -167,7 +167,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="AIS.Views.PopupViews.AddExecutionDeviceRowWindow">
-    <Position X="15.25" Y="15" Width="2.75" />
+    <Position X="15.75" Y="19.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\PopupViews\AddExecutionDeviceRowWindow.xaml.cs</FileName>
@@ -175,7 +175,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="AIS.Views.AddGreenhouseRowWindow">
-    <Position X="18.5" Y="15" Width="2.75" />
+    <Position X="19" Y="19.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\PopupViews\AddGreenhouseRowWindow.xaml.cs</FileName>
@@ -183,7 +183,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="AIS.Views.AddSensorRowWindow">
-    <Position X="21.75" Y="15" Width="2.25" />
+    <Position X="22.25" Y="19.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\PopupViews\AddSensorRowWindow.xaml.cs</FileName>
@@ -191,7 +191,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="AIS.Views.UpdateGreenhouseRowWindow">
-    <Position X="24.5" Y="15" Width="2.75" />
+    <Position X="25" Y="19.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\PopupViews\UpdateGreenhouseRowWindow.xaml.cs</FileName>
@@ -199,12 +199,33 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="AIS.Views.UpdateSensorRowWindow">
-    <Position X="27.75" Y="15" Width="3" />
+    <Position X="28.25" Y="19.75" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\PopupViews\UpdateSensorRowWindow.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AIS.Services.ApiService">
+    <Position X="36.25" Y="7.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAkIAEACAAAABaABEIgAAQABAAgAAABABAUAAQ=</HashCode>
+      <FileName>Services\ApiService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AIS.Services.EventAggregator">
+    <Position X="39.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAACAAAAACAAAAAAABAAAAQAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\EventAggregator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AIS.Services.ExcelService">
+    <Position X="33.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\ExcelService.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
