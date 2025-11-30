@@ -24,10 +24,10 @@ namespace AIS.Services
         public ApiService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://127.0.0.1:8000");
+            _httpClient.BaseAddress = new Uri("http://172.28.56.59");
         }
 
-        private const string _simulateReadingEndpoint = "simulations/simulate-reading/?vg=0&vs=0";
+        private const string _simulateReadingEndpoint = "/simulations/simulate-reading/?vg=0&vs=0";
         private const string _getGreenhousesEndpoint = "/greenhouses/";
         private const string _getSensorsEndpoint = "/sensors/";
         private const string _getExecutionDevicesEndpoint = "/execution_devices/read";
@@ -39,7 +39,7 @@ namespace AIS.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync($"http://127.0.0.1:8000/{_simulateReadingEndpoint}");
+                var response = await _httpClient.GetAsync($"{_simulateReadingEndpoint}");
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();

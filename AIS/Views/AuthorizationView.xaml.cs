@@ -12,16 +12,22 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls;
 
 namespace AIS.Views
 {
     /// <summary>
     /// Логика взаимодействия для AuthorizationView.xaml
     /// </summary>
-    public partial class AuthorizationView : Window
+    public partial class AuthorizationView : FluentWindow
     {
         public AuthorizationView()
         {
+            ApplicationThemeManager.Apply(
+                ApplicationTheme.Light,
+                WindowBackdropType.Acrylic
+            );
             InitializeComponent();
             this.DataContext = new AuthorizationViewModel();
         }
