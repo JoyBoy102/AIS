@@ -9,7 +9,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ui:ControlsDictionary />
                 <ResourceDictionary Source="/Wpf.Ui;component/Controls/ListBox/ListBoxItem.xaml"/>
-                <ui:ThemesDictionary/>
+                <ui:ThemesDictionary Theme="Light" />
             </ResourceDictionary.MergedDictionaries>
             <Color x:Key="ApplicationBackgroundColor">#FFFAFAFA</Color>
             <SolidColorBrush x:Key="ApplicationBackgroundBrush" Color="{StaticResource ApplicationBackgroundColor}" />
