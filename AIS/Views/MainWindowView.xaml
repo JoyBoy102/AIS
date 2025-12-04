@@ -21,8 +21,7 @@
                            TitleBar="{Binding ElementName=TitleBar, Mode=OneWay}"
                            FooterMenuItemsSource="{Binding FooterModuleItemsNav, Mode=OneWay}"
                            Padding="42,21,42,21"
-                           OpenPaneLength="270"
-                           >
+                           OpenPaneLength="270">
         </ui:NavigationView>
     </Grid>
 </ui:FluentWindow>

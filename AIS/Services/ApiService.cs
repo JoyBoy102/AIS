@@ -24,10 +24,10 @@ namespace AIS.Services
         public ApiService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://172.28.56.59");
+            _httpClient.BaseAddress = new Uri("http://127.0.0.1:8000");
         }
 
-        private const string _simulateReadingEndpoint = "/simulations/simulate-reading/?vg=0&vs=0";
+        private const string _simulateReadingEndpoint = "/simulations/simulate-reading/current";
         private const string _getGreenhousesEndpoint = "/greenhouses/";
         private const string _getSensorsEndpoint = "/sensors/";
         private const string _getExecutionDevicesEndpoint = "/execution_devices/read";
@@ -43,8 +43,17 @@ namespace AIS.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();
-                    var sensorsInfo = JsonSerializer.Deserialize<List<SensorReading>>(jsonString);
-                    return sensorsInfo;
+
+                    // Добавьте опции сериализации
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+
+                    var apiResponse = JsonSerializer.Deserialize<ApiResponse>(jsonString, options);
+
+                    // Добавьте проверку на null
+                    return apiResponse?.Readings ?? new List<SensorReading>();
                 }
                 else
                 {
@@ -52,7 +61,7 @@ namespace AIS.Services
                         "Ошибка генерации данных",
                         $"Эндпоинт {_simulateReadingEndpoint} вернул код {(int)response.StatusCode}"
                     );
-                    return null;
+                    return new List<SensorReading>();
                 }
             }
             catch (Exception ex)

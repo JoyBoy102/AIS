@@ -18,7 +18,11 @@
             <RowDefinition Height = "1*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding Reports}"  AutoGenerateColumns="False" Grid.Row="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <DataGrid ItemsSource="{Binding Reports}"  AutoGenerateColumns="False" Grid.Row="0" Grid.ColumnSpan="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding ID}"></DataGridTextColumn>
                 <DataGridTextColumn Header="IdGreenHouse" Binding="{Binding IdGreenHouse}"/>
@@ -33,13 +37,24 @@
                 <DataGridTextColumn Header="command_temperature" Binding="{Binding commandTemperature}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <ui:Button Grid.Row="1"
+        <ui:Button Grid.Row="1" Grid.Column="0"
                    Content="Выгрузить в EXCEL"
                    HorizontalAlignment="Stretch"
-                   Command="{Binding GetExcelAsyncCommand}">
+                   Command="{Binding GetExcelAsyncCommand}"
+                   Margin="10">
             <ui:Button.Icon>
                 <ui:SymbolIcon Symbol="DocumentTableArrowRight24" 
                                FontSize="20"/>
+            </ui:Button.Icon>
+        </ui:Button>
+        <ui:Button Grid.Row="1" Grid.Column="1"
+                   Content="Обновить таблицу"
+                   HorizontalAlignment="Stretch"
+                   Command="{Binding RefreshTableCommand}"
+                   Margin="10">
+            <ui:Button.Icon>
+                <ui:SymbolIcon Symbol="ArrowClockwise24" 
+                       FontSize="20"/>
             </ui:Button.Icon>
         </ui:Button>
     </Grid>

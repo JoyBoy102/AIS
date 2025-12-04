@@ -16,10 +16,10 @@ namespace AIS.Models
 
         public MainWindowModel()
         {
-            Modules = new ObservableCollection<Module> { new Module { ModuleName = "Модуль мониторинга", Control = new MonitoringModuleView(), ModuleIcon = SymbolRegular.Gauge24},
+            Modules = new ObservableCollection<Module> { new Module { ModuleName = "Модуль мониторинга", Control = new MonitoringModuleView(), ModuleIcon = SymbolRegular.Gauge24 },
                                                          new Module { ModuleName = "Модуль формирования отчетов", Control = new ReportModuleView(), ModuleIcon = SymbolRegular.DocumentText24 },
                                                          new Module { ModuleName = "Модуль изменения таблиц", Control = new CRUDView(), ModuleIcon = SymbolRegular.Edit24 },
-                                                         new Module { ModuleName = "Модуль детекций сорняков", Control = new WeedDetectionModule(), ModuleIcon = SymbolRegular.Scan24} };
+                                                         new Module { ModuleName = "Модуль детекций сорняков", Control = new WeedDetectionModule(), ModuleIcon = SymbolRegular.Scan24}};
         }
             
     }

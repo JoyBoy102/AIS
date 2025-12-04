@@ -10,27 +10,27 @@ namespace AIS.Structs
     public class SensorReading
     {
         [JsonPropertyName("sensor_id")]
-        public int ID { get; set; }
+        public int SensorId { get; set; }
+
+        [JsonPropertyName("value")]
+        public double Value { get; set; }
 
         [JsonPropertyName("type")]
         public string Type { get; set; }
 
-        [JsonPropertyName("greenhouse_id")]
-        public int GreenhouseID { get; set; }
-
-        [JsonPropertyName("value")]
-        public double? Value { get; set; }
-
         [JsonPropertyName("reading_time")]
-        public string? ReadingTime { get; set; }
+        public string ReadingTime { get; set; }
+
+        [JsonPropertyName("greenhouse_id")]
+        public int GreenhouseId { get; set; }
 
         [JsonPropertyName("greenhouse_name")]
-        public string? GreenhouseName { get; set; }
-
-        [JsonPropertyName("greenhouse_description")]
-        public string? GreenhouseDescription { get; set; }
+        public string GreenhouseName { get; set; }
 
         [JsonPropertyName("greenhouse_location")]
-        public string? GreenhouseLocation { get; set; }
+        public string GreenhouseLocation { get; set; }
+
+        [JsonPropertyName("greenhouse_description")]
+        public string GreenhouseDescription { get; set; }
     }
 }

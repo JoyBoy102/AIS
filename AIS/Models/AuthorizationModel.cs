@@ -21,7 +21,7 @@ namespace AIS.Models
             SelectedAuthMode = "Email";
             RegisteredUsers = new List<User>()
             {
-                new User() { Email = "admin@yandex.ru", Number = "+89999999999", Password = "12345" }
+                new User() { Email = "admin@yandex.ru", Number = "+89999999999", Password = "12345", LicenseOwner = true }
             };
         }
 
@@ -40,6 +40,11 @@ namespace AIS.Models
                                 {
                                     var mainWindow = new MainWindow();
                                     mainWindow.Show();
+                                    ProfileService.LicenseOwner = user.LicenseOwner;
+                                    ProfileService.CurrentUserPhone = user.Number;
+                                    ProfileService.CurrentUserEmail = user.Email;
+                                    ProfileService.CurrentUserPassword = user.Password;
+                                    EventAggregator.RaiseUserAuthenticated();
                                     Application.Current.Windows.OfType<AuthorizationView>().FirstOrDefault()?.Close();
                                     return;
                                 }
@@ -68,6 +73,7 @@ namespace AIS.Models
                                 {
                                     var mainWindow = new MainWindow();
                                     mainWindow.Show();
+                                    ProfileService.LicenseOwner = user.LicenseOwner;
                                     Application.Current.Windows.OfType<AuthorizationView>().FirstOrDefault()?.Close();
                                     return;
                                 }

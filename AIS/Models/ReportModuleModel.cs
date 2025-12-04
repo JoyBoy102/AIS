@@ -37,5 +37,27 @@ namespace AIS.Models
             var ReportList = await _apiService.GetReportTableAsync();
             Reports = new ObservableCollection<Report>(ReportList);
         }
+
+        public async Task RefreshReportsAsync()
+        {
+            var reports = await _apiService.GetReportTableAsync();
+            UpdateReportsTable(reports);
+        }
+
+        private void UpdateReportsTable(List<Report> newReports)
+        {
+            if (newReports == null) return;
+
+            if (Reports == null)
+            {
+                Reports = new ObservableCollection<Report>();
+            }
+            Reports.Clear();
+
+            foreach (var report in newReports)
+            {
+                Reports.Add(report);
+            }
+        }
     }
 }

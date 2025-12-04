@@ -43,9 +43,15 @@ namespace AIS.ViewModels
         }
 
         public AsyncRelayCommand GetExcelAsyncCommand => new AsyncRelayCommand(GetExcelAsync);
+        public AsyncRelayCommand RefreshTableCommand => new AsyncRelayCommand(RefreshTable);
         private async Task GetExcelAsync()
         {
             await _excelService.SaveReportsToExcelAsync(Reports);
+        }
+
+        private async Task RefreshTable()
+        {
+            await _reportModuleModel.RefreshReportsAsync();
         }
     }
 }

@@ -42,11 +42,11 @@ namespace AIS.Models
         private ObservableCollection<Greenhouse> GetGreenhouseObservableCollection(List<SensorReading> sensorReadings)
         {
             var result = new ObservableCollection<Greenhouse>();
-            var groupedByGreenhouse = sensorReadings.GroupBy(reading => new { reading.GreenhouseID, reading.GreenhouseName, reading.GreenhouseLocation, reading.GreenhouseDescription });
+            var groupedByGreenhouse = sensorReadings.GroupBy(reading => new { reading.GreenhouseId, reading.GreenhouseName, reading.GreenhouseLocation, reading.GreenhouseDescription });
             foreach (var group in groupedByGreenhouse)
             {
                 Greenhouse greenhouse = new Greenhouse();
-                greenhouse.ID = group.Key.GreenhouseID;
+                greenhouse.ID = group.Key.GreenhouseId;
                 greenhouse.Name = group.Key.GreenhouseName;
                 greenhouse.Location = group.Key.GreenhouseLocation;
                 greenhouse.Description = group.Key.GreenhouseDescription;
@@ -69,7 +69,7 @@ namespace AIS.Models
         private void UpdateGreenhouseSensors(List<SensorReading> sensorReadingsList)
         {
             var sensorsByGreenhouse = sensorReadingsList
-                .GroupBy(s => s.GreenhouseID)
+                .GroupBy(s => s.GreenhouseId)
                 .ToDictionary(g => g.Key, g => g.ToList());
 
             foreach (var greenhouse in greenhouses)

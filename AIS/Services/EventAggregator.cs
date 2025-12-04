@@ -11,6 +11,7 @@ namespace AIS.Services
         public static event Action? GreenhouseRowUpdated;
         public static event Action? SensorRowUpdated;
         public static event Action? ExecutionDeviceRowUpdated;
+        public static event Action? UserAuthenticated;
 
         public static void RaiseGreenhouseRowUpdated()
         {
@@ -24,6 +25,11 @@ namespace AIS.Services
         public static void RaiseExecutionDeviceRowUpdated()
         {
             ExecutionDeviceRowUpdated?.Invoke();
+        }
+
+        public static void RaiseUserAuthenticated()
+        {
+            UserAuthenticated?.Invoke();
         }
 
     }

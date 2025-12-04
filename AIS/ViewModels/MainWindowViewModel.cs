@@ -1,4 +1,5 @@
 ﻿using AIS.Models;
+using AIS.Services;
 using AIS.Structs;
 using AIS.Views;
 using System;
@@ -26,6 +27,11 @@ namespace AIS.ViewModels
             {
                 _navigationViews.Add(new NavigationViewItem(item.ModuleName, item.ModuleIcon, item.Control.GetType()));
             }
+            EventAggregator.UserAuthenticated += () =>
+            {
+                _navigationViews[3].IsEnabled = ProfileService.LicenseOwner;
+                _navigationViews[3].Opacity = ProfileService.LicenseOwner? 1 : 0.5;
+            };
         }
         
         public ObservableCollection<NavigationViewItem> ModuleItemsNav
@@ -40,7 +46,11 @@ namespace AIS.ViewModels
         {
             get
             {
-                return [new NavigationViewItem("Настройки", SymbolRegular.Settings24, typeof(SettingsView))];
+                return 
+                [
+                    new NavigationViewItem("Настройки", SymbolRegular.Settings24, typeof(SettingsView)),
+                    new NavigationViewItem("Профиль", SymbolRegular.Person24, typeof(ProfileSettingsView))
+                ];
             }
         }
         

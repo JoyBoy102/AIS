@@ -62,5 +62,10 @@ namespace AIS.Models
 
             return $"{weedPercentage:F1}%";
         }
+
+        public string GetResourceImagePath(string imageName)
+        {
+            return $"pack://application:,,,/AIS;component/{imageName}";
+        }
     }
 }

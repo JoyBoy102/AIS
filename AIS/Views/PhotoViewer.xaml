@@ -1,0 +1,29 @@
+﻿<Window x:Class="AIS.Views.PhotoViewer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AIS.Views" xmlns:viewmodels="clr-namespace:AIS.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:PhotoViewewViewModel}" 
+        mc:Ignorable="d"
+        Title="PhotoViewer" Height="450" Width="800"
+        Background="Black"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False">
+    <Grid>
+        <Border Background="#CC000000" 
+        Padding="0"
+        BorderBrush="Black"
+        BorderThickness="2">
+            <Image Source="{Binding SelectedImage.ImagePath}"
+                   Stretch="Uniform"
+                   MaxWidth="500"
+                   MaxHeight="500">
+                <Image.Effect>
+                    <DropShadowEffect BlurRadius="20" 
+                              ShadowDepth="20" 
+                              Color="#80000000"/>
+                </Image.Effect>
+            </Image>
+        </Border>
+    </Grid>
+</Window>
