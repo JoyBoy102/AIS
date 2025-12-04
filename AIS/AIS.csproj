@@ -19,8 +19,8 @@
     <Resource Include="Images\weed1.jpg" />
     <Resource Include="Images\weed2.jpg" />
     <Resource Include="Resources\excel.svg" />
-    <Resource Include="Resources\icon.png" />
-    <Resource Include="Resources\icon2.png" />
+    <Resource Include="Resources\icon_black.png" />
+    <Resource Include="Resources\icon_white.png" />
   </ItemGroup>
 
   <ItemGroup>

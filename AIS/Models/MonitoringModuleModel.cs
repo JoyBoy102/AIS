@@ -50,10 +50,10 @@ namespace AIS.Models
                 greenhouse.Name = group.Key.GreenhouseName;
                 greenhouse.Location = group.Key.GreenhouseLocation;
                 greenhouse.Description = group.Key.GreenhouseDescription;
-                greenhouse.SensorsReadings = new ObservableCollection<SensorReading>();
+                greenhouse.SensorsReadingCollection = new SensorsReadingCollection();
                 foreach (var sensor in group)
                 {
-                    greenhouse.SensorsReadings.Add(sensor);
+                    greenhouse.SensorsReadingCollection.Add(sensor);
                 }
                 result.Add(greenhouse);
             }
@@ -77,18 +77,18 @@ namespace AIS.Models
                 if (sensorsByGreenhouse.TryGetValue(greenhouse.ID, out var newSensors))
                 {
                     // Вместо замены коллекции обновляем существующую
-                    if (greenhouse.SensorsReadings == null)
+                    if (greenhouse.SensorsReadingCollection == null)
                     {
-                        greenhouse.SensorsReadings = new ObservableCollection<SensorReading>(newSensors);
+                        greenhouse.SensorsReadingCollection = new SensorsReadingCollection(newSensors);
                     }
                     else
                     {
                         // Очищаем и добавляем в существующую коллекцию
                         // ObservableCollection автоматически уведомляет об изменениях
-                        greenhouse.SensorsReadings.Clear();
+                        greenhouse.SensorsReadingCollection.Clear();
                         foreach (var sensor in newSensors)
                         {
-                            greenhouse.SensorsReadings.Add(sensor);
+                            greenhouse.SensorsReadingCollection.Add(sensor);
                         }
                     }
                 }

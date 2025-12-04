@@ -1,6 +1,8 @@
 ﻿using AIS.ViewModels;
+using DocumentFormat.OpenXml.Math;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +33,16 @@ namespace AIS.Views
         {
             var viewModel = await MonitoringModuleViewModel.CreateAsync();
             DataContext = viewModel;
+        }
+
+        private void ListBoxItem_Selected(object sender, RoutedEventArgs e)
+        {
+            //if (sender is ListBoxItem item)
+            //{
+            //    // Программно меняем цвета
+            //    item.Border.Background = new SolidColorBrush(Colors.LightBlue);
+            //}
+            //e.Handled = true;
         }
     }
 }

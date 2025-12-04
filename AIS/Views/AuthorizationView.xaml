@@ -11,12 +11,8 @@
         WindowCornerPreference="Default"
         Height="450" Width="400">
     <Grid>
-        <ui:TitleBar>
-            <ui:TitleBar.Icon>
-                <ui:ImageIcon Source="pack://application:,,,/Resources/icon2.png" Margin="-7, -7, 0, 0"/>
-            </ui:TitleBar.Icon>
-        </ui:TitleBar>
-        <Border Background="White" CornerRadius="20" Margin="50 50">
+        <ui:TitleBar Icon="{StaticResource Icon}"/>
+        <Border Background="{StaticResource ApplicationBackgroundBrush}" CornerRadius="20" Margin="50 50">
             <StackPanel>
                 <ui:TextBlock Text="Войти в учетную запись"
                               HorizontalAlignment="Center"
@@ -50,13 +46,13 @@
                         </RadioButton>
                     </Grid>
 
-                    <ui:TextBox Grid.Row="2" Margin="0,10" PlaceholderText="adasd" Text="{Binding FirstTextBoxData}"/>
+                    <ui:TextBox Grid.Row="2" Margin="0,10" PlaceholderText="{Binding FirstTextBoxPlaceholder}" Text="{Binding FirstTextBoxData}"/>
 
-                    <ui:TextBox Grid.Row="3" Margin="0,10" PlaceholderText="adasd" Text="{Binding Password}"/>
+                    <ui:TextBox Grid.Row="3" Margin="0,10" PlaceholderText="{Binding PasswordPlaceholder}" Text="{Binding Password}"/>
 
                     <ui:Button Grid.Row="4" Margin="0,10" Appearance="Primary" Content="Войти" HorizontalAlignment="Stretch" Command="{Binding SignInCommand}"/>
 
-                    <ui:Button Grid.Row="5" Margin="0,10" Appearance="Primary" Content="Регистрация" HorizontalAlignment="Stretch" Command="{Binding RegistrationCommand}"/>
+                    <ui:Button Grid.Row="5" Margin="0,10" Appearance="Secondary" Content="Регистрация" HorizontalAlignment="Stretch" Command="{Binding RegistrationCommand}"/>
                 </Grid>
 
             </StackPanel>

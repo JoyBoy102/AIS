@@ -48,12 +48,10 @@ namespace AIS.Services
                 }
                 else
                 {
-                    MessageBox.Show(
-                        $"Эндпоинт {_simulateReadingEndpoint} вернул код {(int)response.StatusCode}",
+                    MessageService.ShowError(
                         "Ошибка генерации данных",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error
-                        );
+                        $"Эндпоинт {_simulateReadingEndpoint} вернул код {(int)response.StatusCode}"
+                    );
                     return null;
                 }
             }
@@ -77,12 +75,10 @@ namespace AIS.Services
                 }
                 else
                 {
-                    MessageBox.Show(
-                        $"Эндпоинт {_getAgronomicRulesEndpoint} вернул код {(int)response.StatusCode}",
+                    MessageService.ShowError(
                         "Ошибка получения агрономических правил",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error
-                        );
+                        $"Эндпоинт {_getAgronomicRulesEndpoint} вернул код {(int)response.StatusCode}"
+                    );
                     return null;
                 }
             }
@@ -122,12 +118,10 @@ namespace AIS.Services
                 }
                 else
                 {
-                    MessageBox.Show(
-                        $"Эндпоинт {_getGreenhousesEndpoint} вернул код {(int)response.StatusCode}",
+                    MessageService.ShowError(
                         "Ошибка получения теплиц",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error
-                        );
+                        $"Эндпоинт {_getGreenhousesEndpoint} вернул код {(int)response.StatusCode}"
+                    );
                     return null;
                 }
             }
@@ -144,20 +138,20 @@ namespace AIS.Services
                 var response = await _httpClient.DeleteAsync($"/greenhouses/{greenhouseID}");
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Не удалось удалить запись из БД",
-                                  "Ошибка",
-                                  MessageBoxButton.OK,
-                                  MessageBoxImage.Error);
+                    MessageService.ShowError(
+                        "Ошибка",
+                        "Не удалось удалить запись из БД"
+                    );
                     return false;
                 }
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при удалении: {ex.Message}",
-                              "Ошибка",
-                              MessageBoxButton.OK,
-                              MessageBoxImage.Error);
+                MessageService.ShowError(
+                    "Ошибка",
+                    $"Ошибка при удалении: {ex.Message}"
+                );
                 return false;
             }
         }
@@ -178,20 +172,20 @@ namespace AIS.Services
                 var response = await _httpClient.PutAsync($"/greenhouses/{greenhouseID}", content);
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Не удалось редактировать запись",
-                                      "Ошибка",
-                                      MessageBoxButton.OK,
-                                      MessageBoxImage.Error);
+                    MessageService.ShowError(
+                        "Ошибка",
+                        "Не удалось редактировать запись"
+                    );
                     return false;
                 }
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при изменении записи: {ex.Message}",
-                              "Ошибка",
-                              MessageBoxButton.OK,
-                              MessageBoxImage.Error);
+                MessageService.ShowError(
+                    "Ошибка",
+                    $"Ошибка при изменении записи: {ex.Message}"
+                );
                 return false;
             }
 
@@ -213,20 +207,20 @@ namespace AIS.Services
                 var response = await _httpClient.PostAsync($"/greenhouses/", content);
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Не удалось создать запись",
-                                      "Ошибка",
-                                      MessageBoxButton.OK,
-                                      MessageBoxImage.Error);
+                    MessageService.ShowError(
+                        "Ошибка",
+                        "Не удалось создать запись"
+                    );
                     return false;
                 }
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при создании записи: {ex.Message}",
-                              "Ошибка",
-                              MessageBoxButton.OK,
-                              MessageBoxImage.Error);
+                MessageService.ShowError(
+                    "Ошибка",
+                    $"Ошибка при создании записи: {ex.Message}"
+                );
                 return false;
             }
         }
@@ -254,26 +248,24 @@ namespace AIS.Services
                                 Type = sensor.Type,
                                 GreenhouseID = greenhouse.ID,
                                 Greenhouse = new Greenhouse
-                                    {
-                                        ID = greenhouse.ID,
-                                        Name = greenhouse.Name,
-                                        Location = greenhouse.Location,
-                                        Description = greenhouse.Description,
-                                        AgronomicRuleId = greenhouse.AgronomicRuleId,
-                                        AgronomicRule = greenhouse.AgronomicRule
-                                    }
-                                })
+                                {
+                                    ID = greenhouse.ID,
+                                    Name = greenhouse.Name,
+                                    Location = greenhouse.Location,
+                                    Description = greenhouse.Description,
+                                    AgronomicRuleId = greenhouse.AgronomicRuleId,
+                                    AgronomicRule = greenhouse.AgronomicRule
+                                }
+                            })
                         .ToList();
                     return joinedData;
                 }
                 else
                 {
-                    MessageBox.Show(
-                        $"Эндпоинт {_getSensorsEndpoint} вернул код {(int)response.StatusCode}",
+                    MessageService.ShowError(
                         "Ошибка получения сенсоров",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error
-                        );
+                        $"Эндпоинт {_getSensorsEndpoint} вернул код {(int)response.StatusCode}"
+                    );
                     return null;
                 }
             }
@@ -290,20 +282,20 @@ namespace AIS.Services
                 var response = await _httpClient.DeleteAsync($"/sensors/{sensorId}");
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Не удалось удалить запись из БД",
-                                  "Ошибка",
-                                  MessageBoxButton.OK,
-                                  MessageBoxImage.Error);
+                    MessageService.ShowError(
+                        "Ошибка",
+                        "Не удалось удалить запись из БД"
+                    );
                     return false;
                 }
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при удалении: {ex.Message}",
-                              "Ошибка",
-                              MessageBoxButton.OK,
-                              MessageBoxImage.Error);
+                MessageService.ShowError(
+                    "Ошибка",
+                    $"Ошибка при удалении: {ex.Message}"
+                );
                 return false;
             }
         }
@@ -322,20 +314,20 @@ namespace AIS.Services
                 var response = await _httpClient.PutAsync($"/sensors/{sensorID}", content);
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Не удалось редактировать запись",
-                                      "Ошибка",
-                                      MessageBoxButton.OK,
-                                      MessageBoxImage.Error);
+                    MessageService.ShowError(
+                        "Ошибка",
+                        "Не удалось редактировать запись"
+                    );
                     return false;
                 }
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при изменении записи: {ex.Message}",
-                              "Ошибка",
-                              MessageBoxButton.OK,
-                              MessageBoxImage.Error);
+                MessageService.ShowError(
+                    "Ошибка",
+                    $"Ошибка при изменении записи: {ex.Message}"
+                );
                 return false;
             }
         }
@@ -353,20 +345,20 @@ namespace AIS.Services
                 var response = await _httpClient.PostAsync($"/sensors/", content);
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Не удалось создать запись",
-                                      "Ошибка",
-                                      MessageBoxButton.OK,
-                                      MessageBoxImage.Error);
+                    MessageService.ShowError(
+                        "Ошибка",
+                        "Не удалось создать запись"
+                    );
                     return false;
                 }
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при изменении записи: {ex.Message}",
-                              "Ошибка",
-                              MessageBoxButton.OK,
-                              MessageBoxImage.Error);
+                MessageService.ShowError(
+                    "Ошибка",
+                    $"Ошибка при изменении записи: {ex.Message}"
+                );
                 return false;
             }
         }
@@ -386,12 +378,10 @@ namespace AIS.Services
                 }
                 else
                 {
-                    MessageBox.Show(
-                        $"Эндпоинт {_getExecutionDevicesEndpoint} вернул код {(int)response.StatusCode}",
+                    MessageService.ShowError(
                         "Ошибка получения исполнительных устройств",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error
-                        );
+                        $"Эндпоинт {_getExecutionDevicesEndpoint} вернул код {(int)response.StatusCode}"
+                    );
                     return null;
                 }
             }
@@ -408,20 +398,20 @@ namespace AIS.Services
                 var response = await _httpClient.DeleteAsync($"/execution_devices/delete/{deviceID}");
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Не удалось удалить запись из БД",
-                                  "Ошибка",
-                                  MessageBoxButton.OK,
-                                  MessageBoxImage.Error);
+                    MessageService.ShowError(
+                        "Ошибка",
+                        "Не удалось удалить запись из БД"
+                    );
                     return false;
                 }
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при удалении: {ex.Message}",
-                              "Ошибка",
-                              MessageBoxButton.OK,
-                              MessageBoxImage.Error);
+                MessageService.ShowError(
+                    "Ошибка",
+                    $"Ошибка при удалении: {ex.Message}"
+                );
                 return false;
             }
         }
@@ -442,20 +432,20 @@ namespace AIS.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageBox.Show("Не удалось создать запись",
-                                      "Ошибка",
-                                      MessageBoxButton.OK,
-                                      MessageBoxImage.Error);
+                    MessageService.ShowError(
+                        "Ошибка",
+                        "Не удалось создать запись"
+                    );
                     return false;
                 }
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при создании записи: {ex.Message}",
-                              "Ошибка",
-                              MessageBoxButton.OK,
-                              MessageBoxImage.Error);
+                MessageService.ShowError(
+                    "Ошибка",
+                    $"Ошибка при создании записи: {ex.Message}"
+                );
                 return false;
             }
         }
@@ -475,12 +465,10 @@ namespace AIS.Services
                 }
                 else
                 {
-                    MessageBox.Show(
-                        $"Эндпоинт {_getReportsEndpoint} вернул код {(int)response.StatusCode}",
+                    MessageService.ShowError(
                         "Ошибка получения отчетов",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error
-                        );
+                        $"Эндпоинт {_getReportsEndpoint} вернул код {(int)response.StatusCode}"
+                    );
                     return null;
                 }
             }

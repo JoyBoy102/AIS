@@ -12,13 +12,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Wpf.Ui.Controls;
 
 namespace AIS.Views
 {
     /// <summary>
     /// Логика взаимодействия для UpdateGreenhouseRowWindow.xaml
     /// </summary>
-    public partial class AddGreenhouseRowWindow : Window
+    public partial class AddGreenhouseRowWindow : FluentWindow
     {
         public AddGreenhouseRowWindow()
         {

@@ -1,101 +1,109 @@
-﻿<Window x:Class="AIS.Views.AddGreenhouseRowWindow"
+﻿<ui:FluentWindow x:Class="AIS.Views.AddGreenhouseRowWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:local="clr-namespace:AIS.Views"
         mc:Ignorable="d"
-        Title="Редактирование теплицы" MinHeight = "450" MaxHeight="450" MaxWidth="400" MinWidth="400"
+        WindowBackdropType="Mica"
+        ExtendsContentIntoTitleBar="True"
+        WindowCornerPreference="Default"
+        Title="Добавление теплицы" MinHeight = "450" MaxHeight="450" MaxWidth="400" MinWidth="400"
         WindowStartupLocation="CenterScreen">
-    <Grid Margin="20">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
+        
+        <ui:TitleBar Grid.Row="0" Icon="{DynamicResource Icon}" x:Name="TitleBar"/>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <Grid Margin="20" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <!-- Заголовок -->
-        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" 
-                   Text="Редактирование данных теплицы" 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <!-- Заголовок -->
+            <ui:TextBlock Grid.Row="0" Grid.ColumnSpan="2" 
+                   Text="Добавление теплицы" 
                    FontSize="20" FontWeight="Bold" 
                    HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
-        <!-- Название теплицы -->
-        <TextBlock Grid.Row="1" Grid.Column="0" 
+            <!-- Название теплицы -->
+            <ui:TextBlock Grid.Row="1" Grid.Column="0" 
                    Text="Название теплицы:" 
                    VerticalAlignment="Center" Margin="0,0,10,10"/>
-        <TextBox Grid.Row="1" Grid.Column="1" 
+            <ui:TextBox Grid.Row="1" Grid.Column="1" 
                  x:Name="NameTextBox"
                  Text="{Binding Name}"
-                 Margin="0,0,0,10" Height="25"
+                 Margin="0,0,0,10"
                  MaxLength="100"/>
 
-        <!-- Местоположение теплицы -->
-        <TextBlock Grid.Row="2" Grid.Column="0" 
+            <!-- Местоположение теплицы -->
+            <ui:TextBlock Grid.Row="2" Grid.Column="0" 
                    Text="Местоположение:" 
                    VerticalAlignment="Center" Margin="0,0,10,10"/>
-        <TextBox Grid.Row="2" Grid.Column="1" 
+            <ui:TextBox Grid.Row="2" Grid.Column="1" 
                  x:Name="LocationTextBox"
                  Text="{Binding Location}"
-                 Margin="0,0,0,10" Height="25"
+                 Margin="0,0,0,10"
                  MaxLength="200"/>
 
-        <!-- Описание теплицы -->
-        <TextBlock Grid.Row="3" Grid.Column="0" 
+            <!-- Описание теплицы -->
+            <ui:TextBlock Grid.Row="3" Grid.Column="0" 
                    Text="Описание:" 
                    VerticalAlignment="Top" Margin="0,10,10,10"/>
-        <TextBox Grid.Row="3" Grid.Column="1" 
+            <ui:TextBox Grid.Row="3" Grid.Column="1" 
                  x:Name="DescriptionTextBox"
                  Text="{Binding Description}"
                  Margin="0,0,0,10" 
-                 Height="80"
                  TextWrapping="Wrap" 
                  AcceptsReturn="True"
                  VerticalScrollBarVisibility="Auto"
                  MaxLength="500"/>
 
-        <!-- Агрономическое правило -->
-        <TextBlock Grid.Row="4" Grid.Column="0" 
+            <!-- Агрономическое правило -->
+            <ui:TextBlock Grid.Row="4" Grid.Column="0" 
                    Text="Тип культуры:" 
                    VerticalAlignment="Top" Margin="0,10,10,10"/>
-        <ComboBox Grid.Row="4" Grid.Column="1" 
+            <ComboBox Grid.Row="4" Grid.Column="1" 
                   x:Name="ComboBox"
                   ItemsSource="{Binding AgronomicRules}"
                   Margin="0,0,0,10"
                   SelectedItem="{Binding SelectedAgronomicRule}"/>
 
-        <!-- Кнопки -->
-        <StackPanel Grid.Row="6" Grid.ColumnSpan="2" 
+            <!-- Кнопки -->
+            <StackPanel Grid.Row="6" Grid.ColumnSpan="2" 
                     Orientation="Horizontal" 
                     HorizontalAlignment="Right" 
                     Margin="0,20,0,0">
-            <Button x:Name="SaveButton" 
-                    Content="Сохранить" 
-                    Width="100" Height="30" 
-                    Margin="0,0,10,0"
-                    Background="#4CAF50" 
-                    Foreground="White"
-                    FontWeight="Bold"
-                    Cursor="Hand"
-                    Command="{Binding DataContext.AddGreenhouseRowCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
+                <ui:Button x:Name="SaveButton" 
+                           Content="Сохранить"
+                           Height="30" 
+                           Margin="0,0,10,0"
+                           Appearance="Success"
+                           Command="{Binding DataContext.AddGreenhouseRowCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
 
-            <Button x:Name="CancelButton" 
-                    Content="Отмена" 
-                    Width="100" Height="30"
-                    Background="#F44336" 
-                    Foreground="White"
-                    FontWeight="Bold"
-                    Cursor="Hand"
-                    Command="{Binding DataContext.CloseWindowCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
-        </StackPanel>
+                <ui:Button x:Name="CancelButton" 
+                        Content="Отмена"
+                        Height="30"
+                        Margin="0,0,10,0"
+                        Appearance="Danger"
+                        Command="{Binding DataContext.CloseWindowCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
-</Window>
+</ui:FluentWindow>

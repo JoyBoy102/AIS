@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:local="clr-namespace:AIS.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
@@ -15,8 +16,8 @@
         </Grid.RowDefinitions>
         <TabControl Grid.Row="0" SelectedIndex="{Binding SelectedTableIndex}">
             <TabItem Header="Теплицы">
-                <DataGrid ItemsSource="{Binding Greenhouses, FallbackValue={x:Null}}" IsReadOnly="True" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
+                <ui:DataGrid ItemsSource="{Binding Greenhouses, FallbackValue={x:Null}}" IsReadOnly="True" AutoGenerateColumns="False">
+                    <ui:DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding ID}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Название" Binding="{Binding Name}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Местоположение" Binding="{Binding Location}"></DataGridTextColumn>
@@ -25,93 +26,118 @@
                         <DataGridTemplateColumn Header="Удалить">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="❌" 
-                                            Command="{Binding DataContext.DeleteRowGreenhouseCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                            CommandParameter="{Binding ID}"
-                                            Width="30" Height="30"
-                                            FontSize="14"
-                                            Background="Transparent" BorderThickness="0"
-                                            Cursor="Hand"/>
+                                    <Grid>
+                                        <ui:Button Margin="5,0"
+                                                   Command="{Binding DataContext.DeleteRowGreenhouseCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                   CommandParameter="{Binding ID}"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch">
+                                            <ui:Button.Icon>
+                                                <ui:SymbolIcon Symbol="Delete24"/>
+                                            </ui:Button.Icon>
+                                        </ui:Button>
+                                    </Grid>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Редактировать">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="✏️"
-                                            Command="{Binding DataContext.UpdateRowGreenhouseCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                            CommandParameter="{Binding}"
-                                            Width="30" Height="30"
-                                            FontSize="14"
-                                            Background="Transparent" BorderThickness="0"
-                                            Cursor="Hand"/>
+                                    <Grid>
+                                        <ui:Button Margin="5,0"
+                                                   Command="{Binding DataContext.UpdateRowGreenhouseCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                   CommandParameter="{Binding}"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch">
+                                            <ui:Button.Icon>
+                                                <ui:SymbolIcon Symbol="Edit24"/>
+                                            </ui:Button.Icon>
+                                        </ui:Button>
+                                    </Grid>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                    </ui:DataGrid.Columns>
+                </ui:DataGrid>
             </TabItem>
             <TabItem Header="Датчики">
-                <DataGrid ItemsSource="{Binding Sensors, FallbackValue={x:Null}}" IsReadOnly="True" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
+                <ui:DataGrid ItemsSource="{Binding Sensors, FallbackValue={x:Null}}" IsReadOnly="True" AutoGenerateColumns="False">
+                    <ui:DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding ID}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Тип" Binding="{Binding Type}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Теплица" Binding="{Binding Greenhouse.Name}"></DataGridTextColumn>
                         <DataGridTemplateColumn Header="Удалить">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="❌" 
-                                            Command="{Binding DataContext.DeleteRowSensorCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                            CommandParameter="{Binding ID}"
-                                            Width="30" Height="30"
-                                            FontSize="14"
-                                            Background="Transparent" BorderThickness="0"
-                                            Cursor="Hand"/>     
+                                    <Grid>
+                                        <ui:Button Command="{Binding DataContext.DeleteRowSensorCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                               CommandParameter="{Binding ID}"
+                                               Margin="5,0"
+                                               HorizontalAlignment="Stretch"
+                                               VerticalAlignment="Stretch">
+                                            <ui:Button.Icon>
+                                                <ui:SymbolIcon Symbol="Delete24"/>
+                                            </ui:Button.Icon>
+                                        </ui:Button>
+                                    </Grid>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Редактировать">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="✏️"
-                                            Command="{Binding DataContext.UpdateRowSensorCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                            CommandParameter="{Binding}"
-                                            Width="30" Height="30"
-                                            FontSize="14"
-                                            Background="Transparent" BorderThickness="0"
-                                            Cursor="Hand"/> 
+                                    <Grid>
+                                        <ui:Button Command="{Binding DataContext.UpdateRowSensorCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                   CommandParameter="{Binding}"
+                                                   Margin="5,0"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch">
+                                            <ui:Button.Icon>
+                                                <ui:SymbolIcon Symbol="Edit24"/>
+                                            </ui:Button.Icon>
+                                        </ui:Button>
+                                    </Grid>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                    </ui:DataGrid.Columns>
+                </ui:DataGrid>
             </TabItem>
             <TabItem Header="Исполнительные устройства">
-                <DataGrid ItemsSource="{Binding ExecutionDevices, FallbackValue={x:Null}}" IsReadOnly="True" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID исполнительного устройства" Binding="{Binding ID}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="ID теплицы" Binding="{Binding GreenhouseID}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Название теплицы" Binding="{Binding GreenhouseName}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="ID соответствующего сенсора" Binding="{Binding SensorID}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Тип исполнительного устройства" Binding="{Binding Type}"></DataGridTextColumn>
+                <ui:DataGrid ItemsSource="{Binding ExecutionDevices, FallbackValue={x:Null}}" IsReadOnly="True" AutoGenerateColumns="False">
+                    <ui:DataGrid.Columns>
+                        <DataGridTextColumn Header="ID исполнительного&#10;устройства" Binding="{Binding ID}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="ID&#10;теплицы" Binding="{Binding GreenhouseID}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Название&#10;теплицы" Binding="{Binding GreenhouseName}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="ID соответствующего&#10;сенсора" Binding="{Binding SensorID}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Тип исполнительного&#10;устройства" Binding="{Binding Type}"></DataGridTextColumn>
                         <DataGridTemplateColumn Header="Удалить">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="❌" 
-                                            Command="{Binding DataContext.DeleteRowExecutionDeviceCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                            CommandParameter="{Binding ID}"
-                                            Width="30" Height="30"
-                                            FontSize="14"
-                                            Background="Transparent" BorderThickness="0"
-                                            Cursor="Hand"/>
+                                    <Grid>
+                                        <ui:Button Command="{Binding DataContext.DeleteRowExecutionDeviceCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                   CommandParameter="{Binding ID}"
+                                                   Margin="5,0"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch">
+                                            <ui:Button.Icon>
+                                                <ui:SymbolIcon Symbol="Delete24"/>
+                                            </ui:Button.Icon>
+                                        </ui:Button>
+                                    </Grid>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                    </ui:DataGrid.Columns>
+                </ui:DataGrid>
             </TabItem>
         </TabControl>
-        <Button Grid.Row="1" Content="Добавить..." Command="{Binding AddCommand}"/>
+        <ui:Button Grid.Row="1"
+                   Content="Добавить..."
+                   HorizontalAlignment="Stretch"
+                   Icon="{Binding AddIcon}"
+                   Command="{Binding AddCommand}">
+        </ui:Button>
 
     </Grid>
 </UserControl>

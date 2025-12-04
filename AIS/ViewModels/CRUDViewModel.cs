@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Wpf.Ui.Controls;
 
 namespace AIS.ViewModels
 {
@@ -52,7 +53,15 @@ namespace AIS.ViewModels
 
         #region Add mapper
         private int selectedTableIndex;
-        public int SelectedTableIndex { get => selectedTableIndex; set => SetProperty(ref selectedTableIndex, value); }
+        public int SelectedTableIndex 
+        { 
+            get => selectedTableIndex;
+            set
+            {
+                SetProperty(ref selectedTableIndex, value);
+                OnPropertyChanged(nameof(AddIcon));
+            }
+        }
 
         private async Task Add()
         {
@@ -67,6 +76,31 @@ namespace AIS.ViewModels
                 case 2: // Исполнительные устройства
                     AddExecutionDevice();
                     break;
+            }
+        }
+
+        public SymbolIcon AddIcon 
+        {
+            get
+            {
+                var icon = new SymbolIcon
+                {
+                    Margin = new Thickness(0, 3, 0, 0),
+                    FontSize = 20
+                };
+                switch (SelectedTableIndex)
+                {
+                    case 0: // Теплицы
+                        icon.Symbol = SymbolRegular.HomeAdd20;
+                        break;
+                    case 1: // Датчики
+                        icon.Symbol = SymbolRegular.GaugeAdd20;
+                        break;
+                    case 2: // Исполнительные устройства
+                        icon.Symbol = SymbolRegular.PlugConnectedAdd20;
+                        break;
+                }
+                return icon;
             }
         }
 
@@ -168,7 +202,6 @@ namespace AIS.ViewModels
             OnPropertyChanged();
         }
         #endregion
-
 
         #region ExecutionDevices
         public ObservableCollection<ExecutionDevice> ExecutionDevices
