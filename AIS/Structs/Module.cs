@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Wpf.Ui.Controls;
 
 namespace AIS.Structs
 {
@@ -14,5 +15,7 @@ namespace AIS.Structs
         public BitmapImage Img { get; set; }
 
         public UserControl Control { get; set; }
+
+        public SymbolRegular ModuleIcon { get; set; }
     }
 }

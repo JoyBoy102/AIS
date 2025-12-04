@@ -28,7 +28,7 @@ namespace AIS.Structs
 
         public AgronomicRuleModel AgronomicRule { get; set; }
 
-        public ObservableCollection<SensorReading> SensorsReadings { get; set; }
+        public SensorsReadingCollection SensorsReadingCollection { get; set; }
 
         public ObservableCollection<Sensor> FreeSensors { get; set; }
 

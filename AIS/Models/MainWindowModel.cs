@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AIS.Structs;
 using AIS.Views;
+using Wpf.Ui.Controls;
 
 namespace AIS.Models
 {
@@ -15,10 +16,10 @@ namespace AIS.Models
 
         public MainWindowModel()
         {
-            Modules = new ObservableCollection<Module> { new Module { ModuleName = "Модуль мониторинга", Control = new MonitoringModuleView() },
-                                                         new Module { ModuleName = "Модуль формирования отчетов", Control = new ReportModuleView() },
-                                                         new Module { ModuleName = "Модуль изменения таблиц", Control = new CRUDView() },
-                                                         new Module { ModuleName = "Модуль детекций сорняков", Control = new WeedDetectionModule()} };
+            Modules = new ObservableCollection<Module> { new Module { ModuleName = "Модуль мониторинга", Control = new MonitoringModuleView(), ModuleIcon = SymbolRegular.Gauge24},
+                                                         new Module { ModuleName = "Модуль формирования отчетов", Control = new ReportModuleView(), ModuleIcon = SymbolRegular.DocumentText24 },
+                                                         new Module { ModuleName = "Модуль изменения таблиц", Control = new CRUDView(), ModuleIcon = SymbolRegular.Edit24 },
+                                                         new Module { ModuleName = "Модуль детекций сорняков", Control = new WeedDetectionModule(), ModuleIcon = SymbolRegular.Scan24} };
         }
             
     }

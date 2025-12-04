@@ -13,13 +13,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Wpf.Ui.Controls;
 
 namespace AIS.Views
 {
     /// <summary>
     /// Логика взаимодействия для UpdateSensorRowWindow.xaml
     /// </summary>
-    public partial class UpdateSensorRowWindow : Window
+    public partial class UpdateSensorRowWindow : FluentWindow
     {
         public UpdateSensorRowWindow(Sensor sensor)
         {

@@ -9,21 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\weed1.jpg" />
-    <None Remove="Images\weed2.jpg" />
-    <None Remove="Resources\excel.svg" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.105.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="SharpVectors.Wpf" Version="1.8.5" />
+    <PackageReference Include="WPF-UI" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Images\weed1.jpg" />
     <Resource Include="Images\weed2.jpg" />
     <Resource Include="Resources\excel.svg" />
+    <Resource Include="Resources\icon_black.png" />
+    <Resource Include="Resources\icon_white.png" />
   </ItemGroup>
 
   <ItemGroup>

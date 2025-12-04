@@ -11,21 +11,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Wpf.Ui.Appearance;
-using Wpf.Ui.Controls;
 
 namespace AIS.Views
 {
     /// <summary>
-    /// Логика взаимодействия для AuthorizationView.xaml
+    /// Логика взаимодействия для SettingsView.xaml
     /// </summary>
-    public partial class AuthorizationView : FluentWindow
+    public partial class SettingsView : UserControl
     {
-        public AuthorizationView()
+        public SettingsView()
         {
             InitializeComponent();
-            this.DataContext = new AuthorizationViewModel();
+            DataContext = new SettingsViewModel();
         }
     }
 }

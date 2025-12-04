@@ -3,7 +3,7 @@ using System;
 using ClosedXML.Excel;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.IO;
 using AIS.Structs;
@@ -18,36 +18,52 @@ namespace AIS.Services
             {
                 try
                 {
+                    if (reports == null || !reports.Any())
+                        throw new ArgumentException("Нет данных для сохранения");
+
                     using var workbook = new XLWorkbook();
                     var worksheet = workbook.Worksheets.Add("Отчеты");
 
-                    // Заголовки
-                    worksheet.Cell(1, 1).Value = "ID Теплицы";
-                    worksheet.Cell(1, 2).Value = "Время";
-                    worksheet.Cell(1, 3).Value = "Температура";
-                    worksheet.Cell(1, 4).Value = "CO2";
-                    worksheet.Cell(1, 5).Value = "Влажность";
+                    // Получаем свойства класса Report через рефлексию
+                    var properties = typeof(Report).GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                        .Where(p => p.CanRead)
+                        //.OrderBy(p => p.Name)
+                        .ToArray();
+
+                    // Заголовки через рефлексию
+                    for (int i = 0; i < properties.Length; i++)
+                    {
+                        worksheet.Cell(1, i + 1).Value = GetDisplayName(properties[i]);
+                    }
 
                     // Стиль для заголовков
-                    var headerRange = worksheet.Range(1, 1, 1, 5);
+                    var headerRange = worksheet.Range(1, 1, 1, properties.Length);
                     headerRange.Style.Fill.BackgroundColor = XLColor.LightGray;
                     headerRange.Style.Font.Bold = true;
+                    headerRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
-                    // Данные
+                    // Данные через рефлексию
                     int row = 2;
                     foreach (var report in reports)
                     {
-                        worksheet.Cell(row, 1).Value = report.IdGreenHouse;
-                        worksheet.Cell(row, 2).Value = report.ReportTime;
-                        worksheet.Cell(row, 3).Value = report.TemperatureValue;
-                        worksheet.Cell(row, 4).Value = report.CO2Value;
-                        worksheet.Cell(row, 5).Value = report.HumidityValue;
-
+                        for (int col = 0; col < properties.Length; col++)
+                        {
+                            var value = properties[col].GetValue(report);
+                            SetCellValue(worksheet.Cell(row, col + 1), value, properties[col]);
+                        }
                         row++;
                     }
 
+                    // Применяем форматирование к данным
+                    ApplyDataFormatting(worksheet, properties, reports.Count());
+
                     // Авто-размер колонок
                     worksheet.Columns().AdjustToContents();
+
+                    // Добавляем границы ко всем данным
+                    var dataRange = worksheet.Range(1, 1, row - 1, properties.Length);
+                    dataRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    dataRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
 
                     // Диалог сохранения файла
                     var saveFileDialog = new SaveFileDialog
@@ -64,6 +80,7 @@ namespace AIS.Services
 
                         // Сохраняем путь для будущего использования
                         Properties.Settings.Default.LastSaveDirectory = Path.GetDirectoryName(saveFileDialog.FileName);
+                        Properties.Settings.Default.Save();
 
                         return saveFileDialog.FileName;
                     }
@@ -75,6 +92,110 @@ namespace AIS.Services
                     throw new Exception($"Ошибка при сохранении в Excel: {ex.Message}", ex);
                 }
             });
+        }
+
+        private void SetCellValue(IXLCell cell, object value, PropertyInfo property)
+        {
+            if (value == null)
+            {
+                cell.Value = string.Empty;
+                return;
+            }
+
+            // Преобразуем значение в правильный тип для ClosedXML
+            switch (value)
+            {
+                case DateTime dateTime:
+                    cell.Value = dateTime;
+                    break;
+                case int intValue:
+                    cell.Value = intValue;
+                    break;
+                case double doubleValue:
+                    cell.Value = doubleValue;
+                    break;
+                case decimal decimalValue:
+                    cell.Value = decimalValue;
+                    break;
+                case float floatValue:
+                    cell.Value = floatValue;
+                    break;
+                case long longValue:
+                    cell.Value = longValue;
+                    break;
+                case bool boolValue:
+                    cell.Value = boolValue;
+                    break;
+                case string stringValue:
+                    cell.Value = stringValue;
+                    break;
+                default:
+                    // Для остальных типов используем строковое представление
+                    cell.Value = value.ToString();
+                    break;
+            }
+        }
+
+        private string GetDisplayName(PropertyInfo property)
+        {
+            // Можно добавить атрибуты для кастомных названий, пока используем имя свойства
+            return property.Name switch
+            {
+                "IdGreenHouse" => "ID Теплицы",
+                "ReportTime" => "Время",
+                "TemperatureValue" => "Температура",
+                "CO2Value" => "CO2",
+                "HumidityValue" => "Влажность",
+                "CO2Pred" => "Прогноз уровня CO2",
+                "commandCO2" => "Команда для исполнительного устройства CO2",
+                "commandHumidity" => "Команда для увлажнителя",
+                "commandTemperature" => "Команда для обогревателя",
+                "HumidityPred" => "Прогноз уровня влажности",
+                "TemperaturePred" => "Прогноз температуры",
+                _ => property.Name
+            };
+        }
+
+        private void ApplyDataFormatting(IXLWorksheet worksheet, PropertyInfo[] properties, int dataRowCount)
+        {
+            if (dataRowCount == 0) return;
+
+            for (int col = 0; col < properties.Length; col++)
+            {
+                var propertyType = properties[col].PropertyType;
+                var dataRange = worksheet.Range(2, col + 1, dataRowCount + 1, col + 1);
+
+                // Применяем форматирование в зависимости от типа данных
+                if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
+                {
+                    dataRange.Style.DateFormat.Format = "yyyy-MM-dd HH:mm";
+                    dataRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                }
+                else if (IsNumericType(propertyType))
+                {
+                    dataRange.Style.NumberFormat.Format = "0,00";
+                    dataRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                }
+                else
+                {
+                    dataRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+                }
+            }
+        }
+
+        private bool IsNumericType(Type type)
+        {
+            var numericTypes = new HashSet<Type>
+            {
+                typeof(int), typeof(double), typeof(decimal), typeof(float), typeof(long),
+                typeof(short), typeof(byte), typeof(uint), typeof(ulong), typeof(ushort),
+                typeof(sbyte), typeof(int?), typeof(double?), typeof(decimal?), typeof(float?),
+                typeof(long?), typeof(short?), typeof(byte?), typeof(uint?), typeof(ulong?),
+                typeof(ushort?), typeof(sbyte?)
+            };
+
+            return numericTypes.Contains(type) ||
+                   numericTypes.Contains(Nullable.GetUnderlyingType(type));
         }
     }
 }

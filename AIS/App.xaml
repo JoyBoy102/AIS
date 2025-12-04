@@ -2,73 +2,27 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:AIS"
-             StartupUri="Views/AuthorizationView.xaml">
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             StartupUri="Views/MainWindowView.xaml">
     <Application.Resources>
-        <Style x:Key="ToggleButtonArrow" TargetType="{x:Type ToggleButton}">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Border Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="20"
-                        Padding="7">
-                            <TextBlock x:Name="ArrowText"
-                               Text="Показания датчиков ▼"
-                               Foreground="{TemplateBinding Foreground}"
-                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                               FontSize="14"></TextBlock>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="ArrowText" Property="Text" Value="Скрыть показания датчиков ▲"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Cursor" Value="Hand"></Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="BorderButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" 
-                        Background="{TemplateBinding Background}"
-                        CornerRadius="8">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      Margin="{TemplateBinding Padding}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#20FFFFFF"/>
-                                <Setter Property="Foreground" Value="LightGray"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#40FFFFFF"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ControlsDictionary />
+                <ResourceDictionary Source="/Wpf.Ui;component/Controls/ListBox/ListBoxItem.xaml"/>
+                <ui:ThemesDictionary Theme="Light" />
+            </ResourceDictionary.MergedDictionaries>
+            <Color x:Key="ApplicationBackgroundColor">#FFFAFAFA</Color>
+            <SolidColorBrush x:Key="ApplicationBackgroundBrush" Color="{StaticResource ApplicationBackgroundColor}" />
+            <ui:ImageIcon x:Key="Icon" 
+                          Source="/Resources/icon_black.png" 
+                          x:Shared="False"
+                          Margin="-7,-7,0,0"/>
+            <ui:ImageIcon x:Key="IconBlack" 
+                          Source="/Resources/icon_black.png" 
+                          Margin="-7,-7,0,0"/>
+            <ui:ImageIcon x:Key="IconWhite" 
+                          Source="/Resources/icon_white.png" 
+                          Margin="-7,-7,0,0"/>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

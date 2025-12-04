@@ -30,14 +30,18 @@ namespace AIS.ViewModels
             _authorizationModel = new AuthorizationModel();
         }
 
+        public string FirstTextBoxPlaceholder
+        {
+            get
+            {
+                return _authorizationModel.SelectedAuthMode == "Email" ? "Введите почту..." : "Введите номер...";
+            }
+        }
+
         public string FirstTextBoxData
         {
             get
             {
-                if (string.IsNullOrEmpty(_authorizationModel.FirstTextBoxData))
-                {
-                    return _authorizationModel.SelectedAuthMode == "Email" ? "Введите почту..." : "Введите номер...";
-                }
                 return _authorizationModel.FirstTextBoxData;
             }
             set
@@ -46,11 +50,19 @@ namespace AIS.ViewModels
             }
         }
 
+        public string PasswordPlaceholder
+        {
+            get
+            {
+                return "Введите пароль...";
+            }
+        }
+
         public string Password
         {
             get
             {
-                return string.IsNullOrEmpty(_authorizationModel.Password) ? "Введите пароль..." : _authorizationModel.Password;
+                return _authorizationModel.Password;
             }
             set => SetProperty(ref _authorizationModel.Password, value);
         }
@@ -64,6 +76,7 @@ namespace AIS.ViewModels
         {
             _authorizationModel.EmailModeSelect();
             OnPropertyChanged(nameof(FirstTextBoxData));
+            OnPropertyChanged(nameof(FirstTextBoxPlaceholder));
             OnPropertyChanged(nameof(Password));
         }
 
@@ -71,6 +84,7 @@ namespace AIS.ViewModels
         {
             _authorizationModel.NumberModeSelect();
             OnPropertyChanged(nameof(FirstTextBoxData));
+            OnPropertyChanged(nameof(FirstTextBoxPlaceholder));
             OnPropertyChanged(nameof(Password));
         }
 

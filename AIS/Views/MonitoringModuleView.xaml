@@ -3,40 +3,61 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:local="clr-namespace:AIS.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:s="clr-namespace:AIS.Structs"
+             mc:Ignorable="d"
              xmlns:vm="clr-namespace:AIS.ViewModels"
              d:DataContext="{d:DesignInstance Type=vm:MonitoringModuleViewModel}">
+
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <DataTemplate x:Key="ListBoxDataTemplate">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center"></TextBlock>
-                    <ToggleButton Grid.Row="0" Grid.Column="1" Style="{StaticResource ToggleButtonArrow}" 
-                                  IsChecked="{Binding ToggleButtonState}" 
-                                  Command="{Binding DataContext.ShowSensorsTableCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
-                                  CommandParameter="{Binding}"
-                                  HorizontalAlignment="Right"></ToggleButton>
-                    <DataGrid Grid.Row ="1" Grid.ColumnSpan="2" ItemsSource="{Binding SensorsReadings}"  AutoGenerateColumns="False" Visibility="{Binding ToggleButtonState, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
-                            <DataGridTextColumn Header="Type" Binding="{Binding Type}"/>
-                            <DataGridTextColumn Header="Value" Binding="{Binding Value}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+        <DataTemplate DataType="{x:Type s:SensorsReadingCollection}">
+            <ui:DataGrid ItemsSource="{Binding}"
+                         CanUserAddRows="False"
+                         VerticalScrollBarVisibility="Disabled"
+                         AutoGenerateColumns="False">
+                <ui:DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+                    <DataGridTextColumn Header="Type" Binding="{Binding Type}"/>
+                    <DataGridTextColumn Header="Value" Binding="{Binding Value}"/>
+                </ui:DataGrid.Columns>
+            </ui:DataGrid>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid>
-        <ListBox ItemsSource="{Binding GreenhouseItems}" ItemTemplate="{StaticResource ListBoxDataTemplate}" Margin="20"></ListBox>
-    </Grid>
+
+    <ListBox ItemsSource="{Binding GreenhouseItems}">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <ui:CardExpander Header="{Binding Name}" Content="{Binding SensorsReadingCollection}"/>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+        <ListBox.ItemContainerStyle>
+            <Style TargetType="ListBoxItem" BasedOn="{StaticResource DefaultListBoxItemStyle}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Border x:Name="Border"
+                                    Margin="0"
+                                    Padding="{TemplateBinding Padding}"
+                                    Background="Transparent"
+                                    BorderThickness="1"
+                                    CornerRadius="{TemplateBinding Border.CornerRadius}">
+                                <ContentPresenter />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource MenuBarItemBackgroundSelected}"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Foreground" Value="{DynamicResource ListBoxItemSelectedForegroundThemeBrush}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ListBox.ItemContainerStyle>
+    </ListBox>
 </UserControl>
