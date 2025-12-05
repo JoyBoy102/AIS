@@ -17,9 +17,9 @@ namespace AIS.ViewModels
         {
             get => ProfileService.CurrentUserPhone;
         }
-        public string CurrentUserPhone
+        public string CurrentUserPassword
         {
-            get => ProfileService.CurrentUserPhone;
+            get => ProfileService.CurrentUserPassword;
         }
         public string CurrentUserLicenseStatus
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AIS.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace AIS.Views
         public ProfileSettingsView()
         {
             InitializeComponent();
+            DataContext = new ProfileSettingsViewModel();
         }
     }
 }

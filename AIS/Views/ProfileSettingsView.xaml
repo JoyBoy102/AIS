@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:AIS.Views" xmlns:viewmodels="clr-namespace:AIS.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ProfileSettingsViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             Background="White"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
     <StackPanel Margin="0,0,0,24">
         <ui:TextBlock
@@ -25,8 +24,8 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding CurrentUserEmail}"></TextBlock>
-                <ui:Button Appearance="Secondary"
+                <TextBlock Grid.Column="0" Text="{Binding CurrentUserEmail}" Margin="5"></TextBlock>
+                <ui:Button Grid.Column="1" Appearance="Secondary"
                             ToolTip="Редактировать">
                     <ui:SymbolIcon Symbol="Edit24"
                                    Width="16"
@@ -48,8 +47,8 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding CurrentUserNumber}"></TextBlock>
-                <ui:Button Appearance="Secondary"
+                <TextBlock Grid.Column="0" Text="{Binding CurrentUserNumber}" Margin="5"></TextBlock>
+                <ui:Button Grid.Column="1" Appearance="Secondary"
                            ToolTip="Редактировать">
                     <ui:SymbolIcon Symbol="Edit24"
                                    Width="16"
@@ -71,8 +70,8 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding CurrentUserPassword}"></TextBlock>
-                <ui:Button Appearance="Secondary"
+                <TextBlock Grid.Column="0" Text="{Binding CurrentUserPassword}" Margin="5"></TextBlock>
+                <ui:Button Grid.Column="1" Appearance="Secondary"
                            ToolTip="Редактировать">
                     <ui:SymbolIcon Symbol="Edit24"
                                    Width="16"
