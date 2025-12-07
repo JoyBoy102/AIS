@@ -23,6 +23,7 @@ namespace AIS.Models
         public ReportModuleModel()
         {
             _apiService = new ApiService(new HttpClient());
+            EventAggregator.AutoModeChanged += OnAutoModeChanged;
         }
 
         public static async Task<ReportModuleModel> CreateAsync()
@@ -58,6 +59,27 @@ namespace AIS.Models
             {
                 Reports.Add(report);
             }
+        }
+
+        public void OnAutoModeChanged(bool AutoMode)
+        {
+            if (AutoMode)
+            {
+                _ = HandleAutoModeEnabledAsync();
+            }
+            else
+            {
+                _ = HandleAutoModeDisabledAsync();
+            }
+        }
+        private async Task HandleAutoModeEnabledAsync()
+        {
+            await _apiService.StartPeriodicReportsAsync("1");
+        }
+
+        private async Task HandleAutoModeDisabledAsync()
+        {
+            await _apiService.StopPeriodicReportsAsync();
         }
     }
 }

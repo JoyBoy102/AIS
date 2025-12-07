@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using AIS.Models;
+using AIS.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
 using DocumentFormat.OpenXml.Office.CoverPageProps;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,24 @@ namespace AIS.ViewModels
     {
 
         private ApplicationTheme _currentApplicationTheme = ApplicationTheme.Unknown;
+        private SettingsModel _settingsModel;
+
+        public SettingsViewModel()
+        {
+            _settingsModel = new SettingsModel();
+        }
+
+        public static async Task<SettingsViewModel> CreateAsync()
+        {
+            var instance = new SettingsViewModel();
+            await instance.InitializeAsync();
+            return instance;
+        }
+
+        private async Task InitializeAsync()
+        {
+            _settingsModel = await SettingsModel.CreateAsync();
+        }
 
         public ApplicationTheme CurrentApplicationTheme
         {
@@ -25,6 +45,17 @@ namespace AIS.ViewModels
                     OnPropertyChanged(nameof(CurrentApplicationTheme));
                     ApplicationThemeManager.Apply(value);
                 }
+            }
+        }
+
+        public bool AutoMode
+        {
+            get => _settingsModel.AutoMode;
+            set
+            {
+                _settingsModel.AutoMode = value;
+                OnPropertyChanged(nameof(AutoMode));
+                EventAggregator.RaiseAutoModeChanged(value);
             }
         }
     }

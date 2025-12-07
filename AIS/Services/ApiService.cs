@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -34,6 +35,10 @@ namespace AIS.Services
         private const string _getAgronomicRulesEndpoint = "/agronomic_rules/get_agronomic_rules";
         private const string _createExecutionDeviceRowEndpoint = "/execution_devices/create";
         private const string _getReportsEndpoint = "/reports/";
+        private const string _startPeriodicReportsEndpoint = "/simulations/start-periodic-reports";
+        private const string _stopPeriodicReportsEndpoint = "/simulations/stop-periodic-reports";
+        private const string _getReportingStatusEndpoint = "/simulations/reporting-status";
+        private const string _getPowerExecutionDevicesEndpoint = "/simulations/power_execution_devices";
 
         public async Task<List<SensorReading>> GetGreenhousesMonitoringInfoAsync()
         {
@@ -458,6 +463,36 @@ namespace AIS.Services
                 return false;
             }
         }
+
+        public async Task<Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>> GetGreenhousesExecutionDevicesPowerAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync(_getPowerExecutionDevicesEndpoint);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageService.ShowError("Ошибка", "Не удалось получить данные теплиц");
+                    return new Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>();
+                }
+
+                var jsonString = await response.Content.ReadAsStringAsync();
+
+                var greenhousesDict = JsonSerializer.Deserialize<Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>>(
+                    jsonString,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+
+                return greenhousesDict ?? new Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>();
+            }
+            catch (Exception ex)
+            {
+                MessageService.ShowError("Ошибка", $"Ошибка при получении данных: {ex.Message}");
+                return new Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>();
+            }
+        }
         #endregion
 
         #region Reports
@@ -486,7 +521,80 @@ namespace AIS.Services
                 return new List<Report>();
             }
         }
-        #endregion
+
+        public async Task StartPeriodicReportsAsync(string interval)
+        {
+            try
+            {
+                StringContent content = new StringContent(interval, Encoding.UTF8);
+                var response = await _httpClient.PostAsync(_startPeriodicReportsEndpoint, content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageService.ShowError(
+                        "Ошибка",
+                        "Не удалось включить автоматический режим"
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageService.ShowError(
+                     "Ошибка",
+                     $"Ошибка при включении автоматического режима: {ex.Message}"
+                 );
+            }
+        }
+
+        public async Task StopPeriodicReportsAsync()
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync(_stopPeriodicReportsEndpoint, null);
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageService.ShowError(
+                        "Ошибка",
+                        "Не удалось выключить автоматический режим"
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageService.ShowError(
+                     "Ошибка",
+                     $"Ошибка при выключении автоматического режима: {ex.Message}"
+                 );
+            }
+        }
+
+        public async Task<bool> GetPeriodicReportsStatusAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync(_getReportingStatusEndpoint);
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageService.ShowError(
+                        "Ошибка",
+                        "Не удалось получить статус создания отчетов"
+                    );
+                    return false;
+                }
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var reportsStatusInfo = JsonSerializer.Deserialize<ReportingStatusResponse>(jsonString);
+
+                return reportsStatusInfo?.ReportingActive ?? false;
+            }
+            catch (Exception ex)
+            {
+                MessageService.ShowError(
+                     "Ошибка",
+                     $"Ошибка при получении статуса создания отчетов: {ex.Message}"
+                 );
+                return false;
+            }
+        }
+        #endregion 
 
     }
 }

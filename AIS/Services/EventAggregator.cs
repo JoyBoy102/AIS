@@ -12,6 +12,7 @@ namespace AIS.Services
         public static event Action? SensorRowUpdated;
         public static event Action? ExecutionDeviceRowUpdated;
         public static event Action? UserAuthenticated;
+        public static event Action<bool>? AutoModeChanged;
 
         public static void RaiseGreenhouseRowUpdated()
         {
@@ -30,6 +31,11 @@ namespace AIS.Services
         public static void RaiseUserAuthenticated()
         {
             UserAuthenticated?.Invoke();
+        }
+
+        public static void RaiseAutoModeChanged(bool isAutoMode)
+        {
+            AutoModeChanged?.Invoke(isAutoMode);
         }
 
     }

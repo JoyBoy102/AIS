@@ -1,4 +1,5 @@
 ﻿using AIS.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,12 @@ namespace AIS.Views
         public SettingsView()
         {
             InitializeComponent();
-            DataContext = new SettingsViewModel();
+            DataContext = InitializeViewModelAsync();
+        }
+        private async Task InitializeViewModelAsync()
+        {
+            var viewModel = await SettingsViewModel.CreateAsync();
+            DataContext = viewModel;
         }
     }
 }

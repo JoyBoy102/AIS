@@ -15,13 +15,18 @@
         <vm:MainWindowViewModel />
     </ui:FluentWindow.DataContext>
     <Grid>
-        <ui:TitleBar Icon="{DynamicResource Icon}" x:Name="TitleBar" Padding="30,0,0,0"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ui:TitleBar Icon="{DynamicResource Icon}" x:Name="TitleBar" Padding="30,0,0,0" Grid.ColumnSpan="2"/>
         <ui:NavigationView IsBackButtonVisible="Auto"
                            MenuItemsSource="{Binding ModuleItemsNav}"
                            TitleBar="{Binding ElementName=TitleBar, Mode=OneWay}"
                            FooterMenuItemsSource="{Binding FooterModuleItemsNav, Mode=OneWay}"
                            Padding="42,21,42,21"
-                           OpenPaneLength="270">
+                           OpenPaneLength="270"
+                           Grid.ColumnSpan="2">
         </ui:NavigationView>
     </Grid>
 </ui:FluentWindow>

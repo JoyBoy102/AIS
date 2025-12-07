@@ -33,11 +33,71 @@ namespace AIS.Models
             greenhouses = GetGreenhouseObservableCollection(sensorReadingsList);
         }
 
-        private async Task<List<SensorReading>> GetSensorsReadingsList()
+        public async Task<List<SensorReading>> GetSensorsReadingsList()
         {
             var sensorReadings = await _apiService.GetGreenhousesMonitoringInfoAsync();
-            return sensorReadings;
+            var executionDevicesPowers = await GetExecutionDevicesPowersAsync();
+
+            // Явно указываем все generic-типы
+            List<SensorReading> joinedData = sensorReadings.Join(
+                executionDevicesPowers,                         // inner sequence
+                sensor => sensor.GreenhouseId,                  // outerKeySelector
+                power => power.GreenhouseId,                    // innerKeySelector
+                (sensor, power) => new SensorReading           // resultSelector
+                {
+                    SensorId = sensor.SensorId,
+                    Value = sensor.Value,
+                    Type = sensor.Type,
+                    ReadingTime = sensor.ReadingTime,
+                    GreenhouseId = sensor.GreenhouseId,
+                    GreenhouseName = sensor.GreenhouseName,
+                    GreenhouseLocation = sensor.GreenhouseLocation,
+                    GreenhouseDescription = sensor.GreenhouseDescription,
+
+                    TemperaturePower = power.TemperaturePower,
+                    HumidityPower = power.HumidityPower,
+                    Co2Power = power.Co2Power
+                }
+            ).ToList();
+
+            return joinedData;
         }
+
+        private async Task<Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>> GetExecutionDevicePowerInfoAsync()
+        {
+            var info = await _apiService.GetGreenhousesExecutionDevicesPowerAsync();
+            return info;
+        }
+
+        private async Task<List<GreenhouseExecutionDevicesPowersWithID>> GetExecutionDevicesPowersAsync()
+        {
+            var infoDict = await GetExecutionDevicePowerInfoAsync();
+
+            var result = new List<GreenhouseExecutionDevicesPowersWithID>();
+
+            foreach (var kvp in infoDict)
+            {
+                int greenhouseID;
+                bool convertRes = int.TryParse(kvp.Key.Replace("greenhouse_", ""), out greenhouseID);
+                if (convertRes)
+                {
+                    
+                }
+                var info = new GreenhouseExecutionDevicesPowersWithID
+                {
+                    Co2Power = kvp.Value.Co2Power,
+                    GreenhouseId = greenhouseID,
+                    HumidityPower = kvp.Value.HumidityPower,
+                    TemperaturePower = kvp.Value.TemperaturePower
+                };
+                result.Add(info);
+            }
+
+            // Сортируем по ID теплицы
+            return result.OrderBy(g => g.GreenhouseId).ToList();
+        }
+
+
 
         private ObservableCollection<Greenhouse> GetGreenhouseObservableCollection(List<SensorReading> sensorReadings)
         {

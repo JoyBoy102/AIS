@@ -45,5 +45,16 @@
                 <ComboBoxItem Content="High Contrast" />
             </ComboBox>
         </ui:CardControl>
+
+        <ui:CardControl Margin="0,0,0,12" Icon="{ui:SymbolIcon FlagClock32}">
+            <ui:CardControl.Header>
+                <ui:TextBlock
+                    Grid.Row="0"
+                    FontTypography="Body"
+                    Text="Вкл/Выкл автоматический режим"
+                    VerticalAlignment="Center"/>
+            </ui:CardControl.Header>
+            <ui:ToggleSwitch IsChecked="{Binding AutoMode, Mode=TwoWay}"></ui:ToggleSwitch>
+        </ui:CardControl>
     </StackPanel>
 </UserControl>

@@ -22,6 +22,9 @@
                     <DataGridTextColumn Header="ID" Binding="{Binding SensorId}"/>
                     <DataGridTextColumn Header="Type" Binding="{Binding Type}"/>
                     <DataGridTextColumn Header="Value" Binding="{Binding Value}"/>
+                    <DataGridTextColumn Header="CO2_power" Binding="{Binding Co2Power}"/>
+                    <DataGridTextColumn Header="Temp_power" Binding="{Binding TemperaturePower}"/>
+                    <DataGridTextColumn Header="Humidity_power" Binding="{Binding HumidityPower}"/>
                 </ui:DataGrid.Columns>
             </ui:DataGrid>
         </DataTemplate>
