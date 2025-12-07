@@ -466,32 +466,24 @@ namespace AIS.Services
 
         public async Task<Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>> GetGreenhousesExecutionDevicesPowerAsync()
         {
-            try
+            var response = await _httpClient.GetAsync(_getPowerExecutionDevicesEndpoint);
+
+            if (!response.IsSuccessStatusCode)
             {
-                var response = await _httpClient.GetAsync(_getPowerExecutionDevicesEndpoint);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    MessageService.ShowError("Ошибка", "Не удалось получить данные теплиц");
-                    return new Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>();
-                }
-
-                var jsonString = await response.Content.ReadAsStringAsync();
-
-                var greenhousesDict = JsonSerializer.Deserialize<Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>>(
-                    jsonString,
-                    new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    });
-
-                return greenhousesDict ?? new Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>();
-            }
-            catch (Exception ex)
-            {
-                MessageService.ShowError("Ошибка", $"Ошибка при получении данных: {ex.Message}");
+                MessageService.ShowError("Ошибка", "Не удалось получить данные теплиц");
                 return new Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>();
             }
+
+            var jsonString = await response.Content.ReadAsStringAsync();
+
+            var greenhousesDict = JsonSerializer.Deserialize<Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>>(
+                jsonString,
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+            return greenhousesDict ?? new Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>();
         }
         #endregion
 

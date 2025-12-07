@@ -1,0 +1,44 @@
+﻿<Window x:Class="AIS.Views.NoConnectionView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        Title="Нет подключения"
+        Height="350" 
+        Width="500"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
+    <Grid Background="{DynamicResource ApplicationBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Контент -->
+        <StackPanel Grid.Row="0" 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+            <ui:SymbolIcon Symbol="GlobeProhibited20" 
+                           Foreground="#FFE81123"
+                           Width="80"
+                           Height="80"
+                           Margin="0,0,0,20"/>
+
+            <TextBlock Text="Отсутствует подключение к серверу"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,10"/>
+
+            <TextBlock Text="Не удается установить соединение с сервером. Пожалуйста, проверьте ваше интернет-соединение и перезапустите программу"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center"
+                       MaxWidth="350"
+                       Foreground="#FF666666"
+                       Margin="0,0,0,30"/>
+        </StackPanel>
+
+        
+    </Grid>
+</Window>
