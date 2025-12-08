@@ -547,6 +547,11 @@ namespace AIS.Services
         #endregion
 
         #region Execution Devices
+        public async Task ApplyExecutionDevicePower(int powerValue, string greenhouseID_in_String, string executionDeviceType)
+        {
+            executionDeviceType = executionDeviceType.Replace("controller", "power");
+            //Попросить Ильдара сделать эндпойнт для изменения мощности исп. устройства
+        }
         public async Task<List<ExecutionDevice>> GetExecutionDevicesTableAsync()
         {
             try
