@@ -1,4 +1,5 @@
 ﻿using AIS.Models;
+using AIS.Services;
 using AIS.Structs;
 using CommunityToolkit.Mvvm.Input;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -30,8 +31,7 @@ namespace AIS.ViewModels
 
         private async Task InitializeAsync()
         {
-            _manualCommandsSetPageModel = await ManualCommandsSetPageModel.CreateAsync();
-
+           _manualCommandsSetPageModel = await ManualCommandsSetPageModel.CreateAsync();
         }
 
         public ObservableCollection<ExecutionDevice> Devices

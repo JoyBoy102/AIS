@@ -16,10 +16,17 @@ namespace AIS.Models
         public ExecutionDevice SelectedDevice;
         public int PowerValue;
         private ApiService _apiService;
+        private bool _autoMode;
 
         public ManualCommandsSetPageModel()
         {
             _apiService = new ApiService(new HttpClient());
+            EventAggregator.AutoModeChanged += OnAutoModeChanged;
+        }
+
+        private void OnAutoModeChanged(bool value)
+        {
+            _autoMode = value;
         }
 
         public static async Task<ManualCommandsSetPageModel> CreateAsync()
@@ -31,7 +38,11 @@ namespace AIS.Models
 
         public async Task Apply()
         {
-            await _apiService.ApplyExecutionDevicePower(PowerValue, $"greenhouse_{SelectedDevice.GreenhouseID}", SelectedDevice.Type);
+            bool autoMode = await GetAutoModeAsync();
+            if (!autoMode)
+                await _apiService.ApplyExecutionDevicePower(PowerValue, $"greenhouse_{SelectedDevice.GreenhouseID}", SelectedDevice.Type);
+            else
+                MessageService.ShowInfo("Для изменения мощности исполнительного устройства отключите автоматический режим");
         }
 
         private async Task InitializeAsync()
@@ -57,6 +68,11 @@ namespace AIS.Models
                                     }
                                 ).ToList();
             Devices = new ObservableCollection<ExecutionDevice>(joinedData);
+        }
+        public async Task<bool> GetAutoModeAsync()
+        {
+            bool res = await _apiService.GetPeriodicReportsStatusAsync();
+            return res;
         }
     }
 }

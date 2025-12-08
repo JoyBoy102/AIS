@@ -551,6 +551,7 @@ namespace AIS.Services
         {
             executionDeviceType = executionDeviceType.Replace("controller", "power");
             //Попросить Ильдара сделать эндпойнт для изменения мощности исп. устройства
+            MessageService.ShowInfo($"Новое значение мощности выставлено");
         }
         public async Task<List<ExecutionDevice>> GetExecutionDevicesTableAsync()
         {
