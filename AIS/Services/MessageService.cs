@@ -10,7 +10,7 @@ namespace AIS.Services
 {
     public class MessageService
     {
-        private static Wpf.Ui.Controls.MessageBox CreateMessageBox(string messageBoxText, string caption, System.Windows.MessageBoxButton button, MessageBoxImage icon)
+        private static Wpf.Ui.Controls.MessageBox CreateMessageBox(string? messageBoxText, string caption, System.Windows.MessageBoxButton button, MessageBoxImage icon)
         {
             var messageBox = new Wpf.Ui.Controls.MessageBox();
             messageBox.Title = caption;
@@ -51,7 +51,7 @@ namespace AIS.Services
             await CreateMessageBox(message, "Ошибка", System.Windows.MessageBoxButton.OK, MessageBoxImage.Error).ShowDialogAsync();
         }
 
-        public async static void ShowError(string title, string message)
+        public async static void ShowError(string title, string? message)
         {
             await CreateMessageBox(message, title, System.Windows.MessageBoxButton.OK, MessageBoxImage.Error).ShowDialogAsync();
         }
