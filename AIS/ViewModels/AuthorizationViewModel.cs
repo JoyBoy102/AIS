@@ -46,7 +46,8 @@ namespace AIS.ViewModels
             }
             set
             {
-                SetProperty(ref _authorizationModel.FirstTextBoxData, value);
+                string trimmedValue = value.TrimEnd();
+                SetProperty(ref _authorizationModel.FirstTextBoxData, trimmedValue);
             }
         }
 
@@ -64,7 +65,11 @@ namespace AIS.ViewModels
             {
                 return _authorizationModel.Password;
             }
-            set => SetProperty(ref _authorizationModel.Password, value);
+            set
+            {
+                string trimmedValue = value.TrimEnd();
+                SetProperty(ref _authorizationModel.Password, trimmedValue);
+            }
         }
 
         private void SignIn()
