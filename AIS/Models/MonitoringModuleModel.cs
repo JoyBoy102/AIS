@@ -60,6 +60,21 @@ namespace AIS.Models
                 }
             ).ToList();
 
+            foreach (var sensorReading in joinedData)
+            {
+                switch (sensorReading.Type)
+                {
+                    case "temperature":
+                        sensorReading.CurrentPower = sensorReading.TemperaturePower;
+                        break;
+                    case "humidity":
+                        sensorReading.CurrentPower = sensorReading.HumidityPower;
+                        break;
+                    case "co2":
+                        sensorReading.CurrentPower = sensorReading.Co2Power;
+                        break;
+                }
+            }
             return joinedData;
         }
 
