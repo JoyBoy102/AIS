@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,10 +12,12 @@ using System.Net.Http;
 using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AIS.Services
 {
@@ -39,7 +42,167 @@ namespace AIS.Services
         private const string _stopPeriodicReportsEndpoint = "/simulations/stop-periodic-reports";
         private const string _getReportingStatusEndpoint = "/simulations/reporting-status";
         private const string _getPowerExecutionDevicesEndpoint = "/simulations/power_execution_devices";
+        private const string _postAuth = "/users/auth";
+        private const string _userCreateUpdate = "/users";
 
+        #region User
+        public async Task<User?> Auth(string login, string password)
+        {
+            try
+            {
+                var UserData = new
+                {
+                    login,
+                    password,
+                };
+                var json = JsonSerializer.Serialize(UserData);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync(_postAuth, content);
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var jsonDocument = JsonDocument.Parse(jsonString);
+                if (!response.IsSuccessStatusCode)
+                {
+                    string? detail = jsonDocument.RootElement.GetProperty("detail").GetString();
+                    MessageService.ShowError(
+                        "Ошибка",
+                        detail
+                    );
+                    return null;
+                }
+                var UserInfo = JsonSerializer.Deserialize<User>(jsonString);
+                return UserInfo;
+            }
+            catch (Exception ex)
+            {
+                MessageService.ShowError(
+                    "Ошибка",
+                    $"Ошибка при авторизации: {ex.Message}"
+                );
+                return null;
+            }
+
+        }
+        public async Task<bool> UpdateUser(int greenhouseID, string _name, string _location, string _description, AgronomicRuleModel selectedAgronomicRule)
+        {
+            try
+            {
+                var greenhouseData = new
+                {
+                    name = _name,
+                    location = _location,
+                    description = _description,
+                    agrorule_id = selectedAgronomicRule.Id
+                };
+                var json = JsonSerializer.Serialize(greenhouseData);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PutAsync($"/greenhouses/{greenhouseID}", content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageService.ShowError(
+                        "Ошибка",
+                        "Не удалось редактировать запись"
+                    );
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageService.ShowError(
+                    "Ошибка",
+                    $"Ошибка при изменении записи: {ex.Message}"
+                );
+                return false;
+            }
+
+        }
+        public async Task<bool> AddUser(string login, string password, bool is_sudo, string description)
+        {
+            try
+            {
+                var UserData = new
+                {
+                    login,
+                    password,
+                    is_sudo,
+                    description,
+                };
+                var json = JsonSerializer.Serialize(UserData);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync(_userCreateUpdate, content);
+                var jsonString = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    string userMessage = string.Empty;
+
+                    try
+                    {
+                        // Пытаемся десериализовать как объект с деталями ошибки
+                        using var jsonDoc = JsonDocument.Parse(jsonString);
+
+                        if (jsonDoc.RootElement.TryGetProperty("detail", out var detailElement))
+                        {
+                            if (detailElement.ValueKind == JsonValueKind.String)
+                            {
+                                // Обработка случая, когда detail - строка
+                                userMessage = detailElement.GetString() ?? "Неизвестная ошибка";
+                            }
+                            else if (detailElement.ValueKind == JsonValueKind.Array)
+                            {
+                                // Обработка случая, когда detail - массив
+                                var errors = JsonSerializer.Deserialize<List<ErrorDetail>>(detailElement.GetRawText());
+
+                                if (errors?.Count > 0)
+                                {
+                                    var firstError = errors[0];
+                                    if (firstError.Loc != null && firstError.Loc.Contains("password"))
+                                    {
+                                        if (firstError.Type == "string_too_short" && firstError.Ctx != null)
+                                        {
+                                            userMessage = $"Пароль должен быть не менее {firstError.Ctx.MinLength} символов";
+                                        }
+                                    }
+                                    if (firstError.Loc != null && firstError.Loc.Contains("login"))
+                                    {
+                                        if (firstError.Type == "value_error" && firstError.Ctx != null)
+                                        {
+                                            userMessage = $"Неверный формат логина";
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (JsonException)
+                    {
+                        // Если не удалось распарсить JSON, используем raw строку
+                        userMessage = jsonString;
+                    }
+
+                    // Если не нашли конкретное сообщение, используем общее
+                    if (string.IsNullOrEmpty(userMessage))
+                    {
+                        userMessage = "Произошла ошибка при создании пользователя";
+                    }
+
+                    MessageService.ShowError("Ошибка", userMessage);
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageService.ShowError(
+                    "Ошибка",
+                    $"Ошибка при создании записи: {ex.Message}"
+                );
+                return false;
+            }
+        }
+        #endregion
+
+        #region Monitoring
         public async Task<List<SensorReading>> GetGreenhousesMonitoringInfoAsync()
         {
             try
@@ -74,6 +237,7 @@ namespace AIS.Services
                 return new List<SensorReading>();
             }
         }
+        #endregion
 
         #region Agronomic Rules
         public async Task<List<AgronomicRuleModel>> GetAgronomicRules()
