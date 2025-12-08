@@ -50,7 +50,7 @@ namespace AIS.Models
                     DetectionCount = g.Count()
                 });
 
-            return greenhouseDetections.Count(g => g.DetectionCount > 10);
+            return greenhouseDetections.Count(g => g.DetectionCount > 20);
         }
 
         public string GetWeedLevel()
@@ -84,17 +84,20 @@ namespace AIS.Models
             if (Directory.Exists(imagesPath)) 
             {
                 var imageFiles = Directory.GetFiles(imagesPath);
-                /* Раскоментить если требуется с папки Images в бд загрузить фотографии
+                 
+                //Раскоментить если требуется с папки Images в бд загрузить фотографии
+                /*
                 foreach (var imagePath in imageFiles)
                 {
                     await _apiService.CreateDetectionInDatabaseAsync(imagePath, greenhouseIds[random.Next(greenhouseIds.Count)]);
                 }
                 */
+                
                 var detectionsList = await _apiService.GetDetectionsList();
                 
                 foreach (var detection in detectionsList)
                 {
-                    var endpoint = $"/detections/{detection.DetectionID}/photo";
+                    var endpoint = $"/detections/{detection.DetectionID}/detection-photo";
                     byte[] photoData = await _apiService.GetDetectionPhoto(endpoint);
 
                     if (photoData != null && photoData.Length > 0)

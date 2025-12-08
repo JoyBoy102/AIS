@@ -66,7 +66,7 @@ namespace AIS.ViewModels
 
         public int TotalWeedsCount
         {
-            get => DetectionImages.Count;
+            get => DetectionImages.Count(x => x.IsWeed);
         }
         public int CriticalZonesCount
         {
