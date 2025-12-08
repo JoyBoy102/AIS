@@ -7,9 +7,6 @@
              xmlns:vm="clr-namespace:AIS.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
-        <vm:WeedDetectionViewModel/>
-    </UserControl.DataContext>
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.2*"/>
@@ -47,40 +44,47 @@
                 </Border>
             </Grid>
         </Border>
-        <ItemsControl Grid.Row="1" Margin="5" ItemsSource="{Binding DetectionImages}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal"></WrapPanel>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="#CCC" BorderThickness="1" Margin="5" Background="White">
-                        <Border.InputBindings>
-                            <MouseBinding MouseAction="LeftClick" 
-                                        Command="{Binding DataContext.OpenImagePopupCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                        CommandParameter="{Binding}"/>
-                        </Border.InputBindings>
-                        <StackPanel>
-                            <Image Source="{Binding ImagePath}" 
-                                   Width="200" 
-                                   Height="150" 
-                                   Stretch="UniformToFill"/>
 
-                            <StackPanel Margin="5">
-                                <TextBlock Text="{Binding GreenhouseName}" 
-                                           FontWeight="Bold"/>
-                                <TextBlock Text="{Binding DetectionTimeString}" 
-                                           FontSize="10"/>
-                                <TextBlock Text="{Binding Confidence}" 
-                                           FontSize="10"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-
+        <Border Grid.Row="1" Visibility="{Binding IsLoading}" Background="White">
+            <TextBlock Text="Подождите, идет загрузка фотографий..." FontSize="32" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+        </Border>
         
+        <ScrollViewer Grid.Row="1" Visibility="{Binding Loaded}">
+            <ItemsControl Margin="5" ItemsSource="{Binding DetectionImages}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="#CCC" BorderThickness="1" Margin="5" Background="White">
+                            <Border.InputBindings>
+                                <MouseBinding MouseAction="LeftClick" 
+                                            Command="{Binding DataContext.OpenImagePopupCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"/>
+                            </Border.InputBindings>
+                            <StackPanel>
+                                <Image Source="{Binding ImagePath}" 
+                                       Width="200" 
+                                       Height="150" 
+                                       Stretch="UniformToFill"/>
+
+                                <StackPanel Margin="5">
+                                    <TextBlock Text="{Binding GreenhouseName}" 
+                                               FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding DetectionTime}" 
+                                               FontSize="10"/>
+                                    <TextBlock Text="{Binding Confidence, StringFormat='Точность: {0}'}" 
+                                               FontSize="10"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+
     </Grid>
 </UserControl>

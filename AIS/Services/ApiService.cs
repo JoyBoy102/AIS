@@ -6,8 +6,10 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
@@ -39,6 +41,8 @@ namespace AIS.Services
         private const string _stopPeriodicReportsEndpoint = "/simulations/stop-periodic-reports";
         private const string _getReportingStatusEndpoint = "/simulations/reporting-status";
         private const string _getPowerExecutionDevicesEndpoint = "/simulations/power_execution_devices";
+        private const string _getDetectionsEndpoint = "/detections/";
+        private const string _createDetectionEndpoint = "/detections/";
 
         public async Task<List<SensorReading>> GetGreenhousesMonitoringInfoAsync()
         {
@@ -586,7 +590,95 @@ namespace AIS.Services
                 return false;
             }
         }
-        #endregion 
+        #endregion
+
+        #region Detections
+        public async Task CreateDetectionInDatabaseAsync(string imagePath, int greenhouseID)
+        {
+            try
+            {
+                var formData = new MultipartFormDataContent();
+                formData.Add(new StringContent(greenhouseID.ToString()), "greenhouse_id");
+                var fileContent = new ByteArrayContent(File.ReadAllBytes(imagePath));
+                string mimeType = GetMimeType(imagePath);
+                fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(mimeType);
+                formData.Add(fileContent, "photo", Path.GetFileName(imagePath));
+                await _httpClient.PostAsync(_createDetectionEndpoint, formData);
+
+            }
+            catch (Exception ex)
+            {
+                MessageService.ShowError("Не удалось создать запись с детекцией в БД");
+            }
+        }
+
+        public async Task<List<DetectionImage>> GetDetectionsList()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync(_getDetectionsEndpoint);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    var detectionsInfo = JsonSerializer.Deserialize<List<DetectionImage>>(jsonString);
+                    return detectionsInfo;
+                }
+                else
+                {
+                    MessageService.ShowError(
+                        "Ошибка получения информации по детекциям",
+                        $"Эндпоинт {_getDetectionsEndpoint} вернул код {(int)response.StatusCode}"
+                    );
+                    return new List<DetectionImage>();
+                }
+            }
+            catch (Exception ex)
+            {
+                return new List<DetectionImage>();
+            }
+        }
+
+        public async Task<byte[]> GetDetectionPhoto(string url)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsByteArrayAsync();
+                }
+                else
+                {
+                    MessageService.ShowError(
+                        "Ошибка получения фотографии с детекцией",
+                        $"Эндпоинт {url} вернул код {(int)response.StatusCode}"
+                    );
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
+        private string GetMimeType(string filePath)
+        {
+            string extension = Path.GetExtension(filePath).ToLowerInvariant();
+
+            return extension switch
+            {
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".gif" => "image/gif",
+                ".bmp" => "image/bmp",
+                ".tiff" => "image/tiff",
+                ".webp" => "image/webp",
+                _ => "application/octet-stream"
+            };
+        }
+        #endregion
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AIS.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace AIS.Views
         public WeedDetectionModule()
         {
             InitializeComponent();
+            _ = InitializeViewModelAsync();
+        }
+        private async Task InitializeViewModelAsync()
+        {
+            var viewModel = await WeedDetectionViewModel.CreateAsync();
+            DataContext = viewModel;
         }
     }
 }

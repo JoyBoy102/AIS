@@ -21,8 +21,19 @@ namespace AIS.ViewModels
         public IRelayCommand<DetectionImage> OpenImagePopupCommand { get; set; }
         public WeedDetectionViewModel()
         {
-            _weedDetectionModel = new WeedDetectionModel();
             OpenImagePopupCommand = new RelayCommand<DetectionImage>(OpenPopup);
+        }
+
+        public static async Task<WeedDetectionViewModel> CreateAsync()
+        {
+            var instance = new WeedDetectionViewModel();
+            await instance.InitializeAsync();
+            return instance;
+        }
+
+        private async Task InitializeAsync()
+        {
+            _weedDetectionModel = await WeedDetectionModel.CreateAsync();
         }
 
         public ObservableCollection<DetectionImage> DetectionImages
@@ -32,6 +43,24 @@ namespace AIS.ViewModels
             {
                 _weedDetectionModel.DetectionImages = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public Visibility IsLoading
+        {
+            get
+            {
+                if (_weedDetectionModel.IsLoading) return Visibility.Visible;
+                else return Visibility.Collapsed;
+            }
+        }
+
+        public Visibility Loaded
+        {
+            get
+            {
+                if (_weedDetectionModel.Loaded) return Visibility.Visible;
+                else return Visibility.Collapsed;
             }
         }
 

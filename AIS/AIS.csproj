@@ -17,8 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\weed1.jpg" />
-    <Resource Include="Images\weed2.jpg" />
     <Resource Include="Resources\excel.svg" />
     <Resource Include="Resources\icon_black.png" />
     <Resource Include="Resources\icon_white.png" />
@@ -37,6 +35,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Images\" />
   </ItemGroup>
 
 </Project>
