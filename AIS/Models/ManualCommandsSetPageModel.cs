@@ -48,6 +48,7 @@ namespace AIS.Models
         private async Task InitializeAsync()
         {
             await InitializeAsyncExecutionDevices();
+            SelectedDevice = Devices[0];
         }
 
         private async Task InitializeAsyncExecutionDevices()
