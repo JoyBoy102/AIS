@@ -9,6 +9,7 @@
         WindowBackdropType="Acrylic"
         ExtendsContentIntoTitleBar="True"
         WindowCornerPreference="Default"
+        WindowStartupLocation="CenterScreen" 
         Height="450" Width="400">
     <Grid>
         <ui:TitleBar Icon="{StaticResource Icon}"/>
