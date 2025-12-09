@@ -65,13 +65,13 @@ namespace AIS.Models
                 switch (sensorReading.Type)
                 {
                     case "temperature":
-                        sensorReading.CurrentPower = sensorReading.TemperaturePower;
+                        sensorReading.CurrentPower = sensorReading.TemperaturePower != null? sensorReading.TemperaturePower.ToString() : "Отсутствует";
                         break;
                     case "humidity":
-                        sensorReading.CurrentPower = sensorReading.HumidityPower;
+                        sensorReading.CurrentPower = sensorReading.HumidityPower!=null? sensorReading.HumidityPower.ToString() : "Отсутствует";
                         break;
                     case "co2":
-                        sensorReading.CurrentPower = sensorReading.Co2Power;
+                        sensorReading.CurrentPower = sensorReading.Co2Power!= null ? sensorReading.Co2Power.ToString() : "Отсутствует";
                         break;
                 }
             }

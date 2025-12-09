@@ -36,6 +36,6 @@ namespace AIS.Structs
         public double? HumidityPower { get; set; }
         public double? Co2Power { get; set; }
 
-        public double? CurrentPower { get; set; }
+        public string CurrentPower { get; set; }
     }
 }
