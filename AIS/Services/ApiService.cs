@@ -48,6 +48,7 @@ namespace AIS.Services
         private const string _createDetectionEndpoint = "/detections/";
         private const string _postAuth = "/users/auth";
         private const string _userCreateUpdate = "/users";
+        private const string _putUpdateExecutionDevicePowersEndpoint = "/simulations/update_all_power_execution_devices/";
 
         #region User
         public async Task<User?> Auth(string login, string password)
@@ -547,11 +548,30 @@ namespace AIS.Services
         #endregion
 
         #region Execution Devices
-        public async Task ApplyExecutionDevicePower(int powerValue, string greenhouseID_in_String, string executionDeviceType)
+        public async Task ApplyExecutionDevicePower(double powerValue, string greenhouseID_in_String, string executionDeviceType)
         {
-            executionDeviceType = executionDeviceType.Replace("controller", "power");
-            //Попросить Ильдара сделать эндпойнт для изменения мощности исп. устройства
-            MessageService.ShowInfo($"Новое значение мощности выставлено");
+            try
+            {
+                executionDeviceType = executionDeviceType.Replace("controller", "power");
+                var currentExecutionDevicePowers = await GetGreenhousesExecutionDevicesDictPowerAsync();
+                currentExecutionDevicePowers[greenhouseID_in_String][executionDeviceType] = powerValue;
+                var json = JsonSerializer.Serialize(currentExecutionDevicePowers);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PutAsync(_putUpdateExecutionDevicePowersEndpoint, content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageService.ShowError($"Не удалось выставить новое значение мощности");
+                }
+                MessageService.ShowInfo($"Новое значение мощности выставлено");
+            }
+            catch (Exception ex)
+            {
+                MessageService.ShowError(
+                    "Ошибка",
+                    $"Ошибка при выставлении нового значения мощности: {ex.Message}"
+                );
+            }
+
         }
         public async Task<List<ExecutionDevice>> GetExecutionDevicesTableAsync()
         {
@@ -658,6 +678,28 @@ namespace AIS.Services
                 });
 
             return greenhousesDict ?? new Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>();
+        }
+
+        public async Task<Dictionary<string, Dictionary<string, double>>> GetGreenhousesExecutionDevicesDictPowerAsync()
+        {
+            var response = await _httpClient.GetAsync(_getPowerExecutionDevicesEndpoint);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                MessageService.ShowError("Ошибка", "Не удалось получить данные теплиц");
+                return new Dictionary<string, Dictionary<string, double>>();
+            }
+
+            var jsonString = await response.Content.ReadAsStringAsync();
+
+            var greenhousesDict = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, double>>>(
+                jsonString,
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+            return greenhousesDict ?? new Dictionary<string, Dictionary<string, double>>();
         }
         #endregion
 

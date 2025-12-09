@@ -47,7 +47,7 @@
                 </StackPanel>
 
                 <!-- Slider для регулировки -->
-                <Slider Minimum="0" Maximum="100" 
+                <Slider Minimum="-100" Maximum="100" 
                         Value="{Binding PowerValue}"
                         TickFrequency="10" TickPlacement="BottomRight"
                         Height="30" Width="300"
