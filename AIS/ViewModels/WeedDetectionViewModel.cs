@@ -18,10 +18,12 @@ namespace AIS.ViewModels
         private WeedDetectionModel _weedDetectionModel;
         private DetectionImage _detectionImage;
         private bool _isPopupOpen;
+        public IAsyncRelayCommand LoadImagesCommand { get; set; }
         public IRelayCommand<DetectionImage> OpenImagePopupCommand { get; set; }
         public WeedDetectionViewModel()
         {
             OpenImagePopupCommand = new RelayCommand<DetectionImage>(OpenPopup);
+            LoadImagesCommand = new AsyncRelayCommand(LoadImagesToDB);
         }
 
         public static async Task<WeedDetectionViewModel> CreateAsync()
@@ -48,20 +50,14 @@ namespace AIS.ViewModels
 
         public Visibility IsLoading
         {
-            get
-            {
-                if (_weedDetectionModel.IsLoading) return Visibility.Visible;
-                else return Visibility.Collapsed;
-            }
+            get => _weedDetectionModel.IsLoading;
+            set => SetProperty(ref  _weedDetectionModel.IsLoading, value);
         }
 
         public Visibility Loaded
         {
-            get
-            {
-                if (_weedDetectionModel.Loaded) return Visibility.Visible;
-                else return Visibility.Collapsed;
-            }
+            get => _weedDetectionModel.Loaded;
+            set => SetProperty(ref _weedDetectionModel.Loaded, value);
         }
 
         public int TotalWeedsCount
@@ -98,6 +94,16 @@ namespace AIS.ViewModels
             photoViewerViewModel.SelectedImage = image;
             modalWindow.DataContext = photoViewerViewModel;
             modalWindow.ShowDialog();
+        }
+
+        private async Task LoadImagesToDB()
+        {
+            IsLoading = Visibility.Visible;
+            Loaded = Visibility.Collapsed;
+            await _weedDetectionModel.LoadImagesToDB();
+            DetectionImages = await _weedDetectionModel.GetDetectionsListAsync();
+            IsLoading = Visibility.Collapsed;
+            Loaded = Visibility.Visible;
         }
 
     }

@@ -20,7 +20,7 @@ namespace AIS.Models
                                                          new Module { ModuleName = "Модуль формирования отчетов", Control = new ReportModuleView(), ModuleIcon = SymbolRegular.DocumentText24 },
                                                          new Module { ModuleName = "Модуль изменения таблиц", Control = new CRUDView(), ModuleIcon = SymbolRegular.Edit24 },
                                                          new Module { ModuleName = "Модуль детекций сорняков", Control = new WeedDetectionModule(), ModuleIcon = SymbolRegular.Scan24},
-                                                         new Module { ModuleName = "Модуль ручного управления теплицей", Control = new ManualCommandsSetPage(), ModuleIcon = SymbolRegular.Scan24} };
+                                                         new Module { ModuleName = "Модуль ручного управления", Control = new ManualCommandsSetPage(), ModuleIcon = SymbolRegular.HandLeft24} };
         }
             
     }

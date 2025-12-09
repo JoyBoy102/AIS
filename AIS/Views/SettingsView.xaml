@@ -16,8 +16,8 @@
     <StackPanel Margin="0,0,0,24">
         <ui:TextBlock
         Margin="0,0,0,8"
-        FontTypography="BodyStrong"
-        Text="Внешний вид" />
+        FontTypography="Subtitle"
+        Text="Настройка приложения" />
         <ui:CardControl Margin="0,0,0,12" Icon="{ui:SymbolIcon Color24}">
             <ui:CardControl.Header>
                 <Grid>

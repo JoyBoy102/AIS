@@ -21,6 +21,6 @@ namespace AIS.Structs
         public string Description { get; set; }
 
         [JsonPropertyName("is_sudo")]
-        public bool LicenseOwner { get; set; }
+        public bool IsSudo { get; set; }
     }
 }

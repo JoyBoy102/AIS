@@ -29,8 +29,8 @@ namespace AIS.ViewModels
             }
             EventAggregator.UserAuthenticated += () =>
             {
-                _navigationViews[3].IsEnabled = ProfileService.LicenseOwner;
-                _navigationViews[3].Opacity = ProfileService.LicenseOwner? 1 : 0.5;
+                _navigationViews[2].IsEnabled = ProfileService.IsSudo;
+                _navigationViews[2].Opacity = ProfileService.IsSudo ? 1 : 0.5;
             };
         }
         

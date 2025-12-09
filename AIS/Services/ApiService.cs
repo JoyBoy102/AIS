@@ -694,13 +694,6 @@ namespace AIS.Services
             {
                 StringContent content = new StringContent(interval, Encoding.UTF8);
                 var response = await _httpClient.PostAsync(_startPeriodicReportsEndpoint, content);
-                if (!response.IsSuccessStatusCode)
-                {
-                    MessageService.ShowError(
-                        "Ошибка",
-                        "Не удалось включить автоматический режим"
-                    );
-                }
             }
             catch (Exception ex)
             {
@@ -716,13 +709,6 @@ namespace AIS.Services
             try
             {
                 var response = await _httpClient.PostAsync(_stopPeriodicReportsEndpoint, null);
-                if (!response.IsSuccessStatusCode)
-                {
-                    MessageService.ShowError(
-                        "Ошибка",
-                        "Не удалось выключить автоматический режим"
-                    );
-                }
             }
             catch (Exception ex)
             {

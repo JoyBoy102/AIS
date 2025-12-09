@@ -84,9 +84,9 @@ namespace AIS.ViewModels
             set => ProfileService.CurrentUserPassword = value;
         }
 
-        public string CurrentUserLicenseStatus
+        public string CurrentUserAdministratorStatus
         {
-            get => ProfileService.LicenseOwner ? "Активна" : "Не активна";
+            get => ProfileService.IsSudo ? "Да" : "Нет";
         }
 
         // Команды

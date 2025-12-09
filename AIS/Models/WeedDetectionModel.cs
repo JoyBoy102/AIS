@@ -1,6 +1,7 @@
 ﻿using AIS.Services;
 using AIS.Structs;
 using DocumentFormat.OpenXml.Office2016.Excel;
+using DocumentFormat.OpenXml.Vml;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,7 @@ using System.Net.Http;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AIS.Models
 {
@@ -17,8 +19,8 @@ namespace AIS.Models
     {
         public ObservableCollection<DetectionImage> DetectionImages { get; set; }
         private ApiService _apiService;
-        public bool IsLoading = false;
-        public bool Loaded = false;
+        public Visibility IsLoading = Visibility.Collapsed;
+        public Visibility Loaded = Visibility.Collapsed;
         public WeedDetectionModel()
         {
             _apiService = new ApiService(new HttpClient());
@@ -33,11 +35,11 @@ namespace AIS.Models
 
         private async Task InitializeAsync()
         {
-            IsLoading = true;
-            Loaded = false;
+            IsLoading = Visibility.Visible;
+            Loaded = Visibility.Collapsed;
             DetectionImages = await GetDetectionsListAsync();
-            IsLoading = false;
-            Loaded = true;
+            IsLoading = Visibility.Collapsed;
+            Loaded = Visibility.Visible;
         }
 
         public int GetCriticalZonesCount()
@@ -71,87 +73,71 @@ namespace AIS.Models
             return $"pack://application:,,,/AIS;component/{imageName}";
         }
 
-        private async Task<ObservableCollection<DetectionImage>> GetDetectionsListAsync()
+        public async Task<ObservableCollection<DetectionImage>> GetDetectionsListAsync()
         {
-            var greenhouseList = await _apiService.GetGreenhousesTableAsync();
-            var greenhouseIds = greenhouseList.Select(x => x.ID).ToList();
-            Random random = new Random();
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
             string projectRoot = Directory.GetParent(basePath).Parent.Parent.Parent.FullName;
-            string imagesPath = Path.Combine(projectRoot, "Images");
             var result = new ObservableCollection<DetectionImage>();
-            //Создаем строки в бд
-            if (Directory.Exists(imagesPath)) 
+
+            var detectionsList = await _apiService.GetDetectionsList();
+                
+            foreach (var detection in detectionsList)
             {
-                var imageFiles = Directory.GetFiles(imagesPath);
-                 
-                //Раскоментить если требуется с папки Images в бд загрузить фотографии
-                /*
-                foreach (var imagePath in imageFiles)
-                {
-                    await _apiService.CreateDetectionInDatabaseAsync(imagePath, greenhouseIds[random.Next(greenhouseIds.Count)]);
-                }
-                */
-                
-                var detectionsList = await _apiService.GetDetectionsList();
-                
-                foreach (var detection in detectionsList)
-                {
-                    var endpoint = $"/detections/{detection.DetectionID}/detection-photo";
-                    byte[] photoData = await _apiService.GetDetectionPhoto(endpoint);
+                var endpoint = $"/detections/{detection.DetectionID}/detection-photo";
+                byte[] photoData = await _apiService.GetDetectionPhoto(endpoint);
 
-                    if (photoData != null && photoData.Length > 0)
+                if (photoData != null && photoData.Length > 0)
+                {
+                    // Определяем расширение файла на основе Content-Type или данных
+                    string extension = GetImageExtension(photoData) ?? ".jpg";
+
+                    // Генерируем имя файла
+                    string fileName = $"detection_{detection.DetectionID}{extension}";
+                    string folderPath = System.IO.Path.Combine(projectRoot, "Detections");
+
+                    // Создаем папку если не существует
+                    if (!Directory.Exists(folderPath))
                     {
-                        // Определяем расширение файла на основе Content-Type или данных
-                        string extension = GetImageExtension(photoData) ?? ".jpg";
-
-                        // Генерируем имя файла
-                        string fileName = $"detection_{detection.DetectionID}{extension}";
-                        string folderPath = Path.Combine(projectRoot, "Detections");
-
-                        // Создаем папку если не существует
-                        if (!Directory.Exists(folderPath))
-                        {
-                            Directory.CreateDirectory(folderPath);
-                        }
-
-                        // Полный путь к файлу
-                        string fullPath = Path.Combine(folderPath, fileName);
-                        if (File.Exists(fullPath))
-                        {
-                            // Файл уже существует, просто используем его
-                            detection.ImagePath = fullPath;
-                            detection.IsWeed = detection.Confidence >= 0.42;
-                            detection.GreenhouseName = $"Теплица №{detection.GreenhouseID}";
-                            result.Add(detection);
-                            continue; // Пропускаем загрузку
-                        }
-                        try
-                        {
-                            // Сохраняем фото на диск
-                            await File.WriteAllBytesAsync(fullPath, photoData);
-
-                            // Сохраняем путь в объекте детекции
-                            detection.ImagePath = fullPath;
-
-                        }
-                        catch (Exception ex)
-                        {
-                            detection.ImagePath = null;
-                        }
+                        Directory.CreateDirectory(folderPath);
                     }
-                    else
+
+                    // Полный путь к файлу
+                    string fullPath = System.IO.Path.Combine(folderPath, fileName);
+                    if (File.Exists(fullPath))
+                    {
+                        // Файл уже существует, просто используем его
+                        detection.ImagePath = fullPath;
+                        detection.IsWeed = detection.Confidence >= 0.42;
+                        detection.GreenhouseName = $"Теплица №{detection.GreenhouseID}";
+                        result.Add(detection);
+                        continue; // Пропускаем загрузку
+                    }
+                    try
+                    {
+                        // Сохраняем фото на диск
+                        await File.WriteAllBytesAsync(fullPath, photoData);
+
+                        // Сохраняем путь в объекте детекции
+                        detection.ImagePath = fullPath;
+
+                    }
+                    catch (Exception ex)
                     {
                         detection.ImagePath = null;
                     }
-
-                    // Небольшая задержка между запросами чтобы не перегружать API
-                    detection.IsWeed = detection.Confidence >= 0.42;
-                    detection.GreenhouseName = $"Теплица №{detection.GreenhouseID}";
-                    result.Add(detection);
-                    await Task.Delay(10);
                 }
+                else
+                {
+                    detection.ImagePath = null;
+                }
+
+                // Небольшая задержка между запросами чтобы не перегружать API
+                detection.IsWeed = detection.Confidence >= 0.42;
+                detection.GreenhouseName = $"Теплица №{detection.GreenhouseID}";
+                result.Add(detection);
+                await Task.Delay(10);
             }
+            
             
             return result;
         }
@@ -181,5 +167,23 @@ namespace AIS.Models
             return ".jpg";
         }
 
+        public async Task LoadImagesToDB()
+        {
+            var greenhouseList = await _apiService.GetGreenhousesTableAsync();
+            var greenhouseIds = greenhouseList.Select(x => x.ID).ToList();
+            Random random = new Random();
+            string basePath = AppDomain.CurrentDomain.BaseDirectory;
+            string projectRoot = Directory.GetParent(basePath).Parent.Parent.Parent.FullName;
+            string imagesPath = System.IO.Path.Combine(projectRoot, "Images");
+            if (Directory.Exists(imagesPath))
+            {
+                var imageFiles = Directory.GetFiles(imagesPath);
+
+                foreach (var imagePath in imageFiles)
+                {
+                    await _apiService.CreateDetectionInDatabaseAsync(imagePath, greenhouseIds[random.Next(greenhouseIds.Count)]);
+                }
+            }
+        }
     }
 }

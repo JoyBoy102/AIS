@@ -36,7 +36,7 @@ namespace AIS.Models
                     {
                         var mainWindow = new MainWindow();
                         mainWindow.Show();
-                        ProfileService.LicenseOwner = user.LicenseOwner;
+                        ProfileService.IsSudo = user.IsSudo;
                         if (IsValidEmail(FirstTextBoxData)) ProfileService.CurrentUserEmail = user.Login;
                         else ProfileService.CurrentUserPhone = user.Login;
                         EventAggregator.RaiseUserAuthenticated();

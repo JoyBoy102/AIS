@@ -183,14 +183,14 @@
                 </ui:CardControl>
 
                 <!-- License Card -->
-                <ui:CardControl Margin="0,0,0,12" Icon="{ui:SymbolIcon Certificate24}">
+                <ui:CardControl Margin="0,0,0,12" Icon="{ui:SymbolIcon Shield24}">
                     <ui:CardControl.Header>
                         <ui:TextBlock
                             FontTypography="Body"
                             FontSize="14"
-                            Text="Статус лицензии" />
+                            Text="Администратор" />
                     </ui:CardControl.Header>
-                    <TextBlock Text="{Binding CurrentUserLicenseStatus}"></TextBlock>
+                    <TextBlock Text="{Binding CurrentUserAdministratorStatus}"></TextBlock>
                 </ui:CardControl>
             </StackPanel>
         </ScrollViewer>

@@ -40,7 +40,7 @@
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <RadioButton  Grid.Column="0" HorizontalAlignment="Left" Content="Почта" Command="{Binding EmailModeSelectCommand}">
+                        <RadioButton  Grid.Column="0" HorizontalAlignment="Left" Content="Почта" Command="{Binding EmailModeSelectCommand}" IsChecked="True">
                         </RadioButton>
                         <RadioButton  Grid.Column="1" HorizontalAlignment="Left" Content="Телефон" Command="{Binding NumberModeSelectCommand}">
                         </RadioButton>
