@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         <TabControl Grid.Row="0" SelectedIndex="{Binding SelectedTableIndex}">
             <TabItem Header="Теплицы">
-                <ui:DataGrid ItemsSource="{Binding Greenhouses, FallbackValue={x:Null}}" IsReadOnly="True" AutoGenerateColumns="False">
+                <ui:DataGrid ItemsSource="{Binding Greenhouses, FallbackValue={x:Null}}" IsReadOnly="True" AutoGenerateColumns="False" CanUserResizeColumns="False">
                     <ui:DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding ID}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Название" Binding="{Binding Name}"></DataGridTextColumn>
@@ -61,7 +61,7 @@
                 </ui:DataGrid>
             </TabItem>
             <TabItem Header="Датчики">
-                <ui:DataGrid ItemsSource="{Binding Sensors, FallbackValue={x:Null}}" IsReadOnly="True" AutoGenerateColumns="False">
+                <ui:DataGrid ItemsSource="{Binding Sensors, FallbackValue={x:Null}}"  IsReadOnly="True" CanUserResizeColumns="False" AutoGenerateColumns="False">
                     <ui:DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding ID}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Тип" Binding="{Binding Type}"></DataGridTextColumn>
@@ -104,7 +104,7 @@
                 </ui:DataGrid>
             </TabItem>
             <TabItem Header="Исполнительные устройства">
-                <ui:DataGrid ItemsSource="{Binding ExecutionDevices, FallbackValue={x:Null}}" IsReadOnly="True" AutoGenerateColumns="False">
+                <ui:DataGrid ItemsSource="{Binding ExecutionDevices, FallbackValue={x:Null}}"  IsReadOnly="True" CanUserResizeColumns="False" AutoGenerateColumns="False">
                     <ui:DataGrid.Columns>
                         <DataGridTextColumn Header="ID исполнительного&#10;устройства" Binding="{Binding ID}"></DataGridTextColumn>
                         <DataGridTextColumn Header="ID&#10;теплицы" Binding="{Binding GreenhouseID}"></DataGridTextColumn>
