@@ -47,11 +47,13 @@
         <TextBlock Text="Устройство:" 
                    FontWeight="SemiBold" 
                    VerticalAlignment="Center"
+                   Visibility="{Binding SelectedGreenhouse, Converter={StaticResource ObjToVis}}"
                    Grid.Row="2" Grid.Column="0"
                    Margin="0,15,10,15"/>
 
         <ComboBox ItemsSource="{Binding Devices}"
                   SelectedItem="{Binding SelectedDevice}"
+                  Visibility="{Binding SelectedGreenhouse, Converter={StaticResource ObjToVis}}"
                   Grid.Row="2" Grid.Column="1"
                   Margin="0,15,10,15"/>
 
@@ -59,12 +61,14 @@
         <TextBlock Text="Мощность: " 
                    FontWeight="SemiBold"
                    Grid.Row="3" Grid.Column="0"
+                   Visibility="{Binding SelectedDevice, Converter={StaticResource ObjToVis}}"
                    VerticalAlignment="Center"
                    Margin="0,15,10,5"/>
 
         <TextBlock Text="{Binding PowerValue, StringFormat='{}{0}%'}" 
                    Foreground="#0078D7" 
                    FontWeight="Bold"
+                   Visibility="{Binding SelectedDevice, Converter={StaticResource ObjToVis}}"
                    Grid.Row="3" Grid.Column="1"
                    VerticalAlignment="Center"
                    Margin="0,15,10,5"/>
@@ -73,6 +77,7 @@
         <Slider Minimum="-100" 
                 Maximum="100" 
                 Value="{Binding PowerValue}"
+                Visibility="{Binding SelectedDevice, Converter={StaticResource ObjToVis}}"
                 TickFrequency="10" 
                 TickPlacement="BottomRight"
                 Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
@@ -83,6 +88,7 @@
                    Margin="0,15,10,15"
                    Appearance="Primary"
                    FontWeight="Bold"
+                   Visibility="{Binding SelectedDevice, Converter={StaticResource ObjToVis}}"
                    Command="{Binding ApplyCommand}"
                    Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
                    HorizontalAlignment="Stretch"/>
