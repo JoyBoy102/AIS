@@ -20,9 +20,9 @@
                 <ui:TextBlock
                     Margin="0,0,0,8"
                     FontTypography="Subtitle"
-                    Text="Настройки профиля" />
+                    Text="Информация о пользователе" />
 
-                <!-- Email Card -->
+                <!-- Email Card 
                 <ui:CardControl Margin="0,0,0,12" Icon="{ui:SymbolIcon Mail24}" Visibility="{Binding EmailVisibility}">
                     <ui:CardControl.Header>
                         <ui:TextBlock
@@ -36,14 +36,14 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <!-- Режим просмотра -->
+                        
                         <TextBlock Grid.Column="0" 
                                    Text="{Binding CurrentUserEmail}" 
                                    Margin="5"
                                    VerticalAlignment="Center"
                                    Visibility="{Binding IsEditingEmail, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}"/>
 
-                        <!-- Режим редактирования -->
+                        
                         <ui:TextBox Grid.Column="0"
                                     Text="{Binding EditedEmail, UpdateSourceTrigger=PropertyChanged}"
                                     PlaceholderText="Введите email"
@@ -51,7 +51,7 @@
                                     Visibility="{Binding IsEditingEmail, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <!-- Кнопка редактирования -->
+                           
                             <ui:Button Appearance="Secondary"
                                       ToolTip="Редактировать"
                                       Command="{Binding EditEmailCommand}"
@@ -62,7 +62,7 @@
                                                Foreground="#666"/>
                             </ui:Button>
 
-                            <!-- Кнопка отмены -->
+                            
                             <ui:Button Appearance="Secondary"
                                       ToolTip="Отменить"
                                       Command="{Binding CancelEmailCommand}"
@@ -75,7 +75,7 @@
                     </Grid>
                 </ui:CardControl>
 
-                <!-- Phone Card -->
+             
                 <ui:CardControl Margin="0,0,0,12" Icon="{ui:SymbolIcon Phone24}" Visibility="{Binding PhoneVisibility}">
                     <ui:CardControl.Header>
                         <ui:TextBlock
@@ -89,14 +89,14 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <!-- Режим просмотра -->
+                      
                         <TextBlock Grid.Column="0" 
                                    Text="{Binding CurrentUserNumber}" 
                                    Margin="5"
                                    VerticalAlignment="Center"
                                    Visibility="{Binding IsEditingPhone, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}"/>
 
-                        <!-- Режим редактирования -->
+                      
                         <ui:TextBox Grid.Column="0"
                                     Text="{Binding EditedPhone, UpdateSourceTrigger=PropertyChanged}"
                                     PlaceholderText="Введите номер телефона"
@@ -104,7 +104,7 @@
                                     Visibility="{Binding IsEditingPhone, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <!-- Кнопка редактирования -->
+                           
                             <ui:Button Appearance="Secondary"
                                       ToolTip="Редактировать"
                                       Command="{Binding EditPhoneCommand}"
@@ -115,7 +115,7 @@
                                                Foreground="#666"/>
                             </ui:Button>
 
-                            <!-- Кнопка отмены -->
+                            
                             <ui:Button Appearance="Secondary"
                                       ToolTip="Отменить"
                                       Command="{Binding CancelPhoneCommand}"
@@ -128,7 +128,7 @@
                     </Grid>
                 </ui:CardControl>
 
-                <!-- Password Card -->
+               
                 <ui:CardControl Margin="0,0,0,12" Icon="{ui:SymbolIcon LockClosed24}">
                     <ui:CardControl.Header>
                         <ui:TextBlock
@@ -142,14 +142,14 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <!-- Режим просмотра -->
+                      
                         <TextBlock Grid.Column="0" 
                                    Text="{Binding CurrentUserPassword}" 
                                    Margin="5"
                                    VerticalAlignment="Center"
                                    Visibility="{Binding IsEditingPassword, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}"/>
 
-                        <!-- Режим редактирования -->
+                        
                         <ui:TextBox Grid.Column="0"
                                         MinWidth="200"
                                         ClearButtonEnabled="False"
@@ -158,7 +158,7 @@
                                         Visibility="{Binding IsEditingPassword, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <!-- Кнопка редактирования -->
+                            
                             <ui:Button Appearance="Secondary"
                                       ToolTip="Редактировать"
                                       Command="{Binding EditPasswordCommand}"
@@ -169,7 +169,7 @@
                                                Foreground="#666"/>
                             </ui:Button>
 
-                            <!-- Кнопка отмены -->
+                            
                             <ui:Button Appearance="Secondary"
                                       ToolTip="Отменить"
                                       Command="{Binding CancelPasswordCommand}"
@@ -181,8 +181,8 @@
                         </StackPanel>
                     </Grid>
                 </ui:CardControl>
-
-                <!-- License Card -->
+                
+                -->
                 <ui:CardControl Margin="0,0,0,12" Icon="{ui:SymbolIcon Shield24}">
                     <ui:CardControl.Header>
                         <ui:TextBlock
@@ -195,7 +195,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <!-- Кнопка Сохранить -->
+        <!-- 
         <ui:Button Grid.Row="0" 
                    Content="Сохранить изменения" 
                    HorizontalAlignment="Stretch" 
@@ -208,5 +208,6 @@
                                FontSize="20"/>
             </ui:Button.Icon>
         </ui:Button>
+        -->
     </Grid>
 </UserControl>
