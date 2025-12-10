@@ -72,12 +72,12 @@ namespace AIS.ViewModels
         public async void UpdatePower()
         {
             var value = await _manualCommandsSetPageModel.GetPower();
-            if (value != null) PowerValue = (double)value;
+            if (value != null) PowerValue = (int)value;
             else PowerValue = 0;
             OnPropertyChanged(nameof(PowerValue));
         }
 
-        public double PowerValue
+        public int PowerValue
         {
             get => _manualCommandsSetPageModel.PowerValue;
             set => SetProperty(ref _manualCommandsSetPageModel.PowerValue, value);

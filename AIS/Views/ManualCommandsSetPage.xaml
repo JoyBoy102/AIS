@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
@@ -55,7 +55,13 @@
                   SelectedItem="{Binding SelectedDevice}"
                   Visibility="{Binding SelectedGreenhouse, Converter={StaticResource ObjToVis}}"
                   Grid.Row="2" Grid.Column="1"
-                  Margin="0,15,10,15"/>
+                  Margin="0,15,10,15">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <ui:TextBlock Text="{Binding ., Converter={StaticResource EngToRus}}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
         <!-- Регулировка мощности -->
         <TextBlock Text="Мощность: " 

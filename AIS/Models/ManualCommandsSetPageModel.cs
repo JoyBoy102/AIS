@@ -14,7 +14,7 @@ namespace AIS.Models
     {
         public ObservableCollection<ExecutionDevice> Devices = new ObservableCollection<ExecutionDevice>();
         public ExecutionDevice SelectedDevice = null;
-        public double PowerValue = 0;
+        public int PowerValue = 0;
         private ApiService _apiService;
         private bool _autoMode;
         public string SelectedGreenhouse;

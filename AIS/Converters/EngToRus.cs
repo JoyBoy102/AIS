@@ -15,6 +15,10 @@ namespace AIS.Converters
             { "temperature", "Температура" },
             { "humidity", "Влажность" },
             { "co2", "Углекислый газ" },
+
+            { "temperature_controller", "Контроллер температуры" },
+            { "humidity_controller", "Контроллер влажности" },
+            { "co2_controller", "Контроллер углекислого газа" },
     
             // Переводы для свойств
             { "IdGreenHouse", "ID Теплицы" },
@@ -28,6 +32,7 @@ namespace AIS.Converters
             { "commandTemperature", "Команда для обогревателя" },
             { "HumidityPred", "Прогноз уровня влажности" },
             { "TemperaturePred", "Прогноз температуры" },
+
         };
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
