@@ -40,9 +40,9 @@
             MinWidth="200"
             
             SelectedIndex="{Binding CurrentApplicationTheme, Converter={StaticResource ThemeToIndexConverter}, Mode=TwoWay}">
-                <ComboBoxItem Content="Light" />
-                <ComboBoxItem Content="Dark" />
-                <ComboBoxItem Content="High Contrast" />
+                <ComboBoxItem Content="Светлая" />
+                <ComboBoxItem Content="Темная" />
+                <ComboBoxItem Content="Кремовая" />
             </ComboBox>
         </ui:CardControl>
 

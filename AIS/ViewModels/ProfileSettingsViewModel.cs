@@ -156,8 +156,14 @@ namespace AIS.ViewModels
         {
             try
             {
-                //ВИДИМОСТЬ ПАРОЛЯ СДЕЛАТЬ
-                //И СДЕЛАТЬ СОХРАНЕНИЕ
+                int id = ProfileService.UserId;
+                string login = EditedEmail ?? EditedPhone;
+                string password = EditedPassword;
+                bool isSudo = ProfileService.IsSudo;
+                string description = string.Empty;
+
+                await _apiService.UpdateUser(id, login, password, isSudo, description);
+
                 if (IsEditingEmail) CurrentUserEmail = EditedEmail;
                 if (IsEditingPhone) CurrentUserNumber = EditedPhone;
                 if (IsEditingPassword) CurrentUserPassword = EditedPassword;

@@ -150,10 +150,10 @@
                                    Visibility="{Binding IsEditingPassword, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}"/>
 
                         <!-- Режим редактирования -->
-                        <ui:PasswordBox Grid.Column="0"
+                        <ui:TextBox Grid.Column="0"
                                         MinWidth="200"
                                         ClearButtonEnabled="False"
-                                        Password="{Binding EditedPassword, UpdateSourceTrigger=PropertyChanged}"
+                                        Text="{Binding EditedPassword, UpdateSourceTrigger=PropertyChanged}"
                                         PlaceholderText="Введите новый пароль"
                                         Visibility="{Binding IsEditingPassword, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 

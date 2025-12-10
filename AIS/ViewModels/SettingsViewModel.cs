@@ -14,7 +14,7 @@ namespace AIS.ViewModels
     public class SettingsViewModel : BaseViewModel
     {
 
-        private ApplicationTheme _currentApplicationTheme = ApplicationTheme.Unknown;
+        private ApplicationTheme _currentApplicationTheme = ApplicationThemeManager.GetAppTheme();
         private SettingsModel _settingsModel;
 
         public SettingsViewModel()

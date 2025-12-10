@@ -36,6 +36,7 @@ namespace AIS.Models
                     {
                         var mainWindow = new MainWindow();
                         mainWindow.Show();
+                        ProfileService.UserId = user.Id;
                         ProfileService.IsSudo = user.IsSudo;
                         if (IsValidEmail(FirstTextBoxData)) ProfileService.CurrentUserEmail = user.Login;
                         else ProfileService.CurrentUserPhone = user.Login;
