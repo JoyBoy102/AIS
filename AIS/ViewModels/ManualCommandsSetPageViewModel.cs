@@ -1,6 +1,7 @@
 ﻿using AIS.Models;
 using AIS.Services;
 using AIS.Structs;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace AIS.ViewModels
 {
-    public class ManualCommandsSetPageViewModel:BaseViewModel
+    public class ManualCommandsSetPageViewModel: BaseViewModel
     {
         private ManualCommandsSetPageModel _manualCommandsSetPageModel;
         public IAsyncRelayCommand ApplyCommand { get; set; }
@@ -34,19 +35,49 @@ namespace AIS.ViewModels
            _manualCommandsSetPageModel = await ManualCommandsSetPageModel.CreateAsync();
         }
 
+
         public ObservableCollection<ExecutionDevice> Devices
         {
-            get => _manualCommandsSetPageModel.Devices;
+            get => new ObservableCollection<ExecutionDevice>(
+                        _manualCommandsSetPageModel.Devices.Where(d => d.GreenhouseName == SelectedGreenhouse)
+                    );
             set => SetProperty(ref _manualCommandsSetPageModel.Devices, value);
+        }
+
+        public List<string> Greenhouses
+        {
+            get => _manualCommandsSetPageModel.Devices.Select(d => d.GreenhouseName).Distinct().ToList();
+        }
+
+        public string SelectedGreenhouse 
+        {
+            get => _manualCommandsSetPageModel.SelectedGreenhouse;
+            set
+            {
+                SetProperty(ref _manualCommandsSetPageModel.SelectedGreenhouse, value);
+                OnPropertyChanged(nameof(Devices));
+            }
         }
 
         public ExecutionDevice SelectedDevice
         {
             get => _manualCommandsSetPageModel.SelectedDevice;
-            set => SetProperty(ref _manualCommandsSetPageModel.SelectedDevice, value);
+            set
+            {
+                SetProperty(ref _manualCommandsSetPageModel.SelectedDevice, value);
+                UpdatePower();
+            }
         }
-        
-        public int PowerValue
+
+        public async void UpdatePower()
+        {
+            var value = await _manualCommandsSetPageModel.GetPower();
+            if (value != null) PowerValue = (double)value;
+            else PowerValue = 0;
+            OnPropertyChanged(nameof(PowerValue));
+        }
+
+        public double PowerValue
         {
             get => _manualCommandsSetPageModel.PowerValue;
             set => SetProperty(ref _manualCommandsSetPageModel.PowerValue, value);

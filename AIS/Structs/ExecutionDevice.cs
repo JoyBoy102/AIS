@@ -19,5 +19,10 @@ namespace AIS.Structs
         public string Type { get; set; }
 
         public string GreenhouseName { get; set; }
+
+        public override string ToString()
+        {
+            return Type;
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace AIS.Models
     public class MonitoringModuleModel
     {
         public ObservableCollection<Greenhouse> greenhouses;
-        private ApiService _apiService;
+        private static ApiService _apiService;
         public MonitoringModuleModel()
         {
             _apiService = new ApiService(new System.Net.Http.HttpClient());
@@ -33,7 +33,7 @@ namespace AIS.Models
             greenhouses = GetGreenhouseObservableCollection(sensorReadingsList);
         }
 
-        public async Task<List<SensorReading>> GetSensorsReadingsList()
+        public static async Task<List<SensorReading>> GetSensorsReadingsList()
         {
             var sensorReadings = await _apiService.GetGreenhousesMonitoringInfoAsync();
             var executionDevicesPowers = await GetExecutionDevicesPowersAsync();
@@ -78,13 +78,13 @@ namespace AIS.Models
             return joinedData;
         }
 
-        private async Task<Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>> GetExecutionDevicePowerInfoAsync()
+        private static async Task<Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>> GetExecutionDevicePowerInfoAsync()
         {
             var info = await _apiService.GetGreenhousesExecutionDevicesPowerAsync();
             return info;
         }
 
-        private async Task<List<GreenhouseExecutionDevicesPowersWithID>> GetExecutionDevicesPowersAsync()
+        private static async Task<List<GreenhouseExecutionDevicesPowersWithID>> GetExecutionDevicesPowersAsync()
         {
             var infoDict = await GetExecutionDevicePowerInfoAsync();
 
