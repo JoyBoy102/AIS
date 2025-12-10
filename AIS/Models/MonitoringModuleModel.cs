@@ -46,7 +46,7 @@ namespace AIS.Models
             return sensorReadings;
         }
 
-        private string FindCurrentPower(string type, int greenhouseId, List<GreenhouseExecutionDevicesPowersWithID> executionDevicesPowers)
+        private static string FindCurrentPower(string type, int greenhouseId, List<GreenhouseExecutionDevicesPowersWithID> executionDevicesPowers)
         {
             foreach (var device in executionDevicesPowers)
             {
