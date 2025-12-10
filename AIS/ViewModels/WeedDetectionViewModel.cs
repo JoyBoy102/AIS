@@ -44,14 +44,24 @@ namespace AIS.ViewModels
             set
             {
                 _weedDetectionModel.DetectionImages = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(DetectionImages));
+                OnPropertyChanged(nameof(IsButtonVisible));
             }
+        }
+
+        public bool IsButtonVisible 
+        {  
+            get => (DetectionImages.Count == 0) || (IsLoading == Visibility.Visible);
         }
 
         public Visibility IsLoading
         {
             get => _weedDetectionModel.IsLoading;
-            set => SetProperty(ref  _weedDetectionModel.IsLoading, value);
+            set
+            {
+                SetProperty(ref _weedDetectionModel.IsLoading, value); 
+                OnPropertyChanged(nameof(IsButtonVisible));
+            }
         }
 
         public Visibility Loaded

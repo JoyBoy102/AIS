@@ -7,7 +7,7 @@
              xmlns:vm="clr-namespace:AIS.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" d:DataContext="{d:DesignInstance Type=vm:WeedDetectionViewModel}">
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.2*"/>
@@ -15,42 +15,37 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Border Padding="15" BorderThickness="1" CornerRadius="16" BorderBrush="Black">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.333*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.333*"></ColumnDefinition>
-                    <ColumnDefinition Width="0.333*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Border BorderThickness="1" CornerRadius="8" Grid.Column="0">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="Всего сорняков:" FontWeight="SemiBold" Foreground="#2E7D32" FontSize="14"/>
-                        <TextBlock FontSize="14" FontWeight="Bold" 
-                                   Foreground="#2E7D32" Margin="8,0,0,0"
-                                   Text="{Binding TotalWeedsCount}"/>
-                    </StackPanel>
-                </Border>
-                <Border BorderThickness="1" CornerRadius="8" Grid.Column="1">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="Критические зоны:" FontWeight="SemiBold" Foreground="#C62828" FontSize="14"/>
-                        <TextBlock FontSize="14" FontWeight="Bold" 
-                       Foreground="#C62828" Margin="8,0,0,0" Text="{Binding CriticalZonesCount}"/>
-                    </StackPanel>
-                </Border>
-                <Border BorderThickness="1" CornerRadius="8" Grid.Column="2">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="Уровень засоренности:" FontWeight="SemiBold" Foreground="#1565C0" FontSize="14"/>
-                        <TextBlock FontSize="14" FontWeight="Bold" 
-                       Foreground="#1565C0" Margin="8,0,0,0" Text="{Binding WeedLevel}"/>
-                    </StackPanel>
-                </Border>
-            </Grid>
+
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.333*"></ColumnDefinition>
+                <ColumnDefinition Width="0.333*"></ColumnDefinition>
+                <ColumnDefinition Width="0.333*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                <ui:TextBlock Text="Всего сорняков:" FontTypography="Subtitle"/>
+                <ui:TextBlock FontTypography="Subtitle"
+                              Margin="8,0,0,0"
+                              Text="{Binding TotalWeedsCount}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <ui:TextBlock Text="Критические зоны:" FontTypography="Subtitle"/>
+                <ui:TextBlock FontTypography="Subtitle" Margin="8,0,0,0" Text="{Binding CriticalZonesCount}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                <ui:TextBlock Text="Уровень засоренности:" FontTypography="Subtitle"/>
+                <ui:TextBlock FontTypography="Subtitle" Margin="8,0,0,0" Text="{Binding WeedLevel}"/>
+            </StackPanel>
+        </Grid>
+
+        <Border Grid.Row="0" Grid.RowSpan="3" Visibility="{Binding IsLoading}" Background="White" Panel.ZIndex="999">
+            <ui:LoadingScreen>
+                <ui:LoadingScreen.Content>
+                    <ui:TextBlock Text="Подождите, идет загрузка фотографий..." Margin="-140,0,0,0" FontTypography="Subtitle"/>
+                </ui:LoadingScreen.Content>
+            </ui:LoadingScreen>
         </Border>
 
-        <Border Grid.Row="1" Visibility="{Binding IsLoading}" Background="White">
-            <TextBlock Text="Подождите, идет загрузка фотографий..." FontSize="32" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-        </Border>
-        
         <ScrollViewer Grid.Row="1" Visibility="{Binding Loaded}">
             <ItemsControl Margin="5" ItemsSource="{Binding DetectionImages}">
                 <ItemsControl.ItemsPanel>
@@ -91,6 +86,7 @@
                 Content="Загрузить фотографии с камер"
                 Margin="7"
                 HorizontalAlignment="Center"
+                Visibility="{Binding IsButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                 Command="{Binding LoadImagesCommand}">
             <ui:Button.Icon>
                 <ui:SymbolIcon Symbol="ArrowDownload24" 
