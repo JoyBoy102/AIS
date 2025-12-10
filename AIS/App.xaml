@@ -24,6 +24,7 @@
                           Source="/Resources/icon_white.png" 
                           Margin="-7,-7,0,0"/>
             <conv:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <conv:EngToRus x:Key="EngToRus"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

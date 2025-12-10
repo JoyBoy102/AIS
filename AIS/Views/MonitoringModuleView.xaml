@@ -20,9 +20,9 @@
                          AutoGenerateColumns="False">
                 <ui:DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding SensorId}"/>
-                    <DataGridTextColumn Header="Type" Binding="{Binding Type}"/>
-                    <DataGridTextColumn Header="Value" Binding="{Binding Value}"/>
-                    <DataGridTextColumn Header="execution_device_power" Binding="{Binding CurrentPower}"/>
+                    <DataGridTextColumn Header="Тип" Binding="{Binding Type, Converter={StaticResource ResourceKey=EngToRus}}"/>
+                    <DataGridTextColumn Header="Значение" Binding="{Binding Value}"/>
+                    <DataGridTextColumn Header="Мощность исполнительного устройства" Binding="{Binding CurrentPower}"/>
                 </ui:DataGrid.Columns>
             </ui:DataGrid>
         </DataTemplate>

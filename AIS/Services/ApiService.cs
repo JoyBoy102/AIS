@@ -51,6 +51,63 @@ namespace AIS.Services
         private const string _putUpdateExecutionDevicePowersEndpoint = "/simulations/update_all_power_execution_devices/";
 
         #region User
+
+        private string ParseError(string jsonString)
+        {
+            string userMessage = string.Empty;
+
+            try
+            {
+                // Пытаемся десериализовать как объект с деталями ошибки
+                using var jsonDoc = JsonDocument.Parse(jsonString);
+
+                if (jsonDoc.RootElement.TryGetProperty("detail", out var detailElement))
+                {
+                    if (detailElement.ValueKind == JsonValueKind.String)
+                    {
+                        // Обработка случая, когда detail - строка
+                        userMessage = detailElement.GetString() ?? "Неизвестная ошибка";
+                    }
+                    else if (detailElement.ValueKind == JsonValueKind.Array)
+                    {
+                        // Обработка случая, когда detail - массив
+                        var errors = JsonSerializer.Deserialize<List<ErrorDetail>>(detailElement.GetRawText());
+
+                        if (errors?.Count > 0)
+                        {
+                            var firstError = errors[0];
+                            if (firstError.Loc != null && firstError.Loc.Contains("password"))
+                            {
+                                if (firstError.Type == "string_too_short" && firstError.Ctx != null)
+                                {
+                                    userMessage = $"Пароль должен быть не менее {firstError.Ctx.MinLength} символов";
+                                }
+                            }
+                            if (firstError.Loc != null && firstError.Loc.Contains("login"))
+                            {
+                                if (firstError.Type == "value_error" && firstError.Ctx != null)
+                                {
+                                    userMessage = $"Неверный формат логина";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (JsonException)
+            {
+                // Если не удалось распарсить JSON, используем raw строку
+                userMessage = jsonString;
+            }
+
+            // Если не нашли конкретное сообщение, используем общее
+            if (string.IsNullOrEmpty(userMessage))
+            {
+                userMessage = "Произошла ошибка при создании пользователя";
+            }
+            return userMessage;
+        }
+
         public async Task<User?> Auth(string login, string password)
         {
             try
@@ -64,13 +121,12 @@ namespace AIS.Services
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(_postAuth, content);
                 var jsonString = await response.Content.ReadAsStringAsync();
-                var jsonDocument = JsonDocument.Parse(jsonString);
                 if (!response.IsSuccessStatusCode)
                 {
-                    string? detail = jsonDocument.RootElement.GetProperty("detail").GetString();
+                    string error = ParseError(jsonString);
                     MessageService.ShowError(
                         "Ошибка",
-                        detail
+                        error
                     );
                     return null;
                 }
@@ -87,39 +143,38 @@ namespace AIS.Services
             }
 
         }
-        public async Task<bool> UpdateUser(int greenhouseID, string _name, string _location, string _description, AgronomicRuleModel selectedAgronomicRule)
+        public async Task<bool> UpdateUser(int userId, string login, string password, bool is_sudo, string description)
         {
             try
             {
-                var greenhouseData = new
+                var UserData = new
                 {
-                    name = _name,
-                    location = _location,
-                    description = _description,
-                    agrorule_id = selectedAgronomicRule.Id
+                    login,
+                    password,
+                    is_sudo,
+                    description,
                 };
-                var json = JsonSerializer.Serialize(greenhouseData);
+                var json = JsonSerializer.Serialize(UserData);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpClient.PutAsync($"/greenhouses/{greenhouseID}", content);
+                var response = await _httpClient.PutAsync($"{_userCreateUpdate}/{userId}", content);
+                var jsonString = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
-                    MessageService.ShowError(
-                        "Ошибка",
-                        "Не удалось редактировать запись"
-                    );
+                    string userMessage = ParseError(jsonString);
+                    MessageService.ShowError("Ошибка", userMessage);
                     return false;
                 }
+
                 return true;
             }
             catch (Exception ex)
             {
                 MessageService.ShowError(
                     "Ошибка",
-                    $"Ошибка при изменении записи: {ex.Message}"
+                    $"Ошибка при редактировании: {ex.Message}"
                 );
                 return false;
             }
-
         }
         public async Task<bool> AddUser(string login, string password, bool is_sudo, string description)
         {
@@ -138,58 +193,7 @@ namespace AIS.Services
                 var jsonString = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
-                    string userMessage = string.Empty;
-
-                    try
-                    {
-                        // Пытаемся десериализовать как объект с деталями ошибки
-                        using var jsonDoc = JsonDocument.Parse(jsonString);
-
-                        if (jsonDoc.RootElement.TryGetProperty("detail", out var detailElement))
-                        {
-                            if (detailElement.ValueKind == JsonValueKind.String)
-                            {
-                                // Обработка случая, когда detail - строка
-                                userMessage = detailElement.GetString() ?? "Неизвестная ошибка";
-                            }
-                            else if (detailElement.ValueKind == JsonValueKind.Array)
-                            {
-                                // Обработка случая, когда detail - массив
-                                var errors = JsonSerializer.Deserialize<List<ErrorDetail>>(detailElement.GetRawText());
-
-                                if (errors?.Count > 0)
-                                {
-                                    var firstError = errors[0];
-                                    if (firstError.Loc != null && firstError.Loc.Contains("password"))
-                                    {
-                                        if (firstError.Type == "string_too_short" && firstError.Ctx != null)
-                                        {
-                                            userMessage = $"Пароль должен быть не менее {firstError.Ctx.MinLength} символов";
-                                        }
-                                    }
-                                    if (firstError.Loc != null && firstError.Loc.Contains("login"))
-                                    {
-                                        if (firstError.Type == "value_error" && firstError.Ctx != null)
-                                        {
-                                            userMessage = $"Неверный формат логина";
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    catch (JsonException)
-                    {
-                        // Если не удалось распарсить JSON, используем raw строку
-                        userMessage = jsonString;
-                    }
-
-                    // Если не нашли конкретное сообщение, используем общее
-                    if (string.IsNullOrEmpty(userMessage))
-                    {
-                        userMessage = "Произошла ошибка при создании пользователя";
-                    }
-
+                    string userMessage = ParseError(jsonString);
                     MessageService.ShowError("Ошибка", userMessage);
                     return false;
                 }
@@ -200,7 +204,7 @@ namespace AIS.Services
             {
                 MessageService.ShowError(
                     "Ошибка",
-                    $"Ошибка при создании записи: {ex.Message}"
+                    $"Ошибка при регистрации: {ex.Message}"
                 );
                 return false;
             }

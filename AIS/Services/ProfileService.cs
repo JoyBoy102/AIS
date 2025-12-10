@@ -8,6 +8,7 @@ namespace AIS.Services
 {
     public static class ProfileService
     {
+        public static int UserId { get; set; }
         public static bool IsSudo { get; set; }
         public static string CurrentUserPassword { get; set; }
         public static string CurrentUserEmail { get; set; }

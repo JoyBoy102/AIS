@@ -22,19 +22,19 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <DataGrid ItemsSource="{Binding Reports}"  AutoGenerateColumns="False" Grid.Row="0" Grid.ColumnSpan="2">
+        <DataGrid ItemsSource="{Binding Reports}" AutoGenerateColumns="False" CanUserAddRows="False" Grid.Row="0" Grid.ColumnSpan="2">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding ID}"></DataGridTextColumn>
-                <DataGridTextColumn Header="IdGreenHouse" Binding="{Binding IdGreenHouse}"/>
-                <DataGridTextColumn Header="co2_value" Binding="{Binding CO2Value}"/>
-                <DataGridTextColumn Header="humidity_value" Binding="{Binding HumidityValue}"/>
-                <DataGridTextColumn Header="temperature_value" Binding="{Binding TemperatureValue}"/>
-                <DataGridTextColumn Header="co2_pred" Binding="{Binding CO2Pred}"/>
-                <DataGridTextColumn Header="humidity_pred" Binding="{Binding HumidityPred}"/>
-                <DataGridTextColumn Header="temperature_pred" Binding="{Binding TemperaturePred}"/>
-                <DataGridTextColumn Header="command_co2" Binding="{Binding commandCO2}"/>
-                <DataGridTextColumn Header="command_humidity" Binding="{Binding commandHumidity}"/>
-                <DataGridTextColumn Header="command_temperature" Binding="{Binding commandTemperature}"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="Auto"/>
+                <DataGridTextColumn Header="ID&#x0a;Теплицы" Binding="{Binding IdGreenHouse}" Width="Auto"/>
+                <DataGridTextColumn Header="CO₂" Binding="{Binding CO2Value}" Width="Auto"/>
+                <DataGridTextColumn Header="Влажность" Binding="{Binding HumidityValue}" Width="Auto"/>
+                <DataGridTextColumn Header="Температура" Binding="{Binding TemperatureValue}" Width="Auto"/>
+                <DataGridTextColumn Header="Прогноз&#x0a;уровня CO₂" Binding="{Binding CO2Pred}" Width="Auto"/>
+                <DataGridTextColumn Header="Прогноз&#x0a;влажности" Binding="{Binding HumidityPred}" Width="Auto"/>
+                <DataGridTextColumn Header="Прогноз&#x0a;температуры" Binding="{Binding TemperaturePred}" Width="Auto"/>
+                <DataGridTextColumn Header="Команда&#x0a;для CO₂" Binding="{Binding commandCO2}" Width="Auto"/>
+                <DataGridTextColumn Header="Команда&#x0a;увлажнителя" Binding="{Binding commandHumidity}" Width="Auto"/>
+                <DataGridTextColumn Header="Команда&#x0a;обогревателя" Binding="{Binding commandTemperature}" Width="Auto"/>
             </DataGrid.Columns>
         </DataGrid>
         <ui:Button Grid.Row="1" Grid.Column="0"
