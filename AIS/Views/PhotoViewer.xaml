@@ -8,7 +8,7 @@
         Title="PhotoViewer" Height="450" Width="800"
         Background="Black"
         WindowStartupLocation="CenterOwner"
-        ShowInTaskbar="False">
+        ShowInTaskbar="True">
     <Grid>
         <Border Background="#CC000000" 
         Padding="0"
