@@ -16,6 +16,7 @@
         <DataTemplate DataType="{x:Type s:SensorsReadingCollection}">
             <ui:DataGrid ItemsSource="{Binding}"
                          CanUserAddRows="False"
+                         IsReadOnly="True" CanUserResizeColumns="False"
                          VerticalScrollBarVisibility="Disabled"
                          AutoGenerateColumns="False">
                 <ui:DataGrid.Columns>

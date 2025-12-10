@@ -13,10 +13,11 @@ namespace AIS.Models
     public class ManualCommandsSetPageModel
     {
         public ObservableCollection<ExecutionDevice> Devices = new ObservableCollection<ExecutionDevice>();
-        public ExecutionDevice SelectedDevice;
-        public int PowerValue;
+        public ExecutionDevice SelectedDevice = null;
+        public int PowerValue = 0;
         private ApiService _apiService;
         private bool _autoMode;
+        public string SelectedGreenhouse;
 
         public ManualCommandsSetPageModel()
         {
@@ -45,10 +46,19 @@ namespace AIS.Models
                 MessageService.ShowInfo("Для изменения мощности исполнительного устройства отключите автоматический режим");
         }
 
+        public async Task<double?> GetPower()
+        {
+            var d = await MonitoringModuleModel.GetSensorsReadingsList();
+            var device = d.Where(d => d.GreenhouseName == SelectedGreenhouse)
+                          .Where(dd => dd.Type == SelectedDevice?.Type.Split('_')[0])
+                          .FirstOrDefault();
+            Double.TryParse(device.CurrentPower, out double res);
+            return res;
+        }
+
         private async Task InitializeAsync()
         {
             await InitializeAsyncExecutionDevices();
-            SelectedDevice = Devices[0];
         }
 
         private async Task InitializeAsyncExecutionDevices()

@@ -6,62 +6,97 @@
              xmlns:local="clr-namespace:AIS.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             Background="White">
-    <Border BorderBrush="#E0E0E0" BorderThickness="1" 
-            Background="White" CornerRadius="5" Padding="15">
-        <StackPanel>
-            <!-- Заголовок -->
-            <TextBlock Text="Управление исполнительными устройствами"
-                       FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+             xmlns:vm="clr-namespace:AIS.ViewModels"
+             d:DataContext="{d:DesignInstance Type=vm:ManualCommandsSetPageViewModel}"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+    <Grid Margin="20,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
 
-            <!-- Выбор устройства -->
-            <StackPanel Margin="0,0,0,15">
-                <TextBlock Text="Исполнительное устройство:" 
-                           FontWeight="SemiBold" Margin="0,0,0,5"/>
-                <ComboBox ItemsSource="{Binding Devices}"
-                          SelectedItem="{Binding SelectedDevice}"
-                          Height="35" Width="300"
-                          HorizontalAlignment="Left">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding GreenhouseName}" 
-                                           VerticalAlignment="Center"/>
-                                <TextBlock Text="{Binding Type}" 
-                                           Foreground="Gray" 
-                                           Margin="5,0,0,0"
-                                           VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </StackPanel>
+        <!-- Заголовок -->
+        <TextBlock Text="Управление исполнительными устройствами"
+                   FontSize="16" FontWeight="Bold" 
+                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                   Margin="0,0,0,10"/>
 
-            <!-- Регулировка мощности -->
-            <StackPanel Margin="0,0,0,20">
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                    <TextBlock Text="Мощность: " FontWeight="SemiBold"/>
-                    <TextBlock Text="{Binding PowerValue, StringFormat='{}{0}%'}" 
-                               Foreground="#0078D7" FontWeight="Bold"/>
-                </StackPanel>
+        <!-- Выбор теплицы -->
+        <TextBlock Text="Теплица:" 
+                   FontWeight="SemiBold" 
+                   VerticalAlignment="Center"
+                   Margin="0,15,10,15"
+                   Grid.Row="1" Grid.Column="0"/>
 
-                <!-- Slider для регулировки -->
-                <Slider Minimum="-100" Maximum="100" 
-                        Value="{Binding PowerValue}"
-                        TickFrequency="10" TickPlacement="BottomRight"
-                        Height="30" Width="300"
-                        HorizontalAlignment="Left"/>
+        <ComboBox ItemsSource="{Binding Greenhouses}"
+                  SelectedItem="{Binding SelectedGreenhouse}"
+                  Margin="0,15,10,15"
+                  Grid.Row="1" Grid.Column="1"/>
 
-            </StackPanel>
+        <!-- Выбор устройства -->
+        <TextBlock Text="Устройство:" 
+                   FontWeight="SemiBold" 
+                   VerticalAlignment="Center"
+                   Visibility="{Binding SelectedGreenhouse, Converter={StaticResource ObjToVis}}"
+                   Grid.Row="2" Grid.Column="0"
+                   Margin="0,15,10,15"/>
 
-            <!-- Кнопка применения -->
-            <ui:Button Content="Применить" 
-                    HorizontalAlignment="Left"
-                    Width="120" Height="35"
-                    FontWeight="Bold"
-                    Padding="10,5"
-                    Command="{Binding ApplyCommand}"/>
-        </StackPanel>
-    </Border>
+        <ComboBox ItemsSource="{Binding Devices}"
+                  SelectedItem="{Binding SelectedDevice}"
+                  Visibility="{Binding SelectedGreenhouse, Converter={StaticResource ObjToVis}}"
+                  Grid.Row="2" Grid.Column="1"
+                  Margin="0,15,10,15">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <ui:TextBlock Text="{Binding ., Converter={StaticResource EngToRus}}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <!-- Регулировка мощности -->
+        <TextBlock Text="Мощность: " 
+                   FontWeight="SemiBold"
+                   Grid.Row="3" Grid.Column="0"
+                   Visibility="{Binding SelectedDevice, Converter={StaticResource ObjToVis}}"
+                   VerticalAlignment="Center"
+                   Margin="0,15,10,5"/>
+
+        <TextBlock Text="{Binding PowerValue, StringFormat='{}{0}%'}" 
+                   Foreground="#0078D7" 
+                   FontWeight="Bold"
+                   Visibility="{Binding SelectedDevice, Converter={StaticResource ObjToVis}}"
+                   Grid.Row="3" Grid.Column="1"
+                   VerticalAlignment="Center"
+                   Margin="0,15,10,5"/>
+
+        <!-- Slider для регулировки -->
+        <Slider Minimum="-100" 
+                Maximum="100" 
+                Value="{Binding PowerValue}"
+                Visibility="{Binding SelectedDevice, Converter={StaticResource ObjToVis}}"
+                TickFrequency="10" 
+                TickPlacement="BottomRight"
+                Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                Margin="0,5,10,15"/>
+
+        <!-- Кнопка применения -->
+        <ui:Button Content="Применить" 
+                   Margin="0,15,10,15"
+                   Appearance="Primary"
+                   FontWeight="Bold"
+                   Visibility="{Binding SelectedDevice, Converter={StaticResource ObjToVis}}"
+                   Command="{Binding ApplyCommand}"
+                   Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                   HorizontalAlignment="Stretch"/>
+    </Grid>
 </UserControl>

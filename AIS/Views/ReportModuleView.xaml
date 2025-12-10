@@ -22,9 +22,9 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <DataGrid ItemsSource="{Binding Reports}" AutoGenerateColumns="False" CanUserAddRows="False" Grid.Row="0" Grid.ColumnSpan="2">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="Auto"/>
+        <ui:DataGrid ItemsSource="{Binding Reports}" AutoGenerateColumns="False" CanUserAddRows="False" Grid.Row="0" Grid.ColumnSpan="2" IsReadOnly="True" CanUserResizeColumns="False">
+            <ui:DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="Auto" />
                 <DataGridTextColumn Header="ID&#x0a;Теплицы" Binding="{Binding IdGreenHouse}" Width="Auto"/>
                 <DataGridTextColumn Header="CO₂" Binding="{Binding CO2Value}" Width="Auto"/>
                 <DataGridTextColumn Header="Влажность" Binding="{Binding HumidityValue}" Width="Auto"/>
@@ -35,8 +35,8 @@
                 <DataGridTextColumn Header="Команда&#x0a;для CO₂" Binding="{Binding commandCO2}" Width="Auto"/>
                 <DataGridTextColumn Header="Команда&#x0a;увлажнителя" Binding="{Binding commandHumidity}" Width="Auto"/>
                 <DataGridTextColumn Header="Команда&#x0a;обогревателя" Binding="{Binding commandTemperature}" Width="Auto"/>
-            </DataGrid.Columns>
-        </DataGrid>
+            </ui:DataGrid.Columns>
+        </ui:DataGrid>
         <ui:Button Grid.Row="1" Grid.Column="0"
                    Content="Выгрузить в EXCEL"
                    HorizontalAlignment="Stretch"
