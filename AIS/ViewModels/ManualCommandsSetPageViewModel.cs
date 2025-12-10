@@ -65,7 +65,7 @@ namespace AIS.ViewModels
             set
             {
                 SetProperty(ref _manualCommandsSetPageModel.SelectedDevice, value);
-                UpdatePower();
+                if (value != null) UpdatePower();
             }
         }
 
