@@ -10,7 +10,7 @@
         WindowBackdropType="Mica"
         ExtendsContentIntoTitleBar="True"
         WindowCornerPreference="Default"
-        Title="MainWindow" Height="750" Width="1500">
+        Title="MainWindow" Height="750" Width="1650">
     <ui:FluentWindow.DataContext>
         <vm:MainWindowViewModel />
     </ui:FluentWindow.DataContext>

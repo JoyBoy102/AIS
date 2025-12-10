@@ -32,9 +32,9 @@
                 <DataGridTextColumn Header="Прогноз&#x0a;уровня CO₂" Binding="{Binding CO2Pred}" Width="Auto"/>
                 <DataGridTextColumn Header="Прогноз&#x0a;влажности" Binding="{Binding HumidityPred}" Width="Auto"/>
                 <DataGridTextColumn Header="Прогноз&#x0a;температуры" Binding="{Binding TemperaturePred}" Width="Auto"/>
-                <DataGridTextColumn Header="Команда&#x0a;для CO₂" Binding="{Binding commandCO2}" Width="Auto"/>
-                <DataGridTextColumn Header="Команда&#x0a;увлажнителя" Binding="{Binding commandHumidity}" Width="Auto"/>
-                <DataGridTextColumn Header="Команда&#x0a;обогревателя" Binding="{Binding commandTemperature}" Width="Auto"/>
+                <DataGridTextColumn Header="Контроллер CO2" Binding="{Binding commandCO2}" Width="Auto"/>
+                <DataGridTextColumn Header="Контроллер влажности" Binding="{Binding commandHumidity}" Width="Auto"/>
+                <DataGridTextColumn Header="Контроллер температуры" Binding="{Binding commandTemperature}" Width="Auto"/>
             </ui:DataGrid.Columns>
         </ui:DataGrid>
         <ui:Button Grid.Row="1" Grid.Column="0"
