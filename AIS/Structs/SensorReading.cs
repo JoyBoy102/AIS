@@ -37,5 +37,6 @@ namespace AIS.Structs
         public double? Co2Power { get; set; }
 
         public string CurrentPower { get; set; }
+
     }
 }
