@@ -38,44 +38,33 @@ namespace AIS.Models
             var sensorReadings = await _apiService.GetGreenhousesMonitoringInfoAsync();
             var executionDevicesPowers = await GetExecutionDevicesPowersAsync();
 
-            // Явно указываем все generic-типы
-            List<SensorReading> joinedData = sensorReadings.Join(
-                executionDevicesPowers,                         // inner sequence
-                sensor => sensor.GreenhouseId,                  // outerKeySelector
-                power => power.GreenhouseId,                    // innerKeySelector
-                (sensor, power) => new SensorReading           // resultSelector
-                {
-                    SensorId = sensor.SensorId,
-                    Value = sensor.Value,
-                    Type = sensor.Type,
-                    ReadingTime = sensor.ReadingTime,
-                    GreenhouseId = sensor.GreenhouseId,
-                    GreenhouseName = sensor.GreenhouseName,
-                    GreenhouseLocation = sensor.GreenhouseLocation,
-                    GreenhouseDescription = sensor.GreenhouseDescription,
-
-                    TemperaturePower = power.TemperaturePower,
-                    HumidityPower = power.HumidityPower,
-                    Co2Power = power.Co2Power
-                }
-            ).ToList();
-
-            foreach (var sensorReading in joinedData)
+            foreach (var reading in sensorReadings)
             {
-                switch (sensorReading.Type)
+                reading.CurrentPower = FindCurrentPower(reading.Type, reading.GreenhouseId, executionDevicesPowers);
+            }
+
+            return sensorReadings;
+        }
+
+        private string FindCurrentPower(string type, int greenhouseId, List<GreenhouseExecutionDevicesPowersWithID> executionDevicesPowers)
+        {
+            foreach (var device in executionDevicesPowers)
+            {
+                if (device.GreenhouseId == greenhouseId)
                 {
-                    case "temperature":
-                        sensorReading.CurrentPower = sensorReading.TemperaturePower != null? sensorReading.TemperaturePower.ToString() : "Отсутствует";
-                        break;
-                    case "humidity":
-                        sensorReading.CurrentPower = sensorReading.HumidityPower!=null? sensorReading.HumidityPower.ToString() : "Отсутствует";
-                        break;
-                    case "co2":
-                        sensorReading.CurrentPower = sensorReading.Co2Power!= null ? sensorReading.Co2Power.ToString() : "Отсутствует";
-                        break;
+                    switch (type)
+                    {
+                        case "temperature":
+                            return device.TemperaturePower != null? device.TemperaturePower.ToString():"Отсутствует";
+                        case "humidity":
+                            return device.HumidityPower != null ? device.HumidityPower.ToString() : "Отсутствует";
+                        case "co2":
+                            return device.Co2Power != null ? device.Co2Power.ToString() : "Отсутствует";
+
+                    }
                 }
             }
-            return joinedData;
+            return "Отсутствует";
         }
 
         private static async Task<Dictionary<string, ExecutionDevicesPowerSingleGreenhouseInfo>> GetExecutionDevicePowerInfoAsync()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,11 @@ namespace AIS.Structs
         public int GreenhouseID { get; set; }
 
         public Greenhouse Greenhouse { get; set; }
+
+        public override string ToString()
+        {
+            return Type;
+        }
 
     }
 

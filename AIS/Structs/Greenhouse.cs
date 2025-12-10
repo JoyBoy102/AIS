@@ -32,6 +32,8 @@ namespace AIS.Structs
 
         public ObservableCollection<Sensor> FreeSensors { get; set; }
 
+        public ObservableCollection<Sensor> NotIncludedSensors { get; set; }
+
         public bool ToggleButtonState { get; set; }
 
         public Visibility SensorsTableVisibility { get; set; }

@@ -43,7 +43,7 @@
 
             <!-- ID теплицы -->
             <TextBlock Grid.Row="1" Grid.Column="0" 
-                       Text="ID теплицы:" 
+                       Text="Теплица:" 
                        VerticalAlignment="Center" Margin="0,0,10,10"/>
             <ComboBox Grid.Row="1" Grid.Column="1" 
                       x:Name="ComboBox"

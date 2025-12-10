@@ -21,9 +21,9 @@ namespace AIS.Models.PopupModels
         public Sensor SelectedSensor;
         private Dictionary<string, string> DeviceTypeDict = new Dictionary<string, string>
         {
-            { "co2", "co2_injector" },
-            { "temperature", "ventilation" },
-            { "humidity", "humidifier" }
+            { "co2", "co2_controller" },
+            { "temperature", "temperature_controller" },
+            { "humidity", "humidity_controller" }
         };
 
         public AddExecutionDeviceRowModel()
@@ -41,11 +41,10 @@ namespace AIS.Models.PopupModels
         private async Task InitializeAsync()
         {
             _apiService = new ApiService(new System.Net.Http.HttpClient());
-            Greenhouses = new ObservableCollection<Greenhouse>();
             var devicesList = await _apiService.GetExecutionDevicesTableAsync();
             var sensorsList = await _apiService.GetSensorsTableAsync();
             var busySensors = devicesList.Select(x => x.SensorID).ToList();
-
+            Greenhouses = new ObservableCollection<Greenhouse>();
             sensorsList = sensorsList.Where(s => !busySensors.Contains(s.ID)).ToList();
             var groupByGreenhouseId = sensorsList.GroupBy(s => new { s.GreenhouseID, s.Greenhouse.Name});
 

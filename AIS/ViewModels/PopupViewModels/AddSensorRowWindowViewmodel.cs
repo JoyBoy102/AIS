@@ -33,13 +33,10 @@ namespace AIS.ViewModels.PopupViewModels
             return new AddSensorRowWindowViewmodel(window, model);
         }
 
-        public string SensorType
+        public Sensor SelectedSensor
         {
-            get => _addSensorRowWindowModel.SensorType;
-            set
-            {
-                SetProperty(ref _addSensorRowWindowModel.SensorType, value);
-            }
+            get => _addSensorRowWindowModel.SelectedSensor;
+            set => SetProperty(ref _addSensorRowWindowModel.SelectedSensor, value);
         }
 
         public List<Greenhouse> Greenhouses
