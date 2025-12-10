@@ -29,7 +29,7 @@ namespace AIS.ViewModels
 
         private void InitializeDispatcherTimer()
         {
-            _refreshTimer.Interval = TimeSpan.FromSeconds(0.5);
+            _refreshTimer.Interval = TimeSpan.FromSeconds(30);
             _refreshTimer.Tick += async (sender, e) => await RefreshDataAsync();
             _refreshTimer.Start();
         }
